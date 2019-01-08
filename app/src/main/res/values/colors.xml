@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#89c252</color>
+    <color name="colorPrimaryDark">#89c252</color>
+    <color name="colorAccent">#89c252</color>
+    <color name="lgcolorPrimaryDark">#f2f0f1</color>
+    
+    <color name="loginbgc">#f1efea</color>
+    <color name="cmnbg">#f1efea</color>
+    <color name="logintext">#ff515151</color>
+    <color name="loginjoin">#fff5821f</color>
+
+    <color name="st_fontcolor">#A2A2A2</color>
+    <color name="lo_title">#668ab5</color>
+    <color name="lo_content">#1d9cd7</color>
+    <color name="trackprimary">#d2e1bc</color>
+
+    <color name="picked">#f2fcc7</color>
+
+    <color name="ft_content">#ff797979</color>
+
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="gray">#d9d9d9</color>
+    <color name="lightgray">#eaeaea</color>
+    <color name="orange">#F5821F</color>
+    <color name="green">#23b14d</color>
+    <color name="oyellow">#ffc90f</color>
+    <color name="blue">#4048cd</color>
+    <color name="grayblack">#595959</color>
+    <color name="lightred">#fa0001</color>
+
+
+    <!--events option-->
+    <color name="event_color_01">#23b14d</color>
+    <color name="event_color_02">#ffc90f</color>
+    <color name="event_color_03">#4048cd</color>
+    <color name="event_color_04">#595959</color>
+    <color name="event_color_05">#fa0001</color>
+    <color name="event_color_06">#fefefe</color>
+    <color name="toolbar">#efefef</color>
+    <color name="toolbar_text">#8f000000</color>
+    <color name="accent">#2789e4</color>
+</resources>

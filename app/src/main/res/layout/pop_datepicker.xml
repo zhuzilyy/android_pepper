@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <LinearLayout
+        android:id="@+id/popmain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="35dp"
+        android:background="@drawable/popwindow"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/pop_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/pop_confirmtitle"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/gray">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/lt_padding"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp">
+
+                <com.hzjz.pepper.plugins.WheelView
+                    android:id="@+id/month"
+                    android:layout_width="60dp"
+                    android:layout_height="160dp"
+                    app:labelheight="60dp"
+                    app:layoutmarginend="10dp">
+
+                </com.hzjz.pepper.plugins.WheelView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp">
+
+                <com.hzjz.pepper.plugins.WheelView
+                    android:id="@+id/day"
+                    android:layout_width="60dp"
+                    android:layout_height="160dp"
+                    app:labelheight="60dp"
+                    app:layoutmarginend="10dp">
+
+                </com.hzjz.pepper.plugins.WheelView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp">
+
+                <com.hzjz.pepper.plugins.WheelView
+                    android:id="@+id/year"
+                    android:layout_width="60dp"
+                    android:layout_height="160dp"
+                    app:labelheight="60dp">
+
+                </com.hzjz.pepper.plugins.WheelView>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:gravity="center_vertical|end"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/pop_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/cbtn_green"
+                android:stateListAnimator="@null"
+                android:text="@string/pop_yes"/>
+
+            <Button
+                android:id="@+id/pop_no"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@drawable/cbtn_orange"
+                android:stateListAnimator="@null"
+                android:text="@string/pop_no"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

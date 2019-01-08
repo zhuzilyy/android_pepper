@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cmnbg">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary"
+        app:title="">
+
+        <LinearLayout
+            android:id="@+id/btn_back"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="@dimen/toolbar_back"
+                android:layout_height="@dimen/toolbar_back"
+                android:background="@mipmap/s1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_today"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/today"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/maintitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:maxWidth="200dp"
+            android:text="@string/main_title"
+            android:textColor="@color/white"
+            android:textSize="@dimen/title_size" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:layout_marginEnd="15dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/filter"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="15dp"
+                android:background="@null"
+                android:scaleType="fitXY"
+                android:src="@mipmap/s24" />
+
+            <ImageButton
+                android:id="@+id/timepick"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@null"
+                android:scaleType="fitXY"
+                android:src="@mipmap/s23" />
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <FrameLayout
+        android:id="@+id/content_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/viewcate"
+        android:layout_below="@id/toolbar">
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/viewcate"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btmbtn_height"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/CALENDARWEEK"
+            android:textColor="@color/black"/>
+
+        <ImageView
+            android:layout_width="@dimen/img_sm"
+            android:layout_height="@dimen/img_sm"
+            android:src="@mipmap/s22"
+            android:scaleType="center"
+            android:layout_marginStart="@dimen/lt_padding"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@null"
+    android:gravity="center_horizontal">
+
+    <LinearLayout
+        android:id="@+id/pop_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="45dp">
+
+        <ScrollView
+            android:id="@+id/popmain"
+            android:layout_width="match_parent"
+            android:layout_height="350dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/state"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/btmbtn_height"
+                    android:paddingStart="@dimen/lt_padding"
+                    android:paddingEnd="@dimen/lt_padding">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/State"
+                        android:textColor="@color/black"/>
+
+                    <ImageView
+                        android:id="@+id/state_img"
+                        android:layout_width="@dimen/img_sm"
+                        android:layout_height="@dimen/img_sm"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/s57"/>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/gray">
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/dist"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/btmbtn_height"
+                    android:paddingStart="@dimen/lt_padding"
+                    android:paddingEnd="@dimen/lt_padding">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/District"
+                        android:textColor="@color/black"/>
+
+                    <ImageView
+                        android:id="@+id/dist_img"
+                        android:layout_width="@dimen/img_sm"
+                        android:layout_height="@dimen/img_sm"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/s57"/>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/gray">
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/subj"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/btmbtn_height"
+                    android:paddingStart="@dimen/lt_padding"
+                    android:paddingEnd="@dimen/lt_padding">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/Subject"
+                        android:textColor="@color/black"/>
+
+                    <ImageView
+                        android:id="@+id/subj_img"
+                        android:layout_width="@dimen/img_sm"
+                        android:layout_height="@dimen/img_sm"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/s57"/>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/gray">
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/course"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/btmbtn_height"
+                    android:paddingStart="@dimen/lt_padding"
+                    android:paddingEnd="@dimen/lt_padding">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/Course"
+                        android:textColor="@color/black"/>
+
+                    <ImageView
+                        android:id="@+id/course_img"
+                        android:layout_width="@dimen/img_sm"
+                        android:layout_height="@dimen/img_sm"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/s57"/>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/gray">
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/trname"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/btmbtn_height"
+                    android:paddingStart="@dimen/lt_padding"
+                    android:paddingEnd="@dimen/lt_padding">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/TrainingName"
+                        android:textColor="@color/black"/>
+
+                    <ImageView
+                        android:id="@+id/trname_img"
+                        android:layout_width="@dimen/img_sm"
+                        android:layout_height="@dimen/img_sm"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/s57"/>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/gray">
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/descr"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/btmbtn_height"
+                    android:paddingStart="@dimen/lt_padding"
+                    android:paddingEnd="@dimen/lt_padding">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/Description"
+                        android:textColor="@color/black"/>
+
+                    <ImageView
+                        android:id="@+id/descr_img"
+                        android:layout_width="@dimen/img_sm"
+                        android:layout_height="@dimen/img_sm"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/s57"/>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/gray">
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/trdate"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/btmbtn_height"
+                    android:paddingStart="@dimen/lt_padding"
+                    android:paddingEnd="@dimen/lt_padding">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/TrainingDate"
+                        android:textColor="@color/black"/>
+
+                    <ImageView
+                        android:id="@+id/trdate_img"
+                        android:layout_width="@dimen/img_sm"
+                        android:layout_height="@dimen/img_sm"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/s57"/>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/gray">
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/trstime"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/btmbtn_height"
+                    android:paddingStart="@dimen/lt_padding"
+                    android:paddingEnd="@dimen/lt_padding">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/TrainingStartTime"
+                        android:textColor="@color/black"/>
+
+                    <ImageView
+                        android:id="@+id/trstime_img"
+                        android:layout_width="@dimen/img_sm"
+                        android:layout_height="@dimen/img_sm"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/s57"/>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/gray">
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/tretime"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/btmbtn_height"
+                    android:paddingStart="@dimen/lt_padding"
+                    android:paddingEnd="@dimen/lt_padding">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/TrainingEndTime"
+                        android:textColor="@color/black"/>
+
+                    <ImageView
+                        android:id="@+id/tretime_img"
+                        android:layout_width="@dimen/img_sm"
+                        android:layout_height="@dimen/img_sm"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/s57"/>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/gray">
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/trlocate"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/btmbtn_height"
+                    android:paddingStart="@dimen/lt_padding"
+                    android:paddingEnd="@dimen/lt_padding">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/TrainingLocation"
+                        android:textColor="@color/black"/>
+
+                    <ImageView
+                        android:id="@+id/trlocate_img"
+                        android:layout_width="@dimen/img_sm"
+                        android:layout_height="@dimen/img_sm"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/s57"/>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/gray">
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/hours"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/btmbtn_height"
+                    android:paddingStart="@dimen/lt_padding"
+                    android:paddingEnd="@dimen/lt_padding">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/Hours"
+                        android:textColor="@color/black"/>
+
+                    <ImageView
+                        android:id="@+id/hours_img"
+                        android:layout_width="@dimen/img_sm"
+                        android:layout_height="@dimen/img_sm"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/s57"/>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/gray">
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</LinearLayout>

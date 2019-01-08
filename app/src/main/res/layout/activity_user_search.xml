@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cmnbg">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary"
+        app:title="">
+
+        <LinearLayout
+            android:id="@+id/btn_back"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="@dimen/toolbar_back"
+                android:layout_height="@dimen/toolbar_back"
+                android:background="@mipmap/s1" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/maintitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:maxWidth="200dp"
+            android:text="@string/search_title"
+            android:textColor="@color/white"
+            android:textSize="@dimen/title_size" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <com.flyco.tablayout.SlidingTabLayout
+        android:id="@+id/search_tab"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        android:layout_below="@id/toolbar"
+        tl:tl_tab_space_equal="true"
+        tl:tl_indicator_color="@color/colorPrimary"
+        tl:tl_indicator_gravity="BOTTOM"
+        tl:tl_textSelectColor="@color/colorPrimary"
+        tl:tl_textUnselectColor="@color/st_fontcolor"
+        tl:tl_textsize="15sp"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/search_tab"/>
+
+</RelativeLayout>

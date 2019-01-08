@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cmnbg">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary"
+        app:title="">
+
+        <LinearLayout
+            android:id="@+id/btn_back"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="@dimen/toolbar_back"
+                android:layout_height="@dimen/toolbar_back"
+                android:background="@mipmap/s1" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/maintitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:maxWidth="250dp"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="@dimen/title_size"
+            android:gravity="center"/>
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/funcpanel"
+        android:layout_below="@id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:padding="@dimen/lt_padding">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/line_btm"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:gravity="center"
+                    android:text="@string/email"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/sd_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/email"
+                    android:textColor="@color/st_fontcolor" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/line_btm"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:gravity="center"
+                    android:text="@string/fname"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/sd_fname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/fname"
+                    android:textColor="@color/st_fontcolor" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/line_btm"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:gravity="center"
+                    android:text="@string/lname"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/sd_lname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/lname"
+                    android:textColor="@color/st_fontcolor" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/line_btm"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:gravity="center"
+                    android:text="@string/State"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/sd_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/State"
+                    android:textColor="@color/st_fontcolor" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/line_btm"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:gravity="center"
+                    android:text="@string/District"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/sd_dist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/District"
+                    android:textColor="@color/st_fontcolor" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/line_btm"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:gravity="center"
+                    android:text="@string/cohort"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/sd_cohort"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/cohort"
+                    android:textColor="@color/st_fontcolor" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/line_btm"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:gravity="center"
+                    android:text="@string/school"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/sd_school"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/school"
+                    android:textColor="@color/st_fontcolor" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/funcpanel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btmbtn_height"
+        android:layout_alignParentBottom="true"
+        android:paddingEnd="@dimen/lt_padding"
+        android:background="@color/white"
+        android:gravity="center_vertical|right"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_unregisterselected"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginStart="@dimen/lt_padding"
+            android:background="@drawable/cbtn_orange"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:stateListAnimator="@null"
+            android:textAllCaps="false"
+            android:text="@string/unregisterselected"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginStart="@dimen/lt_padding"
+            android:background="@drawable/cbtn_orange"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:stateListAnimator="@null"
+            android:textAllCaps="false"
+            android:text="@string/registerselected"
+            android:visibility="gone"/>
+    </LinearLayout>
+</RelativeLayout>

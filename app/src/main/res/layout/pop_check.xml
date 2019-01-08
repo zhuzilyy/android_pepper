@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <LinearLayout
+        android:id="@+id/popmain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="35dp"
+        android:background="@drawable/popwindow"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/popcfm_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/pop_trainingid"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/gray">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/ipt_trid"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:background="@drawable/lbtn_selector"
+                android:textColor="@color/black"
+                android:inputType="text"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/lbtn_padding"
+                android:paddingEnd="@dimen/lbtn_padding" />
+
+            <Button
+                android:id="@+id/btn_check"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginStart="15dp"
+                android:background="@drawable/cbtn_orange"
+                android:stateListAnimator="@null"
+                android:textAllCaps="false"
+                android:text="@string/Check"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

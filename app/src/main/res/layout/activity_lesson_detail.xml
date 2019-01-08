@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cmnbg">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary"
+        app:title="">
+        <LinearLayout
+            android:id="@+id/btn_back"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="@dimen/toolbar_back"
+                android:layout_height="@dimen/toolbar_back"
+                android:background="@mipmap/s1" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/maintitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:maxWidth="250dp"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="@dimen/title_size"
+            android:gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:layout_marginEnd="15dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btn_edit"
+                android:layout_width="45dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/edit"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:layout_above="@id/funcpanel">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/lt_padding"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/line_btm">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="@string/State"
+                    android:textColor="@color/black"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/td_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/State"
+                    android:textColor="@color/st_fontcolor"
+                    android:gravity="center_vertical"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/line_btm">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="@string/District"
+                    android:textColor="@color/black"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/td_dist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/District"
+                    android:textColor="@color/st_fontcolor"
+                    android:gravity="center_vertical"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/line_btm">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="@string/Subject"
+                    android:textColor="@color/black"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/td_subject"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/Subject"
+                    android:textColor="@color/st_fontcolor"
+                    android:gravity="center_vertical"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/line_btm">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="@string/Course"
+                    android:textColor="@color/black"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/td_course"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/Course"
+                    android:textColor="@color/st_fontcolor"
+                    android:gravity="center_vertical"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/line_btm">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="@string/school"
+                    android:textColor="@color/black"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/td_school"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/school"
+                    android:textColor="@color/st_fontcolor"
+                    android:gravity="center_vertical"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/line_btm">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="@string/Description"
+                    android:textColor="@color/black"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/td_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/Description"
+                    android:textColor="@color/st_fontcolor"
+                    android:gravity="center_vertical"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/line_btm">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="@string/TrainingDate"
+                    android:textColor="@color/black"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/td_tddate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/TrainingDate"
+                    android:textColor="@color/st_fontcolor"
+                    android:gravity="center_vertical"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/line_btm">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="@string/TrainingStartTime"
+                    android:textColor="@color/black"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/td_stime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/TrainingStartTime"
+                    android:textColor="@color/st_fontcolor"
+                    android:gravity="center_vertical"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/line_btm">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="@string/TrainingEndTime"
+                    android:textColor="@color/black"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/td_etime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/TrainingEndTime"
+                    android:textColor="@color/st_fontcolor"
+                    android:gravity="center_vertical"/>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/line_btm">
+
+                <TextView
+                    android:id="@+id/location_t"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_alignParentStart="true"
+                    android:text="@string/TrainingLocation"
+                    android:textColor="@color/black"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/td_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/location_t"
+                    android:layout_marginTop="10dp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:text="@string/TrainingLocation"
+                    android:textColor="@color/st_fontcolor"
+                    android:gravity="center_vertical"/>
+
+                <Button
+                    android:id="@+id/btn_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/cbtn_orange"
+                    android:stateListAnimator="@null"
+                    android:textAllCaps="false"
+                    android:text="@string/main_location"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/line_btm">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="@string/Hours"
+                    android:textColor="@color/black"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/td_hours"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/Hours"
+                    android:textColor="@color/st_fontcolor"
+                    android:gravity="center_vertical"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/line_btm">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="@string/Instructors"
+                    android:textColor="@color/black"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/td_inst"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/Instructors"
+                    android:textColor="@color/st_fontcolor"
+                    android:gravity="center_vertical"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/line_btm">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="@string/Creator"
+                    android:textColor="@color/black"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/td_creator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/Creator"
+                    android:textColor="@color/st_fontcolor"
+                    android:gravity="center_vertical"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/line_btm">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="@string/RegisterRecordAttendance"
+                    android:textColor="@color/black"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/td_RRA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/RegisterRecordAttendance"
+                    android:textColor="@color/st_fontcolor"
+                    android:gravity="center_vertical"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/funcpanel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btmbtn_height"
+        android:layout_alignParentBottom="true"
+        android:paddingEnd="@dimen/lt_padding"
+        android:background="@color/white"
+        android:gravity="center_vertical|right"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_student"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginStart="@dimen/lt_padding"
+            android:background="@drawable/cbtn_orange"
+            android:stateListAnimator="@null"
+            android:textAllCaps="false"
+            android:text="@string/Students"/>
+
+        <Button
+            android:id="@+id/btn_regis"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginStart="@dimen/lt_padding"
+            android:background="@drawable/cbtn_green"
+            android:stateListAnimator="@null"
+            android:textAllCaps="false"
+            android:text="@string/main_register"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/btn_unregis"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginStart="@dimen/lt_padding"
+            android:background="@drawable/cbtn_greenborder"
+            android:stateListAnimator="@null"
+            android:textAllCaps="false"
+            android:text="@string/main_unregister"
+            android:textColor="@color/colorPrimary"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/btn_att"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginStart="@dimen/lt_padding"
+            android:background="@drawable/cbtn_green"
+            android:stateListAnimator="@null"
+            android:textAllCaps="false"
+            android:text="@string/Attended"
+            android:visibility="gone"/>
+
+        <!--<Button-->
+            <!--android:id="@+id/btn_cancel"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:layout_marginEnd="15dp"-->
+            <!--android:background="@drawable/cbtn_green"-->
+            <!--android:stateListAnimator="@null"-->
+            <!--android:textAllCaps="false"-->
+            <!--android:text="@string/Cancel"-->
+            <!--android:visibility="gone"/>-->
+    </LinearLayout>
+</RelativeLayout>

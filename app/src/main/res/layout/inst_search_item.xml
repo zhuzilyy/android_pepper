@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:descendantFocusability="blocksDescendants"
+    android:padding="10dp"
+    android:background="@color/white"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/is_text"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_marginEnd="@dimen/lt_padding"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_16"/>
+
+    <Button
+        android:id="@+id/is_btn_add"
+        android:layout_width="60dp"
+        android:layout_height="@dimen/btn_sm"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:background="@drawable/cbtn_greenborder"
+        android:text="@string/Add"
+        android:textColor="@color/colorPrimary"/>
+</LinearLayout>

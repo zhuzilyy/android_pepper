@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cmnbg"
+    android:orientation="vertical"
+    tools:context=".fragment.CTPager1Fragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:layout_marginEnd="@dimen/lt_padding"
+        android:layout_marginStart="@dimen/lt_padding"
+        android:layout_marginTop="@dimen/lt_padding">
+
+        <ImageButton
+            android:id="@+id/btn_prevstop"
+            android:layout_width="@dimen/pagerbtn_height"
+            android:layout_height="@dimen/pagerbtn_height"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:src="@mipmap/s46" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/lt_padding"
+            android:layout_toEndOf="@id/btn_prevstop"
+            android:text="@string/step6"
+            android:textColor="@color/st_fontcolor"
+            android:textSize="16sp" />
+
+        <ImageButton
+            android:id="@+id/btn_nextstop"
+            android:layout_width="@dimen/pagerbtn_height"
+            android:layout_height="@dimen/pagerbtn_height"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:src="@mipmap/s45" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/lt_2padding"
+        android:layout_marginStart="@dimen/lt_2padding"
+        android:text="@string/step6_title"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/lt_padding">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/lt_padding"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="@dimen/lt_padding">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/lt_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/step62_CreditHours"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"/>
+
+                <EditText
+                    android:id="@+id/chour"
+                    android:layout_width="90dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/lbtn_selector"
+                    android:textColorHint="@color/st_fontcolor"
+                    android:textColor="@color/black"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:inputType="number"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/lbtn_padding"
+                    android:paddingEnd="@dimen/lbtn_padding"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/lt_padding">
+
+                <Switch
+                    android:id="@+id/cred_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@id/heip0"
+                    android:layout_marginEnd="@dimen/lbtn_padding"
+                    android:showText="true"
+                    android:switchMinWidth="40dp"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textOff=""
+                    android:textOn=""
+                    android:thumb="@drawable/switch_circle_selector"
+                    android:track="@drawable/switch_circle_track" />
+
+                <ImageButton
+                    android:id="@+id/heip0"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@null"
+                    android:src="@mipmap/s47"
+                    android:scaleType="fitXY"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/step62_uft"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"/>
+            </RelativeLayout>
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/lt_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/step61_AllowRegistration"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"/>
+
+                <Switch
+                    android:id="@+id/regis_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@id/heip1"
+                    android:layout_marginEnd="@dimen/lbtn_padding"
+                    android:showText="true"
+                    android:switchMinWidth="40dp"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textOff=""
+                    android:textOn=""
+                    android:thumb="@drawable/switch_circle_selector"
+                    android:track="@drawable/switch_circle_track" />
+
+                <ImageButton
+                    android:id="@+id/heip1"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@null"
+                    android:src="@mipmap/s47"
+                    android:scaleType="fitXY"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/lt_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/step61_MRC"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"/>
+
+                <EditText
+                    android:id="@+id/maxrc"
+                    android:layout_width="90dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:background="@drawable/lbtn_selector"
+                    android:textColorHint="@color/st_fontcolor"
+                    android:textColor="@color/black"
+                    android:inputType="number"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/lbtn_padding"
+                    android:paddingEnd="@dimen/lbtn_padding"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/lt_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/step61_AllowWaitlis"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"/>
+
+                <Switch
+                    android:id="@+id/waitlist_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@id/heip2"
+                    android:layout_marginEnd="@dimen/lbtn_padding"
+                    android:showText="true"
+                    android:switchMinWidth="40dp"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textOff=""
+                    android:textOn=""
+                    android:thumb="@drawable/switch_circle_selector"
+                    android:track="@drawable/switch_circle_track" />
+
+                <ImageButton
+                    android:id="@+id/heip2"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@null"
+                    android:src="@mipmap/s47"
+                    android:scaleType="fitXY"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/lt_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/step61_att"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/lt_padding">
+
+                <Switch
+                    android:id="@+id/att_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@id/heip3"
+                    android:layout_marginEnd="@dimen/lbtn_padding"
+                    android:showText="true"
+                    android:switchMinWidth="40dp"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textOff=""
+                    android:textOn=""
+                    android:thumb="@drawable/switch_circle_selector"
+                    android:track="@drawable/switch_circle_track" />
+
+                <ImageButton
+                    android:id="@+id/heip3"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@null"
+                    android:src="@mipmap/s47"
+                    android:scaleType="fitXY"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/lt_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/step62_TrainingID"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"/>
+
+                <EditText
+                    android:id="@+id/trid"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@id/heip6"
+                    android:layout_marginEnd="@dimen/lbtn_padding"
+                    android:background="@drawable/lbtn_selector"
+                    android:textColorHint="@color/st_fontcolor"
+                    android:textColor="@color/black"
+                    android:inputType="text"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/lbtn_padding"
+                    android:paddingEnd="@dimen/lbtn_padding"/>
+
+                <ImageButton
+                    android:id="@+id/heip6"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@null"
+                    android:src="@mipmap/s47"
+                    android:scaleType="fitXY"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/lt_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:text="@string/step61_attrec"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/lt_padding">
+
+                <Switch
+                    android:id="@+id/attrec_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@id/heip4"
+                    android:layout_marginEnd="@dimen/lbtn_padding"
+                    android:showText="true"
+                    android:switchMinWidth="40dp"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textOff=""
+                    android:textOn=""
+                    android:thumb="@drawable/switch_circle_selector"
+                    android:track="@drawable/switch_circle_track" />
+
+                <ImageButton
+                    android:id="@+id/heip4"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@null"
+                    android:src="@mipmap/s47"
+                    android:scaleType="fitXY"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:visibility="invisible"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/lt_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/step61_val"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/lt_padding">
+
+                <Switch
+                    android:id="@+id/val_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@id/heip5"
+                    android:layout_marginEnd="@dimen/lbtn_padding"
+                    android:showText="true"
+                    android:switchMinWidth="40dp"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textOff=""
+                    android:textOn=""
+                    android:thumb="@drawable/switch_circle_selector"
+                    android:track="@drawable/switch_circle_track" />
+
+                <ImageButton
+                    android:id="@+id/heip5"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@null"
+                    android:src="@mipmap/s47"
+                    android:scaleType="fitXY"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <LinearLayout
+        android:id="@+id/popmain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="35dp"
+        android:background="@drawable/popwindow"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/popcfm_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/pop_confirmtitle"
+                android:textColor="@color/lo_title"
+                android:textSize="16sp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/gray">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/popcfm_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/pop_confirmtitle"
+                android:textColor="@color/lo_content"
+                android:textSize="18sp"
+                android:layout_margin="15dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

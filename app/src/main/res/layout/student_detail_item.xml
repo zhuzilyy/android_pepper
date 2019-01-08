@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/line_btm">
+
+    <LinearLayout
+        android:id="@+id/item_btn_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/lt_padding"
+        android:paddingEnd="@dimen/lt_padding"
+        android:background="@drawable/line_btm"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/chk_item"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/chk_full_selector"
+            android:gravity="center"
+            android:button="@null"
+            android:checked="false"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/item_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="test"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/cf_size"
+                android:ellipsize="end"/>
+
+            <TextView
+                android:id="@+id/item_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="test"
+                android:textColor="@color/st_fontcolor"
+                android:textSize="@dimen/cf_size"
+                android:ellipsize="end"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/main_chkdetail"
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/s16"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

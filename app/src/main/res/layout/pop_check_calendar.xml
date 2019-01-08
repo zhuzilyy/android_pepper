@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <LinearLayout
+        android:id="@+id/popmain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="35dp"
+        android:background="@drawable/popwindow"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/c_month"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:text="@string/calendar_month"
+                    android:textColor="@color/black"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/lbtn_padding"
+                    android:paddingEnd="@dimen/lbtn_padding" />
+
+                <ImageView
+                    android:id="@+id/c_month_i"
+                    android:layout_width="@dimen/btn_sm"
+                    android:layout_height="@dimen/btn_sm"
+                    android:src="@mipmap/s26"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/c_week"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/lbtn_mart"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:text="@string/calendar_week"
+                    android:textColor="@color/black"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/lbtn_padding"
+                    android:paddingEnd="@dimen/lbtn_padding" />
+
+                <ImageView
+                    android:id="@+id/c_week_i"
+                    android:layout_width="@dimen/btn_sm"
+                    android:layout_height="@dimen/btn_sm"
+                    android:src="@mipmap/s26"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/c_day"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/lbtn_mart"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:text="@string/calendar_day"
+                    android:textColor="@color/black"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/lbtn_padding"
+                    android:paddingEnd="@dimen/lbtn_padding" />
+
+                <ImageView
+                    android:id="@+id/c_day_i"
+                    android:layout_width="@dimen/btn_sm"
+                    android:layout_height="@dimen/btn_sm"
+                    android:src="@mipmap/s26"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

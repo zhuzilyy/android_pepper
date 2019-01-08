@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@null"
+    android:gravity="center_horizontal">
+
+    <LinearLayout
+        android:id="@+id/popmain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="45dp"
+        android:padding="@dimen/lt_padding"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/allcate"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/allcate"
+                android:textColor="@color/st_fontcolor"
+                android:textSize="16sp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:background="@drawable/gray_border"/>
+
+            <TextView
+                android:id="@+id/attt"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/attendtraining"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_marginStart="@dimen/lt_padding"
+                android:background="@drawable/solid_green"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lt_padding"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/registed"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/iamregistered"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:background="@drawable/solid_oyellow"/>
+
+            <TextView
+                android:id="@+id/canregis"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/icanregister"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_marginStart="@dimen/lt_padding"
+                android:background="@drawable/solid_blue"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lt_padding"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/notopen"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/trainingnotyetoptn"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:background="@drawable/solid_grayblack"/>
+
+            <TextView
+                android:id="@+id/nomore"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nomoresport"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_marginStart="@dimen/lt_padding"
+                android:background="@drawable/solid_red"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

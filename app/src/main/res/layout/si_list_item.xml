@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/lbtn_mart"
+        android:padding="@dimen/lt_padding"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:id="@+id/row1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:text="lessonadd"
+                android:textColor="@color/black"
+                android:textSize="18sp"/>
+
+            <CheckBox
+                android:id="@+id/chk_arrow"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/chk_arrow"
+                android:gravity="center"
+                android:button="@null"
+                android:checked="false"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/row2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/lt_padding"
+            android:paddingEnd="@dimen/lt_padding"
+            android:layout_below="@id/row1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:text="@string/Status"
+                android:textColor="@color/black"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/item_state"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="00dp"
+                android:gravity="center_vertical|end"
+                android:text="Registered"
+                android:textColor="@color/st_fontcolor"
+                android:textSize="16sp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rowgroup"
+            android:layout_below="@id/row2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/row3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/lt_padding"
+                android:paddingEnd="@dimen/lt_padding"
+                android:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:text="@string/Attendance"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"/>
+
+                <Switch
+                    android:id="@+id/attend_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:showText="true"
+                    android:switchMinWidth="40dp"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textOff=""
+                    android:textOn=""
+                    android:thumb="@drawable/switch_circle_selector"
+                    android:track="@drawable/switch_circle_track" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/row4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/lt_padding"
+                android:paddingEnd="@dimen/lt_padding"
+                android:layout_below="@id/row3"
+                android:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:text="@string/Validation"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"/>
+
+                <Switch
+                    android:id="@+id/valid_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:showText="true"
+                    android:switchMinWidth="40dp"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textOff=""
+                    android:textOn=""
+                    android:thumb="@drawable/switch_circle_selector"
+                    android:track="@drawable/switch_circle_track" />
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/row5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/lt_padding"
+            android:paddingEnd="@dimen/lt_padding"
+            android:layout_below="@id/rowgroup">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:text="@string/Credits"
+                android:textColor="@color/black"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/item_credit"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical|end"
+                android:text="2h"
+                android:textColor="@color/st_fontcolor"
+                android:textSize="16sp"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/row5"
+            android:background="@color/gray"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_del"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:paddingStart="@dimen/lt_padding"
+            android:paddingEnd="@dimen/lt_padding"
+            android:layout_below="@id/line"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/cbtn_orange"
+            android:stateListAnimator="@null"
+            android:textAllCaps="false"
+            android:text="@string/delete"/>
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cmnbg">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary"
+        app:title="">
+
+        <LinearLayout
+            android:id="@+id/profile_btn"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="@dimen/toolbar_back"
+                android:layout_height="@dimen/toolbar_back"
+                android:background="@mipmap/s13" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:layout_marginEnd="15dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/calender"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="10dp"
+                android:background="@null"
+                android:scaleType="fitXY"
+                android:src="@mipmap/s15"
+                android:visibility="gone"/>
+
+            <ImageButton
+                android:id="@+id/addevents"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="10dp"
+                android:background="@null"
+                android:scaleType="fitXY"
+                android:src="@mipmap/s18" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/maintitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:maxWidth="200dp"
+            android:text="@string/main_title"
+            android:textColor="@color/white"
+            android:textSize="@dimen/title_size" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:layout_marginEnd="15dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btn_order"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="10dp"
+                android:background="@null"
+                android:scaleType="fitXY"
+                android:src="@mipmap/s54" />
+
+            <ImageButton
+                android:id="@+id/edit_query"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@null"
+                android:scaleType="fitXY"
+                android:src="@mipmap/s14" />
+        </LinearLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/layout_search"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@id/toolbar"
+        android:background="@drawable/line_btm"
+        android:gravity="center">
+
+        <LinearLayout
+            android:id="@+id/main_search"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginStart="15dp"
+            android:background="@drawable/search_panel"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:src="@mipmap/s17" />
+
+            <TextView
+                android:id="@+id/main_search_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:hint="@string/main_search"
+                android:textColorHint="@color/st_fontcolor"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/cf_size" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/funcpanel"
+        android:layout_below="@id/layout_search">
+
+        <ListView
+            android:id="@+id/list_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </ListView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <LinearLayout
+        android:id="@+id/funcpanel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btmbtn_height"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:gravity="center_vertical|right"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/btn_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/cbtn_greenborder"
+            android:stateListAnimator="@null"
+            android:textAllCaps="false"
+            android:text="@string/edit"
+            android:textColor="@color/colorPrimary"/>
+
+        <Button
+            android:id="@+id/btn_del"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/cbtn_orange"
+            android:stateListAnimator="@null"
+            android:textAllCaps="false"
+            android:text="@string/delete"/>
+    </LinearLayout>
+</RelativeLayout>

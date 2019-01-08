@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cmnbg">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary"
+        app:title="">
+
+        <LinearLayout
+            android:id="@+id/btn_back"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="@dimen/toolbar_back"
+                android:layout_height="@dimen/toolbar_back"
+                android:background="@mipmap/s1" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/maintitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:maxWidth="200dp"
+            android:text="@string/search_title"
+            android:textColor="@color/white"
+            android:textSize="@dimen/title_size" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:layout_below="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/cmnbg"
+        tools:context=".fragment.AdSearchFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/lbtn_mart"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <RelativeLayout
+                android:id="@+id/s_state"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/lbtn_selector"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/lbtn_padding"
+                android:paddingStart="@dimen/lbtn_padding">
+
+                <TextView
+                    android:id="@+id/t_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:gravity="center_vertical"
+                    android:hint="@string/search_state"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/st_fontcolor"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:src="@mipmap/s7" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/s_dist"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="@dimen/lbtn_mart"
+                android:background="@drawable/lbtn_grayborder"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/lbtn_padding"
+                android:paddingStart="@dimen/lbtn_padding">
+
+                <TextView
+                    android:id="@+id/t_dist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:gravity="center_vertical"
+                    android:hint="@string/search_district"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/st_fontcolor"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:src="@mipmap/s7" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/s_school"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="@dimen/lbtn_mart"
+                android:background="@drawable/lbtn_grayborder"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/lbtn_padding"
+                android:paddingStart="@dimen/lbtn_padding">
+
+                <TextView
+                    android:id="@+id/t_school"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:gravity="center_vertical"
+                    android:hint="@string/search_school"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/st_fontcolor"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:src="@mipmap/s7" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="@dimen/lbtn_mart"
+                android:background="@drawable/lbtn_grayborder"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/lbtn_padding"
+                android:paddingStart="@dimen/lbtn_padding">
+
+                <EditText
+                    android:id="@+id/t_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:gravity="center_vertical"
+                    android:hint="@string/search_email"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/st_fontcolor"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="@dimen/lbtn_mart"
+                android:background="@drawable/lbtn_grayborder"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/lbtn_padding"
+                android:paddingStart="@dimen/lbtn_padding">
+
+                <EditText
+                    android:id="@+id/t_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:gravity="center_vertical"
+                    android:hint="@string/search_username"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/st_fontcolor"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="@dimen/lbtn_mart"
+                android:background="@drawable/lbtn_grayborder"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/lbtn_padding"
+                android:paddingStart="@dimen/lbtn_padding">
+
+                <EditText
+                    android:id="@+id/t_fname"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:gravity="center_vertical"
+                    android:hint="@string/search_fname"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/st_fontcolor"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="@dimen/lbtn_mart"
+                android:background="@drawable/lbtn_grayborder"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/lbtn_padding"
+                android:paddingStart="@dimen/lbtn_padding">
+
+                <EditText
+                    android:id="@+id/t_lname"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:gravity="center_vertical"
+                    android:hint="@string/search_lname"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/st_fontcolor"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/s_cohort"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="@dimen/lbtn_mart"
+                android:background="@drawable/lbtn_grayborder"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/lbtn_padding"
+                android:paddingStart="@dimen/lbtn_padding">
+
+                <TextView
+                    android:id="@+id/t_cohort"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:gravity="center_vertical"
+                    android:hint="@string/search_cohort"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/st_fontcolor"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:src="@mipmap/s7" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/btmbtn_height"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_reset"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/orange"
+                android:stateListAnimator="@null"
+                android:text="@string/reset"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/btn_search"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:stateListAnimator="@null"
+                android:text="@string/search"
+                android:textAllCaps="false" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

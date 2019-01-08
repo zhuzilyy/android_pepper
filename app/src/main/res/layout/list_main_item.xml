@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/line_btm">
+
+    <LinearLayout
+        android:id="@+id/item_btn_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/lt_padding"
+        android:paddingEnd="@dimen/lt_padding"
+        android:background="@drawable/line_btm"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/chk_item"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/chk_full_selector"
+            android:gravity="center"
+            android:button="@null"
+            android:checked="false"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/item_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="test"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/cf_size"
+                android:ellipsize="end"/>
+
+            <TextView
+                android:id="@+id/item_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="test"
+                android:textColor="@color/st_fontcolor"
+                android:textSize="@dimen/cf_size"
+                android:ellipsize="end"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/main_chkdetail"
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/s16"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/funparent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:gravity="center|end">
+
+        <LinearLayout
+            android:id="@+id/funcpanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/lt_padding"
+            android:background="@drawable/line_btm"
+            android:gravity="center|end">
+
+            <Button
+                android:id="@+id/btn_location"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginStart="15dp"
+                android:background="@drawable/cbtn_orange"
+                android:stateListAnimator="@null"
+                android:textAllCaps="false"
+                android:text="@string/main_location"/>
+
+            <Button
+                android:id="@+id/btn_regis"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@drawable/cbtn_green"
+                android:stateListAnimator="@null"
+                android:layout_marginStart="15dp"
+                android:textAllCaps="false"
+                android:text="@string/main_register"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/btn_unregis"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@drawable/cbtn_greenborderp"
+                android:stateListAnimator="@null"
+                android:layout_marginStart="15dp"
+                android:textAllCaps="false"
+                android:text="@string/main_unregistered"
+                android:textColor="@color/colorPrimary"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/btn_att"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@drawable/cbtn_green"
+                android:stateListAnimator="@null"
+                android:layout_marginStart="15dp"
+                android:textAllCaps="false"
+                android:text="@string/Attended"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

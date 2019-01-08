@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/main"
+    android:background="@color/cmnbg"
+    android:orientation="vertical"
+    android:padding="@dimen/lt_padding"
+    tools:context=".fragment.CTPager1Fragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height">
+
+        <ImageButton
+            android:id="@+id/btn_prevstop"
+            android:layout_width="@dimen/pagerbtn_height"
+            android:layout_height="@dimen/pagerbtn_height"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:scaleType="fitXY"
+            android:background="@null"
+            android:src="@mipmap/s37"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/btn_prevstop"
+            android:layout_marginStart="@dimen/lt_padding"
+            android:layout_centerVertical="true"
+            android:text="@string/step2"
+            android:textColor="@color/st_fontcolor"
+            android:textSize="16sp"/>
+
+        <ImageButton
+            android:id="@+id/btn_nextstop"
+            android:layout_width="@dimen/pagerbtn_height"
+            android:layout_height="@dimen/pagerbtn_height"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:scaleType="fitXY"
+            android:background="@null"
+            android:src="@mipmap/s36"/>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/lt_padding"
+        android:layout_marginEnd="@dimen/lt_padding"
+        android:text="@string/step2_title"
+        android:textColor="@color/black"
+        android:textSize="18sp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/lt_padding">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/lt_padding"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/lt_padding"
+                android:layout_marginBottom="@dimen/lt_padding"
+                android:text="@string/State"
+                android:textColor="@color/black"
+                android:textSize="@dimen/cf_size"/>
+
+            <RelativeLayout
+                android:id="@+id/sel_state"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/lbtn_selector"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/lbtn_padding"
+                android:paddingEnd="@dimen/lbtn_padding"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/sel_state_t"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/step2_selstate"
+                    android:textSize="16sp"
+                    android:textColor="@color/st_fontcolor"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentStart="true"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/s7"
+                    android:layout_alignParentEnd="true"/>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/lt_padding"
+                android:layout_marginBottom="@dimen/lt_padding"
+                android:text="@string/District"
+                android:textColor="@color/black"
+                android:textSize="@dimen/cf_size"/>
+
+            <RelativeLayout
+                android:id="@+id/sel_dist"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/lbtn_selector"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/lbtn_padding"
+                android:paddingEnd="@dimen/lbtn_padding"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/sel_dist_t"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/step2_seldist"
+                    android:textSize="16sp"
+                    android:textColor="@color/st_fontcolor"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentStart="true"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/s7"
+                    android:layout_alignParentEnd="true"/>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/lt_padding"
+                android:layout_marginBottom="@dimen/lt_padding"
+                android:text="@string/School"
+                android:textColor="@color/black"
+                android:textSize="@dimen/cf_size"/>
+
+            <RelativeLayout
+                android:id="@+id/sel_school"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/lbtn_selector"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/lbtn_padding"
+                android:paddingEnd="@dimen/lbtn_padding"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/sel_school_t"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/step2_selschool"
+                    android:textSize="16sp"
+                    android:textColor="@color/st_fontcolor"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentStart="true"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/s7"
+                    android:layout_alignParentEnd="true"/>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/lt_padding"
+                android:layout_marginBottom="@dimen/lt_padding"
+                android:text="@string/TrainingName"
+                android:textColor="@color/black"
+                android:textSize="@dimen/cf_size"/>
+
+            <EditText
+                android:id="@+id/ipt_trname"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/lbtn_selector"
+                android:hint="@string/step2_edttrainname"
+                android:textColorHint="@color/st_fontcolor"
+                android:textColor="@color/black"
+                android:inputType="text"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/lbtn_padding"
+                android:paddingEnd="@dimen/lbtn_padding" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/lt_padding"
+                android:layout_marginBottom="@dimen/lt_padding"
+                android:text="@string/Description"
+                android:textColor="@color/black"
+                android:textSize="@dimen/cf_size"/>
+
+            <EditText
+                android:id="@+id/ipt_desc"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@drawable/lbtn_selector"
+                android:hint="@string/step2_desc"
+                android:textColorHint="@color/st_fontcolor"
+                android:textColor="@color/black"
+                android:inputType="textMultiLine"
+                android:singleLine="false"
+                android:gravity="start"
+                android:padding="@dimen/lbtn_padding" />
+
+            <TextView
+                android:id="@+id/txt_peppercourse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/lt_padding"
+                android:layout_marginBottom="@dimen/lt_padding"
+                android:text="@string/PepperCourse"
+                android:textColor="@color/black"
+                android:textSize="@dimen/cf_size"/>
+
+            <RelativeLayout
+                android:id="@+id/sel_peppercourse"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/lbtn_selector"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/lbtn_padding"
+                android:paddingEnd="@dimen/lbtn_padding"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/sel_peppercourse_t"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/step2_selPepperCourse"
+                    android:textSize="16sp"
+                    android:textColor="@color/st_fontcolor"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentStart="true"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/s7"
+                    android:layout_alignParentEnd="true"/>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/lt_padding"
+                android:layout_marginBottom="@dimen/lt_padding"
+                android:text="@string/SubjectArea"
+                android:textColor="@color/black"
+                android:textSize="@dimen/cf_size"/>
+
+            <RelativeLayout
+                android:id="@+id/sel_subjectarea"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/lbtn_selector"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/lbtn_padding"
+                android:paddingEnd="@dimen/lbtn_padding"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/sel_subjectarea_t"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/step2_selSubjectArea"
+                    android:textSize="16sp"
+                    android:textColor="@color/st_fontcolor"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentStart="true"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/s7"
+                    android:layout_alignParentEnd="true"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
