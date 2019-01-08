@@ -77,6 +77,7 @@ public class CalendarActivity extends FragmentActivity implements CalendarMonthF
                 .show(calendarMonthFragment)
                 .hide(calendarEventsFragment)
                 .commit();
+        //测试提交
     }
 
     @OnClick({R.id.btn_back, R.id.btn_today, R.id.filter,R.id.timepick, R.id.viewcate})
