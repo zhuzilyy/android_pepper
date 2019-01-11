@@ -25,6 +25,7 @@ import com.hzjz.pepper.bean.ResultDesc;
 import com.hzjz.pepper.config.ApiConfig;
 import com.hzjz.pepper.http.HttpCallback;
 import com.hzjz.pepper.http.OkHttpUtils;
+import com.hzjz.pepper.http.utils.DialogUtil;
 import com.hzjz.pepper.plugins.DensityUtil;
 import com.orhanobut.hawk.Hawk;
 
@@ -37,7 +38,7 @@ import butterknife.ButterKnife;
 public class StudentInfoAdapter extends BaseAdapter {
     private Context mContext;
     public JSONArray list = new JSONArray();
-    private String id = "";
+    private String id ;
 //    public JSONArray attja = new JSONArray();
 //    public JSONArray valja = new JSONArray();
     public SparseArray<String> attja = new SparseArray<>();
@@ -56,11 +57,11 @@ public class StudentInfoAdapter extends BaseAdapter {
         this.list = nlist;
         for (int x = 0; x < this.list.size(); x++) {
             if (list.getJSONObject(x).getString("status").equals("Attended")) {
-                attja.put(x, list.getJSONObject(x).getString("userEmail"));
+                attja.put(x, list.getJSONObject(x).getString("email"));
             }
             if (list.getJSONObject(x).getString("status").equals("Validated")) {
-                attja.put(x, list.getJSONObject(x).getString("userEmail"));
-                valja.put(x, list.getJSONObject(x).getString("userEmail"));
+                attja.put(x, list.getJSONObject(x).getString("email"));
+                valja.put(x, list.getJSONObject(x).getString("email"));
             }
         }
         notifyDataSetChanged();
@@ -102,10 +103,11 @@ public class StudentInfoAdapter extends BaseAdapter {
             }
             viewHolder.attendSwitch.setOnCheckedChangeListener(null);
             viewHolder.validSwitch.setOnCheckedChangeListener(null);
-            viewHolder.itemName.setText(list.getJSONObject(i).getString("userEmail"));
-            viewHolder.itemCredit.setText(list.getJSONObject(i).getString("credits"));
+            viewHolder.itemName.setText(list.getJSONObject(i).getString("email"));
+            viewHolder.itemCredit.setText(list.getJSONObject(i).getString("student_credit"));
             viewHolder.chkChangedListener = new ChkChangedListener(i);
             viewHolder.chkArrow.setOnCheckedChangeListener(viewHolder.chkChangedListener);
+            viewHolder.delListener = new delListener(i);
             viewHolder.itemState.setText(list.getJSONObject(i).getString("status"));
             viewHolder.row4.setVisibility(View.GONE);
             viewHolder.attendSwitch.setChecked(false);
@@ -132,6 +134,7 @@ public class StudentInfoAdapter extends BaseAdapter {
             viewHolder.attendSwitch.setOnCheckedChangeListener(viewHolder.attSwitchListener);
             viewHolder.valSwitchListener = new ValSwitchListener(i);
             viewHolder.validSwitch.setOnCheckedChangeListener(viewHolder.valSwitchListener);
+            viewHolder.btnDel.setOnClickListener(viewHolder.delListener);
             if (viewHolder.chkArrow.isChecked()) {
                 viewHolder.rowgroup.setVisibility(View.GONE);
                 viewHolder.line.setVisibility(View.GONE);
@@ -214,11 +217,9 @@ public class StudentInfoAdapter extends BaseAdapter {
 
     private class delListener implements View.OnClickListener{
         int mPosition;
-
         public delListener(int inPosition) {
             mPosition = inPosition;
         }
-
         @Override
         public void onClick(View v) {
             doFunc(mPosition, "DEL");
@@ -229,14 +230,35 @@ public class StudentInfoAdapter extends BaseAdapter {
     private void doFunc(int position, final String stustate) {
         funposition = position;
         Map<String, String> param = new HashMap<>();
-        param.put("trainingId", id);
-        param.put("studentId", list.getJSONObject(position).getString("studentId"));
-        param.put("authId", Hawk.get("authid").toString());
-        param.put("studentStatus", stustate);
-        OkHttpUtils.postJsonAsyn(ApiConfig.updatePepregStudent(), param, new HttpCallback() {
+        String url="";
+        if (stustate.equals("DEL")){
+            param.put("id", list.getJSONObject(position).getString("id"));
+            param.put("user_id", Hawk.get("authid").toString());
+            url = ApiConfig.deletePepregStudent();
+        }else if(stustate.equals("Attended") || stustate.equals("Registered")){
+            //trainingId
+            param.put("id",id);
+            param.put("user_id", Hawk.get("authid").toString());
+            if (stustate.equals("Attended")){
+                param.put("yn", "true");
+            }else if (stustate.equals("Registered")){
+                param.put("yn", "false");
+            }
+            param.put("student_ids", list.getJSONObject(position).getString("student_id"));
+            url = ApiConfig.attendancePepregStudent();
+        }else if(stustate.equals("Validated")){
+            param.put("id",id);
+            param.put("user_id", Hawk.get("authid").toString());
+            param.put("student_ids", list.getJSONObject(position).getString("student_id"));
+            param.put("yn", "true");
+            url = ApiConfig.validatePepregStudent();
+        }
+        DialogUtil.showDialogLoading(mContext,"loading");
+        OkHttpUtils.postJsonAsyn(url, param, new HttpCallback() {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
                 super.onSuccess(resultDesc);
+                DialogUtil.hideDialogLoading();
                 Message msg = new Message();
                 if (resultDesc.getError_code() == 0) {
                     try {
@@ -264,6 +286,7 @@ public class StudentInfoAdapter extends BaseAdapter {
             @Override
             public void onFailure(int code, String message) {
                 super.onFailure(code, message);
+                DialogUtil.hideDialogLoading();
                 Message msg = new Message();
                 msg.what = -1;
                 handler.sendMessage(msg);

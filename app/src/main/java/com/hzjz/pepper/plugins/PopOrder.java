@@ -20,7 +20,6 @@ public class PopOrder extends PopupWindow {
     private ImageView stateimg, distimg, subjimg, courseimg, trnameimg, descrimg, trdateimg, trstimeimg, tretimeimg, trlocateimg, hoursimg;
     private String ordername = "trainingDate", ordercate = "asc";
     private LinearLayout popbg;
-
     public PopOrder(Context context, String ordern, String orderc, View.OnClickListener listener) {
         super(context);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

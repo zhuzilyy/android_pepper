@@ -36,12 +36,10 @@ public class UserSearchActivity extends FragmentActivity implements OnTabSelectL
     SlidingTabLayout searchTab;
     @BindView(R.id.vp)
     ViewPager vp;
-
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private ArrayList<Fragment> mFragments = new ArrayList<>();
     private String[] mTitles = {"Regular Search", "Advanced Search"};
     private MyPagerAdapter mAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +49,6 @@ public class UserSearchActivity extends FragmentActivity implements OnTabSelectL
         type = param.getString("type");
         mAdapter = new MyPagerAdapter(getSupportFragmentManager());
         vp.setAdapter(mAdapter);
-
         mFragments.add(UserAdSearchFragment.newInstance(type, param));
         mFragments.add(UserReSearchFragment.newInstance(type, param));
         searchTab.setViewPager(vp, mTitles, this, mFragments);

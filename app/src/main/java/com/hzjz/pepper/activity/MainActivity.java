@@ -135,8 +135,8 @@ public class MainActivity extends Activity implements PopCheckID.onCheckClickLis
 
     private void getData() {
         Map<String, String> param = new HashMap<>();
-        param.put("page", String.valueOf(page));
-        param.put("auth_Id", authid);
+        param.put("page", page+"");
+        param.put("user_id", authid);
         param.put("is_superuser", String.valueOf(isadmin));
         param.put("stateId", stateid);
         param.put("districtId", districtId);
@@ -237,7 +237,7 @@ public class MainActivity extends Activity implements PopCheckID.onCheckClickLis
                 if (adapter.getChkList().size() > 1) {
                     btnedit.setVisibility(View.GONE);
                 } else {
-                    btnedit.setVisibility(View.VISIBLE);
+                    //btnedit.setVisibility(View.VISIBLE);
                 }
             } else {
                 funcpanel.setVisibility(View.GONE);
@@ -307,7 +307,8 @@ public class MainActivity extends Activity implements PopCheckID.onCheckClickLis
     }
     private void getDetailData() {
         Map<String, String> param = new HashMap<>();
-        param.put("trainingId", adapter.getChkList().getJSONObject(0).getString("id"));
+        param.put("user_id",Hawk.get("authid").toString());
+        param.put("ids", adapter.getChkList().getJSONObject(0).getString("id"));
         OkHttpUtils.postJsonAsyn(ApiConfig.getTrainingInfoById(), param, new HttpCallback() {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
@@ -457,12 +458,14 @@ public class MainActivity extends Activity implements PopCheckID.onCheckClickLis
     };
 
     private void delList() {
+        String ids= "";
         Map<String, String> param = new HashMap<>();
         JSONArray ja = new JSONArray();
         for (int i = 0; i < adapter.getChkList().size(); i++) {
-            ja.add(adapter.getChkList().getJSONObject(i).getString("id"));
+            ids += adapter.getChkList().getJSONObject(i).getString("id")+",";
         }
-        param.put("trainingIdList", ja.toString());
+        param.put("user_id", Hawk.get("authid").toString());
+        param.put("ids", ids);
         OkHttpUtils.postJsonAsyn(ApiConfig.delList(), param, new HttpCallback() {
             @Override
             public void onSuccess(ResultDesc resultDesc) {

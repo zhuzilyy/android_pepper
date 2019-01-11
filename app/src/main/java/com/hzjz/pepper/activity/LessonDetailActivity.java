@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
@@ -27,6 +28,7 @@ import com.hzjz.pepper.config.ApiConfig;
 import com.hzjz.pepper.http.HttpCallback;
 import com.hzjz.pepper.http.OkHttpUtils;
 import com.hzjz.pepper.http.utils.DialogUtil;
+import com.hzjz.pepper.plugins.DateUtil;
 import com.hzjz.pepper.plugins.PopCheckID;
 import com.hzjz.pepper.plugins.PopLocation;
 import com.hzjz.pepper.plugins.PopRegis;
@@ -40,13 +42,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LessonDetailActivity extends Activity {
-
     String title, id, ctype = "";
     PopLocation pl;
     PopRegis pr;
     PopCheckID popCheckID;
     JSONObject jo = new JSONObject();
-    JSONArray instjo = new JSONArray();
     private BroadcastReceiver broadcastReceiver;
     private LocalBroadcastManager localBroadcastManager;
 
@@ -114,8 +114,11 @@ public class LessonDetailActivity extends Activity {
         getData();
     }
     private void getData() {
+        DialogUtil.showDialogLoading(this,"loading");
         Map<String, String> param = new HashMap<>();
-        param.put("trainingId", id);
+        param.put("id", id);
+        param.put("user_id",Hawk.get("authid").toString());
+        param.put("client_time", DateUtil.getCurrentTime());
         OkHttpUtils.postJsonAsyn(ApiConfig.getTrainingInfoById(), param, new HttpCallback() {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
@@ -124,7 +127,7 @@ public class LessonDetailActivity extends Activity {
                 Message msg = new Message();
                 if (resultDesc.getError_code() == 0) {
                     try {
-                        //jo = JSON.parseObject(resultDesc.getResult());
+                        jo = JSON.parseObject(resultDesc.getResult());
                         msg.what = 1;
                         handler.sendMessage(msg);
                     } catch (JSONException e) {
@@ -148,7 +151,8 @@ public class LessonDetailActivity extends Activity {
 
     private void getInstData() {
         Map<String, String> param = new HashMap<>();
-        param.put("trainingId", id);
+        param.put("id", id);
+        param.put("client_time", DateUtil.getCurrentTime());
         OkHttpUtils.postJsonAsyn(ApiConfig.getInstructor(), param, new HttpCallback() {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
@@ -157,7 +161,7 @@ public class LessonDetailActivity extends Activity {
                 Message msg = new Message();
                 if (resultDesc.getError_code() == 0) {
                     try {
-                        //instjo = JSON.parseArray(resultDesc.getResult());
+                        jo = JSON.parseObject(resultDesc.getResult());
                         msg.what = 3;
                         handler.sendMessage(msg);
                     } catch (JSONException e) {
@@ -184,19 +188,13 @@ public class LessonDetailActivity extends Activity {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
-                getInstData();
+                //getInstData();
                 initdata();
             } else if (msg.what == 2) {
                 Toast.makeText(LessonDetailActivity.this, getResources().getString(R.string.cnfailed), Toast.LENGTH_SHORT).show();
             } else if (msg.what == 3) {
-                String inststr = "";
-                if (instjo.size() > 0) {
-                    for (int i = 0; i < instjo.size(); i++) {
-                        inststr = inststr + instjo.getJSONObject(i).getString("userEmail") + ", ";
-                    }
-                    inststr = inststr.substring(0, inststr.length() - 1);
-                }
-                tdInst.setText(inststr);
+
+
             } else if (msg.what == -1){
                 Toast.makeText(LessonDetailActivity.this, getResources().getString(R.string.cnfailed), Toast.LENGTH_SHORT).show();
             } else if (msg.what == 4) {
@@ -226,23 +224,30 @@ public class LessonDetailActivity extends Activity {
 
     private void initdata() {
         ctype = jo.getString("type");
-        tdState.setText(jo.getString("stateName"));
-        tdDist.setText(jo.getString("districtName"));
-        tdSubject.setText(jo.getString("subjectName"));
-        tdCourse.setText(jo.getString("courseName"));
-        tdSchool.setText(jo.getString("schoolName"));
+        tdState.setText(jo.getString("state"));
+        tdDist.setText(jo.getString("district"));
+        tdSubject.setText(jo.getString("subject_name"));
+        tdCourse.setText(jo.getString("course"));
+        tdSchool.setText(jo.getString("school"));
         tdDesc.setText(jo.getString("description"));
-        tdTddate.setText(jo.getString("trainingDate"));
-        tdStime.setText(jo.getString("trainingTimeStart"));
-        tdEtime.setText(jo.getString("trainingTimeEnd"));
+        tdTddate.setText(jo.getString("training_date"));
+        tdStime.setText(jo.getString("training_time_start"));
+        tdEtime.setText(jo.getString("training_time_end"));
 //        locationt.setText(jo.getString("classroom"));
-        tdLocation.setText(jo.getString("classroom") + "\n" + jo.getString("geoLocation"));
+        tdLocation.setText(jo.getString("classroom") + "\n" + jo.getString("geo_location"));
         tdHours.setText(jo.getString("credits"));
         tdCreator.setText(jo.getString("creator"));
+        String inststr = "";
+        JSONArray instructor_emails = jo.getJSONArray("instructor_emails");
+        for (int i = 0; i <instructor_emails.size() ; i++) {
+            inststr += instructor_emails.get(i) + "  ";
+        }
+        tdInst.setText(inststr);
         tdRRA.setText("I would like to register for this training");
         btnRegis.setVisibility(View.GONE);
         btnUnregis.setVisibility(View.GONE);
         btnAtt.setVisibility(View.GONE);
+
 //        if (DateUtil.compare_date(jo.getString("trainingDate") + " " + jo.getString("trainingTimeStart"))) {
 //            btnAtt.setVisibility(View.GONE);
 //            if (jo.getString("allowRegistration").equals("true")) {

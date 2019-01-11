@@ -63,9 +63,7 @@ public class LogoutActivity extends Activity {
         } catch (Exception e) {
             GlideApp.with(this).load("sdfsdf").placeholder(R.mipmap.s31).dontAnimate().into(profileImage);
         }
-
     }
-
     @OnClick({R.id.backbtn, R.id.logout_btn})
     public void onViewClicked(View view) {
         switch (view.getId()) {

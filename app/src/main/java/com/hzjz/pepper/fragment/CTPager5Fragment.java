@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
@@ -29,6 +31,7 @@ import com.hzjz.pepper.config.ApiConfig;
 import com.hzjz.pepper.http.HttpCallback;
 import com.hzjz.pepper.http.OkHttpUtils;
 import com.hzjz.pepper.http.utils.DialogUtil;
+import com.hzjz.pepper.plugins.DateUtil;
 import com.orhanobut.hawk.Hawk;
 
 import java.util.HashMap;
@@ -52,7 +55,7 @@ public class CTPager5Fragment extends Fragment {
     private int position = 0;
     private JSONArray mja = new JSONArray();
     private Map<Integer, JSONObject> mapa = new HashMap<>();
-    private JSONArray instja = new JSONArray();
+    private JSONObject instja = new JSONObject();
 
     @BindView(R.id.btn_prevstop)
     ImageButton btnPrevstop;
@@ -154,6 +157,7 @@ public class CTPager5Fragment extends Fragment {
         if (requestCode == 1) {
             if (resultCode == 1) {
                 JSONObject jo = new JSONObject();
+                jo.put("name", data.getStringExtra("name"));
                 jo.put("instructorId", data.getStringExtra("id"));
                 jo.put("trainingId", "");
                 jo.put("allEdit", "false");
@@ -220,7 +224,9 @@ public class CTPager5Fragment extends Fragment {
 
     private void getInstData() {
         Map<String, String> param = new HashMap<>();
-        param.put("trainingId", mParam2.getString("id"));
+        param.put("id", mParam2.getString("id"));
+        param.put("user_id",Hawk.get("authid").toString());
+        param.put("client_time", DateUtil.getCurrentTime());
         OkHttpUtils.postJsonAsyn(ApiConfig.getInstructor(), param, new HttpCallback() {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
@@ -229,7 +235,7 @@ public class CTPager5Fragment extends Fragment {
                 Message msg = new Message();
                 if (resultDesc.getError_code() == 0) {
                     try {
-                        //instja = JSON.parseArray(resultDesc.getResult());
+                        instja = JSON.parseObject(resultDesc.getResult());
                         msg.what = 1;
                         handler.sendMessage(msg);
                     } catch (JSONException e) {
@@ -257,7 +263,7 @@ public class CTPager5Fragment extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
-                for (int i = 0; i < instja.size(); i++) {
+                for (int i = 0; i < instja.getJSONArray("instructor_permission_emails").size(); i++) {
                     itemId = i;
                     position = i;
                     createView();
@@ -269,29 +275,30 @@ public class CTPager5Fragment extends Fragment {
     };
 
     private void createView() {
+        JSONArray emails = instja.getJSONArray("instructor_permission_emails");
+        String emailContent = emails.get(itemId).toString();
+        String[] array = emailContent.split("::");
         JSONObject jo = new JSONObject();
-        jo.put("instructorId", instja.getJSONObject(itemId).getString("userId"));
         jo.put("trainingId", mParam2.getString("id"));
-        jo.put("allEdit", instja.getJSONObject(itemId).getString("allEdit"));
-        jo.put("allDelete", instja.getJSONObject(itemId).getString("allDelete"));
-        jo.put("userCreateId", instja.getJSONObject(itemId).getString("userCreateId"));
-        jo.put("dateCreate", instja.getJSONObject(itemId).getString("dateCreate"));
-//        mja.add(itemId, jo);
-        mapa.put(itemId, jo);
+        jo.put("allEdit", array[1].equals("1")?"true":"false");
+        jo.put("allDelete", array[2].equals("1")?"true":"false");
+        jo.put("name", array[0]);
+
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         LinearLayout nview = (LinearLayout) View.inflate(getActivity(), R.layout.item_addpd_list, null);
         nview.setLayoutParams(lp);
         TextView tvtitle = nview.findViewById(R.id.item_name);
-        tvtitle.setText(instja.getJSONObject(itemId).getString("userEmail"));
+        tvtitle.setText(array[0]);
+        mapa.put(itemId, jo);
         tvtitle.setTag(itemId);
         Switch r1 = nview.findViewById(R.id.ed_switch);
         r1.setTag(itemId);
-        if (instja.getJSONObject(itemId).getString("allEdit").equals("true")) {
+        if (array[1].equals("1")) {
             r1.setChecked(true);
         }
         Switch r2 = nview.findViewById(R.id.del_switch);
         r2.setTag(itemId);
-        if (instja.getJSONObject(itemId).getString("allDelete").equals("true")) {
+        if ( array[2].equals("1")) {
             r2.setChecked(true);
         }
 

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
@@ -28,6 +30,8 @@ import com.hzjz.pepper.config.ApiConfig;
 import com.hzjz.pepper.http.HttpCallback;
 import com.hzjz.pepper.http.OkHttpUtils;
 import com.hzjz.pepper.http.utils.DialogUtil;
+import com.hzjz.pepper.http.utils.ToastUtil;
+import com.hzjz.pepper.view.MyListView;
 import com.orhanobut.hawk.Hawk;
 
 import java.util.HashMap;
@@ -91,7 +95,10 @@ public class CTPager2Fragment extends Fragment {
     @BindView(R.id.main)
     LinearLayout main;
     Unbinder unbinder;
-
+    private String  authid;
+    private View view_alertListView;
+    private MyListView alertListView;
+    private TextView tv_noData;
     public static CTPager2Fragment newInstance(String param1, JSONObject param2) {
         CTPager2Fragment fragment = new CTPager2Fragment();
         mParam1 = param1;
@@ -118,6 +125,7 @@ public class CTPager2Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_ctpager2, container, false);
         unbinder = ButterKnife.bind(this, view);
         traincate = Hawk.get("evtype");
+        authid = Hawk.get("authid");
         if (traincate.equals("pd_training")) {
             txtpeppercourse.setVisibility(View.GONE);
             selpeppercourse.setVisibility(View.GONE);
@@ -126,16 +134,19 @@ public class CTPager2Fragment extends Fragment {
             initData();
         }
         simpleSelectAdapter = new SimpleSelectAdapter(getActivity(), new JSONArray(), 0);
-        listView = new ListView(getActivity());
+        view_alertListView = LayoutInflater.from(getActivity()).inflate(R.layout.activity_alert_listview,null);
+        alertListView = view_alertListView.findViewById(R.id.listview);
+        tv_noData = view_alertListView.findViewById(R.id.tv_noData);
+       /* listView = new ListView(getActivity());
         listView.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
+                ViewGroup.LayoutParams.WRAP_CONTENT));
         float scale = getResources().getDisplayMetrics().density;
         int dpAsPixels = (int) (8 * scale + 0.5f);
         listView.setPadding(0, dpAsPixels, 0, dpAsPixels);
-        listView.setDividerHeight(0);
-        listView.setAdapter(simpleSelectAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setDividerHeight(0);*/
+        alertListView.setAdapter(simpleSelectAdapter);
+        alertListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (cate) {
@@ -168,7 +179,7 @@ public class CTPager2Fragment extends Fragment {
                 alert.dismiss();
             }
         });
-        alert = new MaterialDialog(getActivity()).setTitle(title).setContentView(listView).setCanceledOnTouchOutside(true);
+        alert = new MaterialDialog(getActivity()).setTitle(title).setContentView(view_alertListView).setCanceledOnTouchOutside(true);
         alert.setPositiveButton(getResources().getString(R.string.Close), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -233,7 +244,7 @@ public class CTPager2Fragment extends Fragment {
                     Toast.makeText(getActivity(), getResources().getString(R.string.inputtn), Toast.LENGTH_SHORT).show();
                 } else if (!traincate.equals("pd_training") && subjectid.equals("")) {
                     Toast.makeText(getActivity(), getResources().getString(R.string.search_subject), Toast.LENGTH_SHORT).show();
-                } else if (pepperCoursename.equals("") && traincate.equals("pd_training")) {
+                } else if (pepperCoursename.equals("") && !traincate.equals("pd_training")) {
                     Toast.makeText(getActivity(), getResources().getString(R.string.search_peppercourses), Toast.LENGTH_SHORT).show();
                 } else {
                     mjo.put("districtId", districtId);
@@ -251,11 +262,21 @@ public class CTPager2Fragment extends Fragment {
                 getData();
                 break;
             case R.id.sel_dist:
+                //先选择州
+                if (TextUtils.isEmpty(stateId)){
+                    Toast.makeText(getActivity(), R.string.selectStateFirst,Toast.LENGTH_LONG).show();
+                    return;
+                }
                 cate = 1;
                 title = getResources().getString(R.string.search_district);
                 getData();
                 break;
             case R.id.sel_school:
+                //先选择地区
+                if (TextUtils.isEmpty(districtId)){
+                    Toast.makeText(getActivity(), R.string.selectDistrictFirst,Toast.LENGTH_LONG).show();
+                    return;
+                }
                 cate = 0;
                 title = getResources().getString(R.string.search_school);
                 getData();
@@ -272,21 +293,22 @@ public class CTPager2Fragment extends Fragment {
                 break;
         }
     }
-
     private void initData() {
-        statename = mParam2.getString("stateName");
-        districtId = mParam2.getString("districtId");
+        stateId = mParam2.getString("state_id");
+        districtId = mParam2.getString("district_id");
         subjectid = mParam2.getString("subject");
-        pepperCoursename = mParam2.getString("pepperCourse");
-        schoolid = mParam2.getString("schoolId");
+        pepperCoursename = mParam2.getString("course");
+        schoolid = mParam2.getString("school_id");
+        statename = mParam2.getString("name");
+        pepperCourseid = mParam2.getString("pepper_course");
 
-        selStateT.setText(mParam2.getString("stateName"));
-        selDistT.setText(mParam2.getString("districtName"));
-        selSchoolT.setText(mParam2.getString("schoolName"));
+        selStateT.setText(mParam2.getString("state"));
+        selDistT.setText(mParam2.getString("district"));
+        selSchoolT.setText(mParam2.getString("school"));
         iptTrname.setText(mParam2.getString("name"));
         iptDesc.setText(mParam2.getString("description"));
-        selPeppercourseT.setText(mParam2.getString("CourseName"));
-        selSubjectareaT.setText(mParam2.getString("subjectName"));
+        selPeppercourseT.setText(mParam2.getString("course"));
+        selSubjectareaT.setText(mParam2.getString("subject_name"));
     }
 
     private void getData() {
@@ -306,14 +328,15 @@ public class CTPager2Fragment extends Fragment {
                 url = ApiConfig.getSearchDist();
                 break;
             case 2:
-                param = null;
+                param.put("user_id", authid);
                 url = ApiConfig.getSearchSubject();
                 break;
             case 3:
-                param = null;
+                param.put("user_id", authid);
                 url = ApiConfig.getSearchCourses();
                 break;
         }
+        DialogUtil.showDialogLoading(getActivity(),"loading");
         OkHttpUtils.postJsonAsyn(url, param, new HttpCallback() {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
@@ -322,9 +345,9 @@ public class CTPager2Fragment extends Fragment {
                 Message msg = new Message();
                 if (resultDesc.getError_code() == 0) {
                     try {
-                        //jsonArrays[cate] = JSON.parseArray(resultDesc.getResult());
+                        jsonArrays[cate] = JSON.parseArray(resultDesc.getResult());
                         simpleSelectAdapter.setlist(jsonArrays[cate], cate);
-                        listView.setAdapter(simpleSelectAdapter);
+                        alertListView.setAdapter(simpleSelectAdapter);
                         msg.what = 1;
                         handler.sendMessage(msg);
                     } catch (JSONException e) {
@@ -348,12 +371,19 @@ public class CTPager2Fragment extends Fragment {
             }
         });
     }
-
     @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
+                //暂无数据的显示
+                if (jsonArrays[cate].size()==0){
+                    alertListView.setVisibility(View.GONE);
+                    tv_noData.setVisibility(View.VISIBLE);
+                }else{
+                    alertListView.setVisibility(View.VISIBLE);
+                    tv_noData.setVisibility(View.GONE);
+                }
                 alert.setTitle(title);
                 alert.show();
             } else if (msg.what == -1) {

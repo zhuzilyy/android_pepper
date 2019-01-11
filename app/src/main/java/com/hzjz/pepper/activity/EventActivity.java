@@ -12,16 +12,19 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.hzjz.pepper.R;
 import com.hzjz.pepper.bean.ResultDesc;
+import com.hzjz.pepper.bean.UserEmailBean;
 import com.hzjz.pepper.config.ApiConfig;
 import com.hzjz.pepper.fragment.CTPager1Fragment;
 import com.hzjz.pepper.fragment.CTPager2Fragment;
@@ -36,8 +39,11 @@ import com.hzjz.pepper.plugins.DateUtil;
 import com.hzjz.pepper.plugins.ViewPagerSlide;
 import com.orhanobut.hawk.Hawk;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -141,87 +147,78 @@ public class EventActivity extends FragmentActivity implements CTPager1Fragment.
 
     public void setParam(JSONObject mjo) {
         if (mjo != null) {
-//            for (String key : mjo.keySet()) {
-//                cachejo.put(key, mjo.getString(key));
-//            }
+            for (String key : mjo.keySet()) {
+                cachejo.put(key, mjo.getString(key));
+            }
             cachejo.putAll(mjo);
         }
     }
 
     public void commitData() {
-        JSONObject param = new JSONObject();
-        Map<String, String> paramdata = new HashMap<>();
-        if (ctype.equals("add")) {
-            param.put("id", cachejo.getString("id"));
-            param.put("type", cachejo.getString("type"));
-            param.put("districtId", cachejo.getString("districtId"));
-            param.put("subject", cachejo.getString("subject"));
-            param.put("name", cachejo.getString("name"));
-            param.put("pepperCourse", cachejo.getString("pepperCourse"));
-//            param.put("trainingDate", DateUtil.getStringByFormatString(cachejo.getString("trainingDate"), "yyyy/MM/dd", "yyyy-MM-dd"));
-            param.put("trainingDate", cachejo.getString("trainingDate"));
-            param.put("geoLocation", cachejo.getString("geoLocation"));
-            param.put("classroom", cachejo.getString("classroom"));
-            param.put("credits", cachejo.getString("credits"));
-            param.put("attendancelId", cachejo.getString("attendancelId"));
-            param.put("allowRegistration", cachejo.getString("allowRegistration"));
-            param.put("maxRegistration", cachejo.getString("maxRegistration"));
-            param.put("allowAttendance", cachejo.getString("allowAttendance"));
-            param.put("allowValidation", cachejo.getString("allowValidation"));
-            param.put("userCreateId", Hawk.get("authid").toString());
-            param.put("dateCreate", DateUtil.getCurrentDate("yyyy-MM-dd"));
-            param.put("userModifyId", Hawk.get("authid").toString());
-            param.put("dateModify", DateUtil.getCurrentDate("yyyy-MM-dd"));
-            param.put("allowStudentAttendance", cachejo.getString("allowStudentAttendance"));
-            param.put("trainingTimeStart", DateUtil.getStringByFormatString(cachejo.getString("trainingTimeStart"), "HH:mm", "HH:mm:ss"));
-            param.put("trainingTimeEnd", DateUtil.getStringByFormatString(cachejo.getString("trainingTimeEnd"), "HH:mm", "HH:mm:ss"));
-//            param.put("trainingTimeStart", cachejo.getString("trainingTimeStart"));
-//            param.put("trainingTimeEnd", cachejo.getString("trainingTimeEnd"));
-            param.put("geoDestination", cachejo.getString("geoDestination"));
-            param.put("lastDate", cachejo.getString("lastDate"));
-            param.put("schoolId", cachejo.getString("schoolId"));
-            param.put("subjectother", cachejo.getString("subjectother"));
-            param.put("allowWaitlist", cachejo.getString("allowWaitlist"));
-            param.put("description", cachejo.getString("description"));
-            param.put("geoProps", cachejo.getString("geoProps"));
-            param.put("geoProps2", cachejo.getString("geoProps2"));
-            param.put("instructorList", cachejo.getString("instructorList"));
-        } else if (ctype.equals("edit")) {
-            param.put("id", cachejo.getString("id"));
-            param.put("type", cachejo.getString("type"));
-            param.put("districtId", cachejo.getString("districtId"));
-            param.put("subject", cachejo.getString("subject"));
-            param.put("name", cachejo.getString("name"));
-            param.put("pepperCourse", cachejo.getString("pepperCourse"));
-            param.put("trainingDate", cachejo.getString("trainingDate"));
-            param.put("geoLocation", cachejo.getString("geoLocation"));
-            param.put("classroom", cachejo.getString("classroom"));
-            param.put("credits", cachejo.getString("credits"));
-            param.put("attendancelId", cachejo.getString("attendancelId"));
-            param.put("allowRegistration", cachejo.getString("allowRegistration"));
-            param.put("maxRegistration", cachejo.getString("maxRegistration"));
-            param.put("allowAttendance", cachejo.getString("allowAttendance"));
-            param.put("allowValidation", cachejo.getString("allowValidation"));
-            param.put("userCreateId", cachejo.getString("userCreateId"));
-            param.put("dateCreate", cachejo.getString("dateCreate"));
-            param.put("userModifyId", Hawk.get("authid").toString());
-            param.put("dateModify", DateUtil.getCurrentDate("yyyy-MM-dd"));
-            param.put("allowStudentAttendance", cachejo.getString("allowStudentAttendance"));
-            param.put("trainingTimeStart", DateUtil.getStringByFormatString(cachejo.getString("trainingTimeStart"), "HH:mm", "HH:mm:ss"));
-            param.put("trainingTimeEnd", DateUtil.getStringByFormatString(cachejo.getString("trainingTimeEnd"), "HH:mm", "HH:mm:ss"));
-            param.put("geoDestination", cachejo.getString("geoDestination"));
-            param.put("lastDate", cachejo.getString("lastDate"));
-            param.put("schoolId", cachejo.getString("schoolId"));
-            param.put("subjectother", cachejo.getString("subjectother"));
-            param.put("allowWaitlist", cachejo.getString("allowWaitlist"));
-            param.put("description", cachejo.getString("description"));
-            param.put("geoProps", cachejo.getString("geoProps"));
-            param.put("geoProps2", cachejo.getString("geoProps2"));
-            param.put("instructorList", cachejo.getString("instructorList"));
+        //JSONObject param = new JSONObject();
+        //Map<String, String> paramdata = new HashMap<>();
+        Map<String, String> param = new HashMap<>();
+        //添加的email集合
+        String emailString = "";
+        List<UserEmailBean> infoList = new ArrayList<>();
+        JSONArray instructorList = cachejo.getJSONArray("instructorList");
+        if (instructorList.size()>0){
+            for (int i = 0; i < instructorList.size(); i++) {
+                JSONObject jsonObject = instructorList.getJSONObject(i);
+                UserEmailBean emailBean = new UserEmailBean();
+                emailBean.setEmail(jsonObject.getString("name"));
+                emailBean.setAllEdit(jsonObject.getString("allEdit"));
+                emailBean.setAllDelete(jsonObject.getString("allDelete"));
+                infoList.add(emailBean);
+            }
+            //email集合拼接成字符串
+            for (int i = 0; i <infoList.size(); i++) {
+                emailString += infoList.get(i).toString()+",";
+            }
+            param.put("instructor_emails", emailString);
         }
-        paramdata.put("pepregTraining", param.toString());
-
-        OkHttpUtils.postJsonAsyn(ApiConfig.saveTrainingInfoById(), paramdata, new HttpCallback() {
+        if(!TextUtils.isEmpty(cachejo.getString("maxRegistration"))){
+            param.put("max_registration", cachejo.getString("maxRegistration"));
+        }
+        String authId = Hawk.get("authid");
+        param.put("user_id", authId);
+        param.put("training_date", cachejo.getString("trainingDate"));
+        param.put("training_time_start", DateUtil.getStringByFormatString(cachejo.getString("trainingTimeStart"), "HH:mm", "HH:mm:ss"));
+        param.put("training_time_end", DateUtil.getStringByFormatString(cachejo.getString("trainingTimeEnd"), "HH:mm", "HH:mm:ss"));
+        param.put("district_id", cachejo.getString("districtId"));
+        param.put("type", cachejo.getString("type"));
+        param.put("school_id", cachejo.getString("schoolId"));
+        param.put("name", cachejo.getString("name"));
+        param.put("description", cachejo.getString("description"));
+        param.put("pepper_course", cachejo.getString("pepperCourse"));
+        if (!TextUtils.isEmpty(cachejo.getString("credits"))){
+            param.put("credits", cachejo.getString("credits"));
+        }
+        param.put("attendancel_id", cachejo.getString("attendancelId"));
+        param.put("subject", cachejo.getString("subject"));
+        param.put("subjectother", cachejo.getString("subjectother"));
+        param.put("id", cachejo.getString("id"));
+        param.put("classroom", cachejo.getString("geoLocation"));
+        param.put("geo_location", cachejo.getString("geoDestination"));
+        param.put("geo_props", cachejo.getString("geoProps"));
+        param.put("allow_registration", cachejo.getString("allowRegistration"));
+        param.put("allow_waitlist", cachejo.getString("allowWaitlist"));
+        param.put("allow_attendance", cachejo.getString("allowAttendance"));
+        param.put("allow_student_attendance", cachejo.getString("allowStudentAttendance"));
+        param.put("allow_validation", cachejo.getString("allowValidation"));
+        //param.put("geoProps2", cachejo.getString("geoProps2"));
+//            param.put("trainingDate", DateUtil.getStringByFormatString(cachejo.getString("trainingDate"), "yyyy/MM/dd", "yyyy-MM-dd"));
+        param.put("user_create_id", Hawk.get("authid").toString());
+        param.put("date_create", DateUtil.getCurrentDate("yyyy-MM-dd"));
+        param.put("user_modify_id", Hawk.get("authid").toString());
+        param.put("date_modify", DateUtil.getCurrentDate("yyyy-MM-dd"));
+        //获取本地时间
+        param.put("client_time", DateUtil.getCurrentTime());
+        if (ctype.equals("edit")) {
+            param.put("id", cachejo.getString("id"));
+        }
+        //paramdata.put("pepregTraining", param.toString());
+        OkHttpUtils.postJsonAsyn(ApiConfig.saveTrainingInfoById(), param, new HttpCallback() {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
                 super.onSuccess(resultDesc);
@@ -250,7 +247,6 @@ public class EventActivity extends FragmentActivity implements CTPager1Fragment.
             }
         });
     }
-
     @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
         @Override

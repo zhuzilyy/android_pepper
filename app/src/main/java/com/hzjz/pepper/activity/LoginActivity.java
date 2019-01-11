@@ -71,7 +71,7 @@ public class LoginActivity extends Activity {
                     Map<String, String> param = new HashMap<>();
                     param.put("email", loginUsername.getText().toString());
                     param.put("password", loginPassword.getText().toString());
-                    DialogUtil.showDialogLoading(LoginActivity.this,"正在登录");
+                    DialogUtil.showDialogLoading(LoginActivity.this,"loading");
                     OkHttpUtils.postJsonAsyn(ApiConfig.getLogin(), param, new HttpCallback() {
                         @Override
                         public void onSuccess(ResultDesc resultDesc) {
@@ -123,11 +123,12 @@ public class LoginActivity extends Activity {
                 JSONObject rs = JSON.parseObject(bd.getString("rs"));
                 Hawk.put("authid", rs.getJSONObject("authUser").getString("id"));
                 Hawk.put("username", rs.getJSONObject("authUser").getString("username"));
+                //Hawk.put("is_superuser", rs.getJSONObject("authUser").getString("is_superuser"));
                 Hawk.put("imgurl", rs.getString("headImg"));
                 if (chkremember.isChecked()) {
                     Hawk.put("lastuser", loginUsername.getText().toString());
                 }
-                if (rs.getJSONObject("authUser").getString("is_superuser").equals("1")) {
+                if (rs.getJSONObject("authUser").getInteger("is_superuser") == 1) {
                     Hawk.put("isadmin", "1");
                 } else {
                     Hawk.put("isadmin", "0");

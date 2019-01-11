@@ -71,7 +71,6 @@
                 android:gravity="center_vertical"
                 android:text="@string/allattended"
                 android:textColor="@color/black"/>
-
             <Switch
                 android:id="@+id/attend_switch"
                 android:layout_width="wrap_content"

@@ -199,4 +199,6 @@
     <string name="title_activity_basic">Basic Example</string>
     <string name="title_activity_asynchronous">Asynchronous Events</string>
     <string name="async_error">Could not download events from the internet</string>
+    <string name="selectStateFirst">please select state first</string>
+    <string name="selectDistrictFirst">please select district first</string>
 </resources>

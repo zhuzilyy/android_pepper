@@ -25,6 +25,7 @@ import com.hzjz.pepper.http.HttpCallback;
 import com.hzjz.pepper.http.OkHttpUtils;
 import com.hzjz.pepper.http.utils.DialogUtil;
 import com.hzjz.pepper.plugins.PopYmdPicker;
+import com.orhanobut.hawk.Hawk;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -134,7 +135,6 @@ public class UserAdSearchFragment extends Fragment {
         });
         return view;
     }
-
     private void setInitData() {
         type = mParam2.getString("type");
         stateid = mParam2.getString("stateid");
@@ -219,6 +219,7 @@ public class UserAdSearchFragment extends Fragment {
     }
 
     private void getData() {
+        String authid = Hawk.get("authid");
         Map<String, String> param = new HashMap<>();
         String url = "";
         switch (cate) {
@@ -239,6 +240,7 @@ public class UserAdSearchFragment extends Fragment {
                 url = ApiConfig.getSearchCourses();
                 break;
         }
+        param.put("user_id",authid);
         OkHttpUtils.postJsonAsyn(url, param, new HttpCallback() {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
@@ -273,7 +275,6 @@ public class UserAdSearchFragment extends Fragment {
             }
         });
     }
-
     @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
         @Override
@@ -288,7 +289,6 @@ public class UserAdSearchFragment extends Fragment {
             }
         }
     };
-
     private void resetall() {
         tSubj.setText("");
         tPepc.setText("");

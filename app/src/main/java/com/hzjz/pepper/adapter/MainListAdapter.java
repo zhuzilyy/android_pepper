@@ -27,6 +27,7 @@ import com.hzjz.pepper.bean.ResultDesc;
 import com.hzjz.pepper.config.ApiConfig;
 import com.hzjz.pepper.http.HttpCallback;
 import com.hzjz.pepper.http.OkHttpUtils;
+import com.hzjz.pepper.http.utils.DialogUtil;
 import com.hzjz.pepper.plugins.DateUtil;
 import com.hzjz.pepper.plugins.PopCheckID;
 import com.hzjz.pepper.plugins.PopLocation;
@@ -49,7 +50,6 @@ public class MainListAdapter extends BaseAdapter {
     PopRegis pr;
     PopCheckID pc;
     private int left = 0;
-
     public MainListAdapter(Context context, JSONArray list, String isadmin) {
         this.mContext = context;
         this.list = list;
@@ -150,7 +150,7 @@ public class MainListAdapter extends BaseAdapter {
         viewHolder.btn_location.setOnClickListener(viewHolder.slListener);
         //before training date, show register, else show attend
         if (DateUtil.compare_date(list.getJSONObject(i).getString("trainingDate") + " " + list.getJSONObject(i).getString("trainingTimeStart"))) {
-            if (list.getJSONObject(i).getString("allowRegistration").equals("true")) {
+            if (list.getJSONObject(i).getString("allowRegistration").equals("True")) {
                 if (this.list.getJSONObject(i).getString("studentStatus").equals("")) {
                     viewHolder.br.setVisibility(View.VISIBLE);
                     viewHolder.bu.setVisibility(View.GONE);
@@ -171,7 +171,7 @@ public class MainListAdapter extends BaseAdapter {
             viewHolder.br.setVisibility(View.GONE);
             viewHolder.bu.setVisibility(View.GONE);
             viewHolder.bt.setVisibility(View.VISIBLE);
-            if (this.list.getJSONObject(i).getString("allowAttendance").equals("true")
+            if (this.list.getJSONObject(i).getString("allowAttendance").equals("True")
                     && !this.list.getJSONObject(i).getString("studentStatus").equals("Attended")) {
                 viewHolder.saListener = new ShowAttendListener(i);
                 viewHolder.bt.setOnClickListener(viewHolder.saListener);
@@ -235,7 +235,7 @@ public class MainListAdapter extends BaseAdapter {
         @Override
         public void onClick(View v) {
             // TODO Auto-generated method stub
-            doFunc(mPosition, "Registered");
+            doFunc(mPosition, "true");
         }
     }
 
@@ -281,7 +281,6 @@ public class MainListAdapter extends BaseAdapter {
             }
         }
     }
-
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
@@ -297,17 +296,17 @@ public class MainListAdapter extends BaseAdapter {
             } else if (msg.what == 2) {
                 pr = new PopRegis(mContext, "");
                 pr.showAtLocation(((Activity) mContext).findViewById(R.id.container), Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
-                list.getJSONObject(funposition).put("studentStatus", "Registered");
+                list.getJSONObject(funposition).put("studentStatus", "true");
                 notifyDataSetChanged();
             } else if (msg.what == 3) {
-                list.remove(funposition);
+                //list.remove(funposition);
+                list.getJSONObject(funposition).put("studentStatus","");
                 notifyDataSetChanged();
             } else if (msg.what == -1) {
                 Toast.makeText(mContext, mContext.getResources().getString(R.string.cnfailed), Toast.LENGTH_SHORT).show();
             }
         }
     };
-
     private class ChkEditListener implements CheckBox.OnCheckedChangeListener {
         int mPosition;
 
@@ -327,22 +326,26 @@ public class MainListAdapter extends BaseAdapter {
     }
 
     private static int funposition = 0;
-    private void doFunc(int position, final String stustate) {
+    private void doFunc(final int position, final String stustate) {
         funposition = position;
         Map<String, String> param = new HashMap<>();
-        param.put("trainingId", list.getJSONObject(position).getString("id"));
-        param.put("studentId", Hawk.get("authid").toString());
-        param.put("authId", Hawk.get("authid").toString());
-        param.put("studentStatus", stustate);
+        param.put("id", list.getJSONObject(position).getString("id"));
+        //param.put("studentId", Hawk.get("authid").toString());
+        param.put("user_id", Hawk.get("authid").toString());
+        param.put("join", stustate);
+        DialogUtil.showDialogLoading(mContext,"loading");
         OkHttpUtils.postJsonAsyn(ApiConfig.updatePepregStudent(), param, new HttpCallback() {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
+                DialogUtil.hideDialogLoading();
                 super.onSuccess(resultDesc);
                 Message msgca = new Message();
                 if (resultDesc.getError_code() == 0) {
                     try {
-                        if (stustate.equals("Registered")) {
+                        if (stustate.equals("true")) {
                             msgca.what = 2;
+                            list.getJSONObject(position).put("studentStatus","Registered");
+                            notifyDataSetChanged();
                         } else if (stustate.equals("Attended")) {
                             msgca.what = 1;
                         } else if (stustate.equals("DEL")) {
@@ -359,9 +362,9 @@ public class MainListAdapter extends BaseAdapter {
                     handler.sendMessage(msgca);
                 }
             }
-
             @Override
             public void onFailure(int code, String message) {
+                DialogUtil.hideDialogLoading();
                 super.onFailure(code, message);
                 Message msg = new Message();
                 msg.what = -1;

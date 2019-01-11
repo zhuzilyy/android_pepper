@@ -5,8 +5,8 @@ public class ApiConfig {
 //    private static String ServerUrl = "http://192.168.51.101:8099/";
 //    private static String ServerUrl = "http://192.168.51.189:8099/";
 //    private static String ServerUrl = "http://jy00712345.55555.io:8099/";
-   // private static String ServerUrl = "http://www.lnhzjz.xyz/";
-      public static String ServerUrl = "http://192.168.0.112:8000/";
+      public static String ServerUrl = "https://www0.pepperpd.com/";
+      //public static String ServerUrl = "http://192.168.0.112:8000/";
     /**
      * pmtest01@edu.com 超级用户
      * pmtest02@edu.com 普通用户
@@ -15,36 +15,54 @@ public class ApiConfig {
      * @return
      */
     public static String getLogin() {
-        return ServerUrl + "authUser/login";
+        return ServerUrl + "mobile/login";
     }
     public static String getMainList() {
-        return ServerUrl + "ppTraining/listForSearch";
+        return ServerUrl + "mobile/pd_list";
     }
 
     public static String delList() {
-        return ServerUrl + "ppTraining/delTrainingByIdList";
+        return ServerUrl + "mobile/pd_delete";
     }
 
     /**
      * 根据TrainingID获取StudentList
-     * @param stateId
      * @return
      */
     public static String getStudentList() {
-        return ServerUrl + "pepregStudent/getPepregStudentListByTrainingId";
+        return ServerUrl + "mobile/student_list";
     }
     /**
      * 更新training 中 PepregStudent
-     * @param stateId
      * @return
      */
     public static String updatePepregStudent() {
-        return ServerUrl + "pepregStudent/updatePepregStudent";
+        return ServerUrl + "mobile/add_student";
+    }
+    /**
+     * 删除注册的学生
+     * @return
+     */
+    public static String deletePepregStudent() {
+        return ServerUrl + "mobile/delete_student";
+    }
+    /**
+     * 删除注册的学生
+     * @return
+     */
+    public static String attendancePepregStudent() {
+        return ServerUrl + "mobile/attend_student";
+    }
+    /**
+     * viladate
+     * @return
+     */
+    public static String validatePepregStudent() {
+        return ServerUrl + "mobile/validate_student";
     }
 
     /**
      * 根据TrainingID批量修改Students状态
-     * @param stateId
      * @return
      */
     public static String updateStudentStatusByTrainingId() {
@@ -53,29 +71,25 @@ public class ApiConfig {
 
     /**
      * 用户获取州列表
-     * @param stateId
      * @return
      */
     public static String getSearchState() {
-        return ServerUrl + "stateC/list";
+        return ServerUrl + "mobile/state_list";
     }
-
     /**
      * 获取District列表
      * 根据StateID获取District列表
-     * @param stateId
      * @return
      */
     public static String getSearchDist() {
-        return ServerUrl + "districtC/listByStateId";
+        return ServerUrl + "mobile/district_list";
     }
-
     /**
      * 获取Subject列表
      * @return
      */
     public static String getSearchSubject() {
-        return ServerUrl + "SubjectC/list";
+        return ServerUrl + "mobile/subject_list";
     }
 
     /**
@@ -83,7 +97,7 @@ public class ApiConfig {
      * @return
      */
     public static String getSearchCourses() {
-        return ServerUrl + "modulestore/getPepperCoursesList";
+        return ServerUrl + "mobile/course_list";
     }
 
     /**
@@ -91,7 +105,7 @@ public class ApiConfig {
      * @return
      */
     public static String getTrainingInfoById() {
-        return ServerUrl + "ppTraining/getTrainingInfoById";
+        return ServerUrl + "mobile/pd_get";
     }
 
     /**
@@ -99,7 +113,7 @@ public class ApiConfig {
      * @return
      */
     public static String saveTrainingInfoById() {
-        return ServerUrl + "ppTraining/saveTrainingByPOJO";
+        return ServerUrl + "mobile/pd_save";
     }
 
     /**
@@ -107,7 +121,7 @@ public class ApiConfig {
      * @return
      */
     public static String getSchoolList() {
-        return ServerUrl + "schoolC/listByStateId";
+        return ServerUrl + "mobile/school_list";
     }
 
     /**
@@ -115,7 +129,8 @@ public class ApiConfig {
      * @return
      */
     public static String searchEmail() {
-        return ServerUrl + "authUser/findUserByEmail";
+        //return ServerUrl + "authUser/findUserByEmail";
+        return ServerUrl +"mobile/email_list";
     }
 
     /**
@@ -123,7 +138,7 @@ public class ApiConfig {
      * @return
      */
     public static String getInstructor() {
-        return ServerUrl + "pepregInstructor/findPepregInstructorListByTrainingId";
+        return ServerUrl + "mobile/pd_get";
     }
 
     /**

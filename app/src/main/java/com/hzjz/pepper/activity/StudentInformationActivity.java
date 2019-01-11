@@ -15,8 +15,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
+import com.google.gson.JsonObject;
 import com.hzjz.pepper.R;
 import com.hzjz.pepper.adapter.StudentInfoAdapter;
 import com.hzjz.pepper.bean.ResultDesc;
@@ -39,7 +41,7 @@ public class StudentInformationActivity extends Activity {
 
     StudentInfoAdapter adapter;
     JSONArray ja;
-    private String id = "";
+    private String id = "",traningName;
     Timer timer = new Timer();
 
     @BindView(R.id.btn_back)
@@ -65,6 +67,8 @@ public class StudentInformationActivity extends Activity {
         setContentView(R.layout.activity_student_information);
         ButterKnife.bind(this);
         id = getIntent().getStringExtra("id");
+        traningName = getIntent().getStringExtra("name");
+        stName.setText(traningName);
         ja = new JSONArray();
         adapter = new StudentInfoAdapter(StudentInformationActivity.this, ja, id);
         adapter.registerDataSetObserver(dso);
@@ -73,13 +77,11 @@ public class StudentInformationActivity extends Activity {
         validSwitch.setOnCheckedChangeListener(onVadCheckedChangeListener);
         getDate();
     }
-
-
-
-
     private void getDate() {
         Map<String, String> param = new HashMap<>();
-        param.put("trainingId", id);
+        param.put("user_id",Hawk.get("authid").toString());
+        param.put("id",id);
+        DialogUtil.showDialogLoading(this,"loading");
         OkHttpUtils.postJsonAsyn(ApiConfig.getStudentList(), param, new HttpCallback() {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
@@ -88,7 +90,7 @@ public class StudentInformationActivity extends Activity {
                 Message msg = new Message();
                 if (resultDesc.getError_code() == 0) {
                     try {
-                        //ja = new JSONArray(JSON.parseArray(resultDesc.getResult()));
+                        ja = new JSONArray(JSON.parseArray(resultDesc.getResult()));
                         msg.what = 1;
                         handler.sendMessage(msg);
                     } catch (JSONException e) {
@@ -111,12 +113,31 @@ public class StudentInformationActivity extends Activity {
     }
 
     private void doFunc(final String stustate) {
+        String url="";
+        String ids="";
+        for (int i = 0; i <ja.size() ; i++) {
+            ids += ja.getJSONObject(i).getString("student_id")+",";
+        }
         Map<String, String> param = new HashMap<>();
-        param.put("trainingId", id);
-//        param.put("studentId", Hawk.get("authid").toString());
-        param.put("authId", Hawk.get("authid").toString());
-        param.put("studentStatus", stustate);
-        OkHttpUtils.postJsonAsyn(ApiConfig.updateStudentStatusByTrainingId(), param, new HttpCallback() {
+        if (stustate.equals("Attended") || stustate.equals("Registered")){
+            param.put("id",id);
+            param.put("user_id", Hawk.get("authid").toString());
+            if (stustate.equals("Attended")){
+                param.put("yn", "true");
+            }else if (stustate.equals("Registered")){
+                param.put("yn", "false");
+            }
+            param.put("student_ids", ids);
+            url = ApiConfig.attendancePepregStudent();
+        }else if(stustate.equals("Validated")){
+            param.put("id",id);
+            param.put("user_id", Hawk.get("authid").toString());
+            param.put("yn", "true");
+            param.put("student_ids", ids);
+            url = ApiConfig.validatePepregStudent();
+        }
+        DialogUtil.showDialogLoading(this,"loading");
+        OkHttpUtils.postJsonAsyn(url, param, new HttpCallback() {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
                 super.onSuccess(resultDesc);
@@ -187,7 +208,6 @@ public class StudentInformationActivity extends Activity {
             }
         }
     };
-
     private CompoundButton.OnCheckedChangeListener onVadCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -198,7 +218,6 @@ public class StudentInformationActivity extends Activity {
             }
         }
     };
-
     @OnClick(R.id.btn_back)
     public void onViewClicked() {
         finish();

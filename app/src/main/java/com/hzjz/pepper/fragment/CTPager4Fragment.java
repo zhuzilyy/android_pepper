@@ -117,8 +117,8 @@ public class CTPager4Fragment extends Fragment {
     }
 
     private void initData() {
-        location.setText(mParam2.getString("geoLocation"));
-        addr.setText(mParam2.getString("geoDestination"));
+        location.setText(mParam2.getString("classroom"));
+        addr.setText(mParam2.getString("geo_location"));
     }
 
     public interface OnFragmentInteractionListener {

@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.hzjz.pepper.R;
@@ -103,9 +104,11 @@ public class InstSearchActivity extends Activity implements TextWatcher, ListVie
     }
 
     private void getData() {
+        String authid = Hawk.get("authid");
         Map<String, String> param = new HashMap<>();
-        param.put("email", mainSearchText.getText().toString());
-        param.put("userId", Hawk.get("authid").toString());
+        param.put("q",mainSearchText.getText().toString());
+        param.put("user_id", authid);
+        DialogUtil.showDialogLoading(this,"loading");
         OkHttpUtils.postJsonAsyn(ApiConfig.searchEmail(), param, new HttpCallback() {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
@@ -115,7 +118,7 @@ public class InstSearchActivity extends Activity implements TextWatcher, ListVie
                 if (resultDesc.getError_code() == 0) {
                     try {
                         cachelist.clear();
-                       // cachelist = JSON.parseArray(resultDesc.getResult());
+                        cachelist = JSON.parseArray(resultDesc.getResult());
                         msg.what = 1;
                         handler.sendMessage(msg);
                     } catch (JSONException e) {
@@ -159,6 +162,7 @@ public class InstSearchActivity extends Activity implements TextWatcher, ListVie
         Intent intent = new Intent();
         intent.putExtra("id", cachelist.getJSONObject(position).getString("userId"));
         intent.putExtra("name", cachelist.getJSONObject(position).getString("userEmail"));
+        Log.i("xjz",cachelist.getJSONObject(position).getString("userEmail"));
         intent.putExtra("userCreateId", cachelist.getJSONObject(position).getString("userCreateId"));
         intent.putExtra("dateCreate", cachelist.getJSONObject(position).getString("dateCreate"));
         setResult(1, intent);

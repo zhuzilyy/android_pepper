@@ -79,7 +79,6 @@ public class CalendarActivity extends FragmentActivity implements CalendarMonthF
                 .commit();
         //测试提交
     }
-
     @OnClick({R.id.btn_back, R.id.btn_today, R.id.filter,R.id.timepick, R.id.viewcate})
     public void onViewClicked(View view) {
         switch (view.getId()) {

@@ -386,4 +386,9 @@ public class DateUtil {
         } while (d.get(Calendar.MONTH) == month);
         return lastday;
     }
+    public static String getCurrentTime(){
+        SimpleDateFormat formatter  =  new  SimpleDateFormat  ("yyyy-MM-dd  HH:mm:ss");
+        Date curDate = new Date(System.currentTimeMillis());
+        return formatter.format(curDate);
+    }
 }

@@ -3,6 +3,7 @@ package com.hzjz.pepper.http;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hzjz.pepper.R;
@@ -126,36 +127,33 @@ public class OkHttpRequest {
         } else if (methodType == HttpMethodType.GET) {
             builder.get();
         }
-
         return builder.build();
     }
 
     public static Request builderJsonRequest(HttpMethodType methodType, String url, Map<String, String> params) {
         Request.Builder builder = new Request.Builder()
                 .url(url);
+
         if (methodType == HttpMethodType.POST) {
             RequestBody body = builderFormData(params);
             builder.post(body);
         } else if (methodType == HttpMethodType.GET) {
             builder.get();
         }
-
         return builder.build();
     }
 
-    /**
+     /**
      * @param params 请求参数
      * @Description RequestBody对象
      */
     private static RequestBody builderFormData(Map<String, String> params) {
         FormBody.Builder builder = new FormBody.Builder();
-
         if (params != null && !params.isEmpty()) {
             for (String key : params.keySet()) {
                 builder.add(key, params.get(key));
             }
         }
-
         return builder.build();
     }
 

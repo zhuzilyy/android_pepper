@@ -127,9 +127,9 @@ public class CTPager3Fragment extends Fragment {
             case R.id.btn_nextstop:
                 if (trainingDate.equals("")) {
                     Toast.makeText(getActivity(), getResources().getString(R.string.search_date), Toast.LENGTH_SHORT).show();
-                } else if (Integer.parseInt(stime.replace(":", "")) >= Integer.parseInt(etime.replace(":", ""))) {
+                }else if(Integer.parseInt(stime.replace(":", "")) >=Integer.parseInt(etime.replace(":", ""))){
                     Toast.makeText(getActivity(), getResources().getString(R.string.stimebigthanetime), Toast.LENGTH_SHORT).show();
-                } else if (etime.equals("")) {
+                }else if (etime.equals("")) {
                     Toast.makeText(getActivity(), getResources().getString(R.string.search_etime), Toast.LENGTH_SHORT).show();
                 } else if (etime.equals("")) {
                     Toast.makeText(getActivity(), getResources().getString(R.string.search_etime), Toast.LENGTH_SHORT).show();
@@ -182,14 +182,17 @@ public class CTPager3Fragment extends Fragment {
                 break;
         }
     }
-
     private void initData() {
-        trainingDate = mParam2.getString("trainingDate");
-        stime = mParam2.getString("trainingTimeStart");
-        etime = mParam2.getString("trainingTimeEnd");
-        selTdateT.setText(mParam2.getString("trainingDate"));
-        selStimeT.setText(mParam2.getString("trainingTimeStart"));
-        selEtimeT.setText(mParam2.getString("trainingTimeEnd"));
+        trainingDate = mParam2.getString("training_date");
+        String[] timeArray = trainingDate.split("/");
+        trainingDate = timeArray[2] +"-"+timeArray[1]+"-"+timeArray[0];
+        stime = mParam2.getString("training_time_start");
+        stime = stime.substring(0,stime.length()-3).trim();
+        etime = mParam2.getString("training_time_end");
+        etime = etime.substring(0,etime.length()-3).trim();
+        selTdateT.setText(mParam2.getString("training_date"));
+        selStimeT.setText(stime);
+        selEtimeT.setText(etime);
         if (mParam1.equals("edit")){
             selTdate.setClickable(false);
             selTdate.setFocusable(false);

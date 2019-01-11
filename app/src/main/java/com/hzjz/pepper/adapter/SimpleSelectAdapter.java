@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.view.Gravity;
@@ -75,6 +76,11 @@ public class SimpleSelectAdapter extends BaseAdapter {
         try {
             if (view == null) {
                 view = LayoutInflater.from(mContext).inflate(R.layout.simple_list_item_c, null);
+                if (i%2==0){
+                    view.setBackgroundColor(Color.parseColor("#ebf2fa"));
+                }else{
+                    view.setBackgroundColor(Color.parseColor("#ffffff"));
+                }
                 viewHolder = new ViewHolder(view);
                 view.setTag(viewHolder);
             } else {

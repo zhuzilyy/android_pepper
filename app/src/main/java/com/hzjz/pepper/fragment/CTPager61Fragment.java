@@ -152,20 +152,20 @@ public class CTPager61Fragment extends Fragment {
     }
 
     private void initData() {
-        if (mParam2.getString("allowRegistration").equals("true")) {
+        if (mParam2.getString("allow_registration").equals("True")) {
             regisSwitch.setChecked(true);
-            maxrc.setText(mParam2.getString("maxRegistration"));
+            maxrc.setText(mParam2.getString("max_registration"));
         }
-        if (mParam2.getString("allowWaitlist").equals("true")) {
+        if (mParam2.getString("allow_waitlist").equals("True")) {
             waitlistSwitch.setChecked(true);
         }
-        if (mParam2.getString("allowStudentAttendance").equals("true")) {
+        if (mParam2.getString("allow_student_attendance").equals("True")) {
             attSwitch.setChecked(true);
         }
-        if (mParam2.getString("allowAttendance").equals("true")) {
+        if (mParam2.getString("allow_attendance").equals("True")) {
             attrecSwitch.setChecked(true);
         }
-        if (mParam2.getString("allowValidation").equals("true")) {
+        if (mParam2.getString("allow_validation").equals("True")) {
             valSwitch.setChecked(true);
         }
     }
