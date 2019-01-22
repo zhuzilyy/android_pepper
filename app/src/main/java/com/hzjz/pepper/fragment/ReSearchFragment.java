@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,8 @@ import com.hzjz.pepper.http.OkHttpUtils;
 import com.hzjz.pepper.http.utils.DialogUtil;
 import com.hzjz.pepper.plugins.PopMsPicker;
 import com.hzjz.pepper.plugins.PopYmdPicker;
+import com.hzjz.pepper.view.MyListView;
+import com.orhanobut.hawk.Hawk;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -81,7 +84,7 @@ public class ReSearchFragment extends Fragment implements CompoundButton.OnCheck
     View thisview;
 
     MaterialDialog alert;
-    ListView listView;
+    //ListView listView;
     SimpleSelectAdapter cachelist;
 
     @BindView(R.id.tv_stat)
@@ -141,7 +144,11 @@ public class ReSearchFragment extends Fragment implements CompoundButton.OnCheck
     @BindView(R.id.btn_panel)
     LinearLayout btnPanel;
     Unbinder unbinder;
-
+    private View view_alertListView;
+    private MyListView listView;
+    private TextView tv_noData;
+    private JSONArray jsonResultArray;
+    private PopMsPicker popMsPickerStartTime,popMsPickerEndTime;
     public static ReSearchFragment newInstance(String param1, Bundle param2) {
         ReSearchFragment fragment = new ReSearchFragment();
         Bundle args = new Bundle();
@@ -178,19 +185,33 @@ public class ReSearchFragment extends Fragment implements CompoundButton.OnCheck
             timeorder.add(jo);
         }
         cachelist = new SimpleSelectAdapter(getActivity(), new JSONArray(), 0);
-        listView = new ListView(getActivity());
+        view_alertListView = LayoutInflater.from(getActivity()).inflate(R.layout.activity_alert_listview,null);
+        listView = view_alertListView.findViewById(R.id.listview);
+        tv_noData = view_alertListView.findViewById(R.id.tv_noData);
+       /* listView = new ListView(getActivity());
         listView.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
         float scale = getResources().getDisplayMetrics().density;
         int dpAsPixels = (int) (8 * scale + 0.5f);
         listView.setPadding(0, dpAsPixels, 0, dpAsPixels);
-        listView.setDividerHeight(0);
+        listView.setDividerHeight(0);*/
         listView.setAdapter(cachelist);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (cate == 0) {
+                    //点击切换state的时候 地区和学校数据要发生变化
+                    String newStateName = statja.getJSONObject(i).getString("name");
+                    if (!TextUtils.isEmpty(newStateName) && !TextUtils.isEmpty(stateName)){
+                        if (!newStateName.equals(stateName)){
+                            districtId = "";
+                            districtName = "";
+                            tvDist.setText(districtName);
+                        }
+                    }
+                    stateId = statja.getJSONObject(i).getString("id");
+                    stateName = statja.getJSONObject(i).getString("name");
                     jostr.put("stateId", statja.getJSONObject(i).getString("id"));
                     jostr.put("stateName", statja.getJSONObject(i).getString("name"));
                     tvStat.setText(statja.getJSONObject(i).getString("name"));
@@ -215,20 +236,23 @@ public class ReSearchFragment extends Fragment implements CompoundButton.OnCheck
                 alert.dismiss();
             }
         });
-        alert = new MaterialDialog(getActivity()).setTitle(title).setContentView(listView).setCanceledOnTouchOutside(true);
+        alert = new MaterialDialog(getActivity()).setTitle(title).setContentView(view_alertListView).setCanceledOnTouchOutside(true);
         alert.setPositiveButton(getResources().getString(R.string.Close), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 alert.dismiss();
             }
         });
+        popMsPickerStartTime = new PopMsPicker(getActivity());
+        popMsPickerEndTime = new PopMsPicker(getActivity());
+        popYmdPicker = new PopYmdPicker(getActivity());
         return view;
     }
-
     private void setInitData() {
         type = mParam2.getString("type");
         jostr = JSON.parseObject(mParam2.getString("data"));
-
+        stateId = jostr.getString("stateId");
+        districtId = jostr.getString("districtId");
         tvStat.setText(jostr.getString("stateName"));
         tvDist.setText(jostr.getString("districtName"));
         if (jostr.getString("districtOrd").equals("OR")) {
@@ -346,6 +370,7 @@ public class ReSearchFragment extends Fragment implements CompoundButton.OnCheck
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_reset:
+                stateId = "";
                 jostr.put("stateId", "");
                 jostr.put("stateName", "");
                 jostr.put("districtId", "");
@@ -403,6 +428,11 @@ public class ReSearchFragment extends Fragment implements CompoundButton.OnCheck
                 tvStat.setText("");
                 break;
             case R.id.item_btn_dist:
+                //先选择州
+                if (TextUtils.isEmpty(stateId)){
+                    Toast.makeText(getActivity(), R.string.selectStateFirst,Toast.LENGTH_LONG).show();
+                    return;
+                }
                 cate = 1;
                 title = getResources().getString(R.string.search_district);
                 if (distja != null) {
@@ -441,15 +471,18 @@ public class ReSearchFragment extends Fragment implements CompoundButton.OnCheck
                 tvSub.setText("");
                 break;
             case R.id.item_btn_date:
-                popYmdPicker = new PopYmdPicker(getActivity());
                 popYmdPicker.setOnCheckBackListener(new PopYmdPicker.onCheckClickListener() {
                     @Override
                     public void onCheckCallback(String year, String month, String day) {
                         String datet = month + "/" + day + "/" + year;
                         jostr.put("date", year + "-" + month + "-" + day);
+                        popYmdPicker.setSelectYear(year);
+                        popYmdPicker.setSelectMonth(month);
+                        popYmdPicker.setSelectDay(day);
                         tvDate.setText(datet);
                     }
                 });
+                popYmdPicker.setSelectData();
                 popYmdPicker.showAtLocation(thisview.findViewById(R.id.container), Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
                 break;
             case R.id.btn_datec:
@@ -461,13 +494,12 @@ public class ReSearchFragment extends Fragment implements CompoundButton.OnCheck
                 switchDate.setChecked(false);
                 break;
             case R.id.item_btn_stime:
-                popMsPicker = new PopMsPicker(getActivity());
-                popMsPicker.setOnCheckBackListener(new PopMsPicker.onCheckClickListener() {
+                popMsPickerStartTime.setOnCheckBackListener(new PopMsPicker.onCheckClickListener() {
                     @Override
                     public void onCheckCallback(String hour, String second) {
                         String datet = hour + ":" + second;
                         if (!etime.equals("")) {
-                            if (Integer.parseInt(datet.replace(":", "")) < Integer.parseInt(etime.replace(":", ""))) {
+                            if (Integer.parseInt(datet.replace(":", "")) >= Integer.parseInt(etime.replace(":", ""))) {
                                 Message msg = new Message();
                                 msg.what = 2;
                                 handler.sendMessage(msg);
@@ -478,12 +510,14 @@ public class ReSearchFragment extends Fragment implements CompoundButton.OnCheck
                             }
                         } else {
                             stime = datet;
+                            popMsPickerStartTime.setSelectHour(hour);
+                            popMsPickerStartTime.setSelectMinute(second);
                             jostr.put("stime", stime);
                             tvStime.setText(datet);
                         }
                     }
                 });
-                popMsPicker.showAtLocation(thisview.findViewById(R.id.container), Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
+                popMsPickerStartTime.showAtLocation(thisview.findViewById(R.id.container), Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
                 break;
             case R.id.btn_stimec:
                 jostr.put("stime", "");
@@ -494,8 +528,7 @@ public class ReSearchFragment extends Fragment implements CompoundButton.OnCheck
                 switchStime.setChecked(false);
                 break;
             case R.id.item_btn_etime:
-                popMsPicker = new PopMsPicker(getActivity());
-                popMsPicker.setOnCheckBackListener(new PopMsPicker.onCheckClickListener() {
+                popMsPickerEndTime.setOnCheckBackListener(new PopMsPicker.onCheckClickListener() {
                     @Override
                     public void onCheckCallback(String hour, String second) {
                         String datet = hour + ":" + second;
@@ -511,12 +544,14 @@ public class ReSearchFragment extends Fragment implements CompoundButton.OnCheck
                             }
                         } else {
                             etime = datet;
+                            popMsPickerEndTime.setSelectHour(hour);
+                            popMsPickerEndTime.setSelectMinute(second);
                             jostr.put("etime", etime);
                             tvEtime.setText(datet);
                         }
                     }
                 });
-                popMsPicker.showAtLocation(thisview.findViewById(R.id.container), Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
+                popMsPickerEndTime.showAtLocation(thisview.findViewById(R.id.container), Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
                 break;
             case R.id.btn_etimec:
                 jostr.put("etime", "");
@@ -562,18 +597,20 @@ public class ReSearchFragment extends Fragment implements CompoundButton.OnCheck
                 url = ApiConfig.getSearchState();
                 break;
             case 1:
-                param.put("stateId", "");
+                param.put("stateId",stateId);
                 url = ApiConfig.getSearchDist();
                 break;
             case 2:
-                param = null;
+                param.put("user_id", Hawk.get("authid").toString());
                 url = ApiConfig.getSearchSubject();
                 break;
         }
+        DialogUtil.showDialogLoading(getActivity(),"loading");
         OkHttpUtils.postJsonAsyn(url, param, new HttpCallback() {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
                 super.onSuccess(resultDesc);
+                jsonResultArray = JSON.parseArray(resultDesc.getResult());
                 DialogUtil.hideDialogLoading();
                 Message msg = new Message();
                 if (resultDesc.getError_code() == 0) {
@@ -581,17 +618,17 @@ public class ReSearchFragment extends Fragment implements CompoundButton.OnCheck
                         switch (cate) {
                             case 0:
                                 title = getResources().getString(R.string.search_state);
-                                //statja = JSON.parseArray(resultDesc.getResult());
+                                statja = JSON.parseArray(resultDesc.getResult());
                                 cachelist.setlist(statja, cate);
                                 break;
                             case 1:
                                 title = getResources().getString(R.string.search_district);
-                                //distja = JSON.parseArray(resultDesc.getResult());
+                                distja = JSON.parseArray(resultDesc.getResult());
                                 cachelist.setlist(distja, cate);
                                 break;
                             case 2:
                                 title = getResources().getString(R.string.search_subject);
-                                //subja = JSON.parseArray(resultDesc.getResult());
+                                subja = JSON.parseArray(resultDesc.getResult());
                                 cachelist.setlist(subja, cate);
                                 break;
                         }
@@ -626,6 +663,14 @@ public class ReSearchFragment extends Fragment implements CompoundButton.OnCheck
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
+                    //暂无数据的显示
+                    if (jsonResultArray.size()==0){
+                        listView.setVisibility(View.GONE);
+                        tv_noData.setVisibility(View.VISIBLE);
+                    }else{
+                        listView.setVisibility(View.VISIBLE);
+                        tv_noData.setVisibility(View.GONE);
+                    }
                     alert.setTitle(title);
                     alert.show();
                     break;

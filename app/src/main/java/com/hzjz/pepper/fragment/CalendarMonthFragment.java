@@ -26,6 +26,7 @@ import com.hzjz.pepper.bean.ResultDesc;
 import com.hzjz.pepper.config.ApiConfig;
 import com.hzjz.pepper.http.HttpCallback;
 import com.hzjz.pepper.http.OkHttpUtils;
+import com.hzjz.pepper.http.utils.DialogUtil;
 import com.hzjz.pepper.plugins.CustomDayView;
 import com.hzjz.pepper.plugins.DateUtil;
 import com.ldf.calendar.Utils;
@@ -115,7 +116,9 @@ public class CalendarMonthFragment extends Fragment {
         super.onResume();
         Utils.scrollTo(content, rvToDoList, monthPager.getCellHeight(), 200);
         calendarAdapter.switchToWeek(monthPager.getRowIndex());
-        timer.schedule(task, 1000, 1000);
+        if (timer!=null){
+            timer.schedule(task, 1000, 1000);
+        }
     }
 
     private void initCalendarView() {
@@ -160,15 +163,12 @@ public class CalendarMonthFragment extends Fragment {
             }
         };
     }
-
-
     private void refreshClickDate(CalendarDate date) {
         String seldatec = date.getMonth() + "/" + date.getYear();
         seldate = date.getYear() + "-" + date.getMonth() + "-" + date.getDay();
         mListener.onFragmentInteraction(1, seldatec);
         getDayData();
     }
-
     private void initMonthPager() {
         monthPager.setAdapter(calendarAdapter);
         monthPager.setCurrentItem(MonthPager.CURRENT_DAY_INDEX);
@@ -198,7 +198,6 @@ public class CalendarMonthFragment extends Fragment {
 //                    mHandler.postDelayed(mSearchTesk, 1000);
                 }
             }
-
             @Override
             public void onPageScrollStateChanged(int state) {
             }
@@ -263,20 +262,21 @@ public class CalendarMonthFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(int code, String result);
     }
-
     private void getData() {
-        Map<String, String> param = new HashMap<>();
-        param.put("searchData", cdate);
-        param.put("authId", Hawk.get("authid").toString());
-        OkHttpUtils.postJsonAsyn(ApiConfig.getMonthSine(), param, new HttpCallback() {
+       /* Map<String, String> param = new HashMap<>();
+        param.put("month_date", cdate);
+        param.put("user_id", Hawk.get("authid").toString());
+        DialogUtil.showDialogLoading(getActivity(),"loading");
+        OkHttpUtils.postJsonAsyn(ApiConfig.getMainList(), param, new HttpCallback() {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
                 super.onSuccess(resultDesc);
+                DialogUtil.hideDialogLoading();
                 Message msg = new Message();
                 if (resultDesc.getError_code() == 0) {
                     try {
                         cachelist.clear();
-                        //cachelist = JSON.parseArray(resultDesc.getResult());
+                        cachelist = JSON.parseArray(resultDesc.getResult());
                         msg.what = 1;
                         handler.sendMessage(msg);
                     } catch (JSONException e) {
@@ -293,19 +293,20 @@ public class CalendarMonthFragment extends Fragment {
             @Override
             public void onFailure(int code, String message) {
                 super.onFailure(code, message);
+                DialogUtil.hideDialogLoading();
                 Message msg = new Message();
                 msg.what = -1;
                 handler.sendMessage(msg);
             }
-        });
+        });*/
     }
 
     private void getDayData() {
         Map<String, String> param = new HashMap<>();
-        param.put("searchData", seldate);
+        param.put("day_date", seldate);
         param.put("studentStatus", filtertype);
-        param.put("authId", Hawk.get("authid").toString());
-        OkHttpUtils.postJsonAsyn(ApiConfig.getTrainingListForMByData(), param, new HttpCallback() {
+        param.put("user_id", Hawk.get("authid").toString());
+        OkHttpUtils.postJsonAsyn(ApiConfig.getMainList(), param, new HttpCallback() {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
                 super.onSuccess(resultDesc);
@@ -313,7 +314,7 @@ public class CalendarMonthFragment extends Fragment {
                 if (resultDesc.getError_code() == 0) {
                     try {
                         daycachelist.clear();
-                        //daycachelist = JSON.parseArray(resultDesc.getResult());
+                        daycachelist = JSON.parseArray(resultDesc.getResult());
                         msg.what = 2;
                         handler.sendMessage(msg);
                     } catch (JSONException e) {
@@ -353,7 +354,7 @@ public class CalendarMonthFragment extends Fragment {
                     if (cachemap.size() > 0) {
                         markData.clear();
                         markData = cachemap;
-//                    markData.put("2018-5-21", "1");
+                       // markData.put("2019-1-18", "1");
                         calendarAdapter.setMarkData(markData);
                         calendarAdapter.notifyDataChanged();
                     }

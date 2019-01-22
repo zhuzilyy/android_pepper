@@ -47,19 +47,16 @@
             android:orientation="horizontal"
             android:padding="@dimen/lt_padding"
             android:gravity="center">
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp">
-
                 <com.hzjz.pepper.plugins.WheelView
                     android:id="@+id/hour"
                     android:layout_width="60dp"
                     android:layout_height="160dp"
                     app:labelheight="60dp"
                     app:layoutmarginend="10dp">
-
                 </com.hzjz.pepper.plugins.WheelView>
             </LinearLayout>
 

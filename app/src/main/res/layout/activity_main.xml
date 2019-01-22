@@ -61,7 +61,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:maxWidth="200dp"
             android:text="@string/main_title"
             android:textColor="@color/white"
             android:textSize="@dimen/title_size" />
@@ -91,9 +90,7 @@
                 android:scaleType="fitXY"
                 android:src="@mipmap/s14" />
         </LinearLayout>
-
     </android.support.v7.widget.Toolbar>
-
     <LinearLayout
         android:id="@+id/layout_search"
         android:layout_width="match_parent"
@@ -149,7 +146,15 @@
 
         </ListView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
+    <TextView
+        android:gravity="center"
+        android:visibility="gone"
+        android:textSize="20sp"
+        android:textColor="@color/colorAccent"
+        android:id="@+id/tv_noData"
+        android:text="@string/nodata"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     <LinearLayout
         android:id="@+id/funcpanel"
         android:layout_width="match_parent"

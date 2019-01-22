@@ -6,14 +6,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
@@ -25,6 +29,7 @@ import com.hzjz.pepper.http.HttpCallback;
 import com.hzjz.pepper.http.OkHttpUtils;
 import com.hzjz.pepper.http.utils.DialogUtil;
 import com.hzjz.pepper.plugins.PopYmdPicker;
+import com.hzjz.pepper.view.MyListView;
 import com.orhanobut.hawk.Hawk;
 
 import java.util.HashMap;
@@ -43,7 +48,7 @@ public class UserAdSearchFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private int cate = 0;
     MaterialDialog alert;
-    ListView listView;
+    //ListView listView;
     SimpleSelectAdapter simpleSelectAdapter;
     PopYmdPicker popYmdPicker;
     View thisview;
@@ -66,6 +71,9 @@ public class UserAdSearchFragment extends Fragment {
     @butterknife.BindView(R.id.btn_search)
     android.widget.Button btnSearch;
     butterknife.Unbinder unbinder;
+    private View view_alertListView;
+    private MyListView listView;
+    private TextView tv_noData;
 
     public static UserAdSearchFragment newInstance(String param1, Bundle param2) {
         UserAdSearchFragment fragment = new UserAdSearchFragment();
@@ -92,18 +100,21 @@ public class UserAdSearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_ad_search, container, false);
         this.thisview = view;
         unbinder = butterknife.ButterKnife.bind(this, view);
-        if (mParam1.equals("1")) {
+        if (mParam1.equals("0")) {
             setInitData();
         }
         simpleSelectAdapter = new SimpleSelectAdapter(getActivity(), new JSONArray(), 0);
-        listView = new ListView(getActivity());
+        view_alertListView = LayoutInflater.from(getActivity()).inflate(R.layout.activity_alert_listview,null);
+        listView = view_alertListView.findViewById(R.id.listview);
+        tv_noData = view_alertListView.findViewById(R.id.tv_noData);
+       /* listView = new ListView(getActivity());
         listView.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
         float scale = getResources().getDisplayMetrics().density;
         int dpAsPixels = (int) (8 * scale + 0.5f);
         listView.setPadding(0, dpAsPixels, 0, dpAsPixels);
-        listView.setDividerHeight(0);
+        listView.setDividerHeight(0);*/
         listView.setAdapter(simpleSelectAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -120,19 +131,20 @@ public class UserAdSearchFragment extends Fragment {
                         break;
                     case 3:
                         pepperCourseid = jsonArrays[3].getJSONObject(i).getString("course_id");
-                        pepperCoursename = jsonArrays[3].getJSONObject(i).getJSONObject("metadata").getString("display_name");
-                        tPepc.setText(jsonArrays[3].getJSONObject(i).getJSONObject("metadata").getString("display_name"));
+                        pepperCoursename = jsonArrays[3].getJSONObject(i).getString("display_name");
+                        tPepc.setText(jsonArrays[3].getJSONObject(i).getString("display_name"));
                         break;
                 }
                 alert.dismiss();
             }
         });
-        alert = new MaterialDialog(getActivity()).setTitle(title).setContentView(listView).setCanceledOnTouchOutside(true);
+        alert = new MaterialDialog(getActivity()).setTitle(title).setContentView(view_alertListView).setCanceledOnTouchOutside(true);
         alert.setPositiveButton(getResources().getString(R.string.Close), new View.OnClickListener() {
             @Override public void onClick(View v) {
                 alert.dismiss();
             }
         });
+        popYmdPicker = new PopYmdPicker(getActivity());
         return view;
     }
     private void setInitData() {
@@ -146,10 +158,21 @@ public class UserAdSearchFragment extends Fragment {
         pepperCourseid = mParam2.getString("pepperCourseid");
         pepperCoursename = mParam2.getString("pepperCoursename");
         trainingDate = mParam2.getString("trainingDate");
-
-        tSubj.setText(subjectname);
-        tPepc.setText(pepperCoursename);
-        tDate.setText(trainingDate);
+        if (TextUtils.isEmpty(subjectname)){
+            tSubj.setText("Select subject");
+        }else{
+            tSubj.setText(subjectname);
+        }
+        if (TextUtils.isEmpty(pepperCoursename)){
+            tPepc.setText("Select Pepper Courses");
+        }else{
+            tPepc.setText(pepperCoursename);
+        }
+        if (TextUtils.isEmpty(trainingDate)){
+            tDate.setText("Select date");
+        }else{
+            tDate.setText(trainingDate);
+        }
     }
 
     @Override
@@ -186,13 +209,14 @@ public class UserAdSearchFragment extends Fragment {
                 }
                 break;
             case R.id.s_date:
-                popYmdPicker = new PopYmdPicker(getActivity());
                 popYmdPicker.setOnCheckBackListener(new PopYmdPicker.onCheckClickListener() {
                     @Override
                     public void onCheckCallback(String year, String month, String day) {
-                        Toast.makeText(getActivity(), year + month + day, Toast.LENGTH_SHORT).show();
                         String datet = month + "/" + day + "/" + year;
                         trainingDate = year + "-" + month + "-" + day;
+                        popYmdPicker.setSelectYear(year);
+                        popYmdPicker.setSelectMonth(month);
+                        popYmdPicker.setSelectDay(day);
                         tDate.setText(datet);
                     }
                 });
@@ -232,15 +256,14 @@ public class UserAdSearchFragment extends Fragment {
                 url = ApiConfig.getSearchDist();
                 break;
             case 2:
-                param = null;
+                param.put("user_id",authid);
                 url = ApiConfig.getSearchSubject();
                 break;
             case 3:
-                param = null;
+                param.put("user_id",authid);
                 url = ApiConfig.getSearchCourses();
                 break;
         }
-        param.put("user_id",authid);
         OkHttpUtils.postJsonAsyn(url, param, new HttpCallback() {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
@@ -249,7 +272,7 @@ public class UserAdSearchFragment extends Fragment {
                 Message msg = new Message();
                 if (resultDesc.getError_code() == 0) {
                     try {
-                        //jsonArrays[cate] = JSON.parseArray(resultDesc.getResult());
+                        jsonArrays[cate] = JSON.parseArray(resultDesc.getResult());
                         simpleSelectAdapter.setlist(jsonArrays[cate], cate);
                         listView.setAdapter(simpleSelectAdapter);
                         msg.what = 1;
@@ -280,6 +303,13 @@ public class UserAdSearchFragment extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
+                if (jsonArrays[cate].size()==0){
+                    listView.setVisibility(View.GONE);
+                    tv_noData.setVisibility(View.VISIBLE);
+                }else{
+                    listView.setVisibility(View.VISIBLE);
+                    tv_noData.setVisibility(View.GONE);
+                }
                 alert.setTitle(title);
                 alert.show();
             } else if (msg.what == 2) {
@@ -290,11 +320,10 @@ public class UserAdSearchFragment extends Fragment {
         }
     };
     private void resetall() {
-        tSubj.setText("");
-        tPepc.setText("");
-        tDate.setText("");
-
-        type = "";
+        tSubj.setText("Select subject");
+        tPepc.setText("Select Pepper Courses");
+        tDate.setText("Select date");
+        //type = "";
         stateid = "";
         statename = "";
         districtId = "";

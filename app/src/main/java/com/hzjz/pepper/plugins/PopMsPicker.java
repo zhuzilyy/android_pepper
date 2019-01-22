@@ -2,6 +2,7 @@ package com.hzjz.pepper.plugins;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,21 +25,36 @@ public class PopMsPicker extends PopupWindow {
     private Context mContext;
     private String hour, seconds;
     private int sindex = 0;
-
+    private String selcetHour,selectMinute;
     public PopMsPicker(Context context) {
         super(context);
         this.mContext = context;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         window = inflater.inflate(R.layout.pop_timepicker, null);
         poptitle = (TextView) window.findViewById(R.id.pop_title);
-        hour = String.valueOf(DateUtil.getCurrentHour());;
-        seconds = String.valueOf(DateUtil.getCurrentMinutes());;
-        if (DateUtil.getCurrentHour() < 10) {
+        hour = String.valueOf(DateUtil.getCurrentHour());
+        seconds = String.valueOf(DateUtil.getCurrentMinutes());
+        //修改的部分
+        if(!TextUtils.isEmpty(getSelectHour())){
+            hour =getSelectHour();
+        }else{
+            if (DateUtil.getCurrentHour() < 10) {
+                hour = "0" + hour;
+            }
+        }
+        if(!TextUtils.isEmpty(getSelectMinute())){
+            seconds = getSelectMinute();
+        }else{
+            if (DateUtil.getCurrentMinutes() < 10) {
+                seconds = "0" + seconds;
+            }
+        }
+       /* if (DateUtil.getCurrentHour() < 10) {
             hour = "0" + hour;
         }
         if (DateUtil.getCurrentMinutes() < 10) {
             seconds = "0" + seconds;
-        }
+        }*/
         setTitle();
         sindex = DateUtil.getCurrentMinutes();
         wvh = (WheelView) window.findViewById(R.id.hour);
@@ -152,5 +168,20 @@ public class PopMsPicker extends PopupWindow {
     @Override
     public void dismiss() {
         super.dismiss();
+    }
+    public String getSelectHour() {
+        return selcetHour;
+    }
+
+    public void setSelectHour(String selcetHour) {
+        this.selcetHour = selcetHour;
+    }
+
+    public String getSelectMinute() {
+        return selectMinute;
+    }
+
+    public void setSelectMinute(String selectMinute) {
+        this.selectMinute = selectMinute;
     }
 }

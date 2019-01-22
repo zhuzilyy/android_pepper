@@ -119,7 +119,7 @@ public class PopOrder extends PopupWindow {
             case "description":
                 descrimg.setImageResource(getOrderIma());
                 break;
-            case "trainingDate":
+            case "training_date":
                 trdateimg.setImageResource(getOrderIma());
                 break;
             case "trainingTimeStart":

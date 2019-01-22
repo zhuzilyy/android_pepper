@@ -20,7 +20,7 @@ public class CheckCalendarPop extends PopupWindow {
     private onCheckClickListener onCheckClickListener;
     private Context mContext;
     private View window;
-    private String param = "0";
+    private String param = "0",type="";
     LinearLayout layoutweek, layoutmonth, layoutday;
     ImageView imgweek, imgmonth, imgday;
 
@@ -79,16 +79,19 @@ public class CheckCalendarPop extends PopupWindow {
             switch (v.getId()) {
                 case R.id.c_month:
                     param = "0";
+                    type ="CALENDAR MONTH";
                     break;
                 case R.id.c_week:
                     param = "1";
+                    type ="CALENDAR WEEK";
                     break;
                 case R.id.c_day:
                     param = "2";
+                    type ="CALENDAR DAY";
                     break;
             }
             CheckParam();
-            onCheckClickListener.onCheckCallback(1, param);
+            onCheckClickListener.onCheckCallback(1, param,type);
             dismiss();
         }
     };
@@ -115,6 +118,6 @@ public class CheckCalendarPop extends PopupWindow {
     }
 
     public interface onCheckClickListener {
-        void onCheckCallback(int result, String content);
+        void onCheckCallback(int result, String content,String type);
     }
 }

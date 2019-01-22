@@ -42,7 +42,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LessonDetailActivity extends Activity {
-    String title, id, ctype = "";
+    String title, id, permission,ctype = "";
     PopLocation pl;
     PopRegis pr;
     PopCheckID popCheckID;
@@ -98,6 +98,8 @@ public class LessonDetailActivity extends Activity {
     TextView tdCreator;
     @BindView(R.id.td_RRA)
     TextView tdRRA;
+    @BindView(R.id.funcpanel)
+    LinearLayout funcpanel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,10 +107,17 @@ public class LessonDetailActivity extends Activity {
         ButterKnife.bind(this);
         title = getIntent().getStringExtra("title");
         id = getIntent().getStringExtra("id");
+        permission = getIntent().getStringExtra("permission");
         maintitle.setText(title);
-        if (Hawk.get("isadmin").equals("1")) {
+        if (Hawk.get("isadmin").toString().equals("1")) {
             btnRegis.setVisibility(View.GONE);
             btnAtt.setVisibility(View.GONE);
+        }
+        if (Hawk.get("isadmin").toString().equals("0")){
+            funcpanel.setVisibility(View.GONE);
+            if (permission.equals("0")){
+                btnEdit.setVisibility(View.GONE);
+            }
         }
         rigisBroadcast();
         getData();

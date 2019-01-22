@@ -1,28 +1,21 @@
 package com.hzjz.pepper.http;
-
 import android.graphics.Bitmap;
-import android.widget.Toast;
-
 import com.hzjz.pepper.R;
 import com.hzjz.pepper.bean.ResultDesc;
 import com.hzjz.pepper.http.OkHttpRequest.HttpMethodType;
 import com.hzjz.pepper.http.utils.ToastUtil;
 import com.hzjz.pepper.http.utils.UIUtils;
-
 import java.io.File;
 import java.util.List;
 import java.util.Map;
-
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-
 /**
  * @Description OkHttp3工具类
  * @Author 一花一世界
  */
 public class OkHttpUtils {
-
     private static OkHttpUtils mInstance;
     private static OkHttpClient mOkHttpClient;
     private static Platform mPlatform;

@@ -32,6 +32,7 @@ import com.hzjz.pepper.bean.ResultDesc;
 import com.hzjz.pepper.config.ApiConfig;
 import com.hzjz.pepper.http.HttpCallback;
 import com.hzjz.pepper.http.OkHttpUtils;
+import com.hzjz.pepper.http.utils.DialogUtil;
 import com.hzjz.pepper.plugins.PopCheckID;
 import com.hzjz.pepper.plugins.PopConfirmWindow;
 import com.hzjz.pepper.plugins.PopOrder;
@@ -39,6 +40,7 @@ import com.hzjz.pepper.plugins.PopYmdPicker;
 import com.orhanobut.hawk.Hawk;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
@@ -56,7 +58,7 @@ public class MainActivity extends Activity implements PopCheckID.onCheckClickLis
     private boolean isEdit = false;
     private String authid, isadmin = "0", stateid = "", statename = "", districtId = "", districtname = "", subjectid = "", subjectname = "", pepperCourseid = "", pepperCoursename = "", training_date = "", type = "0";
     private String advancedSearchString = "";
-    private String ordername = "training_date", ordercate = "asc";
+    private String ordername = "training_date", ordercate = "desc";
     private JSONObject jareg = new JSONObject();
     private JSONObject mjo = new JSONObject();
     private int page = 1, loadstate = 0;
@@ -66,7 +68,6 @@ public class MainActivity extends Activity implements PopCheckID.onCheckClickLis
     PopOrder popOrder;
     PopYmdPicker popYmdPicker;
     private long firstTime = 0;
-
     @BindView(R.id.profile_btn)
     LinearLayout profileBtn;
     @BindView(R.id.maintitle)
@@ -93,6 +94,10 @@ public class MainActivity extends Activity implements PopCheckID.onCheckClickLis
     Button btnedit;
     @BindView(R.id.btn_del)
     Button btndel;
+    @BindView(R.id.tv_noData)
+    TextView tv_noData;
+    private int totalCount;
+    private boolean add_permission;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,11 +111,16 @@ public class MainActivity extends Activity implements PopCheckID.onCheckClickLis
         rigisBroadcast();
         isadmin = Hawk.get("isadmin");
         authid = Hawk.get("authid");
+        add_permission = Hawk.get("add_permission");
+        //普通用户显示添加pd的功能
         if (isadmin != null && isadmin.equals("0")) {
-            addevents.setVisibility(View.GONE);
+            if (add_permission){
+                addevents.setVisibility(View.VISIBLE);
+            }else{
+                addevents.setVisibility(View.GONE);
+            }
             calender.setVisibility(View.VISIBLE);
         }
-
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
@@ -184,6 +194,7 @@ public class MainActivity extends Activity implements PopCheckID.onCheckClickLis
             switch (msg.what) {
                 case 1:
                     if (loadstate == 0) {
+                        totalCount=0;
                         refreshLayout.finishRefresh();
                         refreshLayout.setNoMoreData(false);
                         adapter.list.clear();
@@ -198,12 +209,22 @@ public class MainActivity extends Activity implements PopCheckID.onCheckClickLis
 //                        ja.add(jo);
 //                        adapter.setlist(ja);
                         adapter.setlist(cachelist);
+                        //从这判断是不是有数据
+                        if (cachelist.size()==0){
+                            refreshLayout.setVisibility(View.GONE);
+                            tv_noData.setVisibility(View.VISIBLE);
+                        }else{
+                            refreshLayout.setVisibility(View.VISIBLE);
+                            tv_noData.setVisibility(View.GONE);
+                        }
                     } else {
+                        totalCount+=cachelist.size();
                         if (cachelist.size() < 1) {
                             refreshLayout.finishLoadMoreWithNoMoreData();
                         } else {
                             refreshLayout.finishLoadMore();
                             adapter.setlist(cachelist);
+                            ClassicsFooter.REFRESH_FOOTER_ALLLOADED = totalCount+ " trainings are loaded";
                         }
                     }
                     break;
@@ -357,6 +378,7 @@ public class MainActivity extends Activity implements PopCheckID.onCheckClickLis
                     pepperCourseid = jo.getString("pepperCourseid");
                     pepperCoursename = jo.getString("pepperCoursename");
                     training_date = jo.getString("trainingDate");
+                    advancedSearchString = "";
                     String condition = statename + "  " + districtname + "  " + subjectname + "  " + pepperCoursename + "  " + training_date;
                     if (condition.trim().length() > 0) {
                         mainSearchtext.setText("Regular Searching...");
@@ -466,6 +488,7 @@ public class MainActivity extends Activity implements PopCheckID.onCheckClickLis
         }
         param.put("user_id", Hawk.get("authid").toString());
         param.put("ids", ids);
+        DialogUtil.showDialogLoading(this,"loading");
         OkHttpUtils.postJsonAsyn(ApiConfig.delList(), param, new HttpCallback() {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
@@ -549,7 +572,7 @@ public class MainActivity extends Activity implements PopCheckID.onCheckClickLis
                     }
                     break;
                 case R.id.trdate:
-                    if (!ordername.equals("trainingDate")) {
+                    if (!ordername.equals("training_date")) {
                         ordername = "training_date";
                         ordercate = "asc";
                     } else {
@@ -635,21 +658,21 @@ public class MainActivity extends Activity implements PopCheckID.onCheckClickLis
         }
         if (!sjo.getString("districtId").equals("")) {
             if (!sjo.getString("stateId").equals("")) {
-                spline = spline + "@@" + sjo.getString("districtOrd") + "@@";
+                spline = spline + "@-" + sjo.getString("districtOrd") + "@+";
             }
             spline = spline + "{\"key\":\"districtId\",";
             spline = spline + "\"value\":\"" + sjo.getString("districtId") + "\"}";
         }
         if (!sjo.getString("subjectid").equals("")) {
             if (!sjo.getString("stateId").equals("") || !sjo.getString("districtId").equals("")) {
-                spline = spline + "@@" + sjo.getString("subjectOrd") + "@@";
+                spline = spline + "@-" + sjo.getString("subjectOrd") + "@+";
             }
             spline = spline + "{\"key\":\"subject\",";
             spline = spline + "\"value\":\"" + sjo.getString("subjectid") + "\"}";
         }
         if (!sjo.getString("date").equals("")) {
             if (!sjo.getString("stateId").equals("") || !sjo.getString("districtId").equals("") || !sjo.getString("subjectid").equals("")) {
-                spline = spline + "@@" + sjo.getString("dateOrd") + "@@";
+                spline = spline + "@-" + sjo.getString("dateOrd") + "@+";
             }
             spline = spline + "{\"key\":\"Date\",";
             spline = spline + "\"value\":\"" + sjo.getString("date") + "\",";
@@ -657,7 +680,7 @@ public class MainActivity extends Activity implements PopCheckID.onCheckClickLis
         }
         if (!sjo.getString("stime").equals("")) {
             if (!sjo.getString("stateId").equals("") || !sjo.getString("districtId").equals("") || !sjo.getString("subjectid").equals("") || !sjo.getString("date").equals("")) {
-                spline = spline + "@@" + sjo.getString("stimeOrd") + "@@";
+                spline = spline + "@-" + sjo.getString("stimeOrd") + "@+";
             }
             spline = spline + "{\"key\":\"STime\",";
             spline = spline + "\"value\":\"" + sjo.getString("stime") + "\",";
@@ -665,11 +688,14 @@ public class MainActivity extends Activity implements PopCheckID.onCheckClickLis
         }
         if (!sjo.getString("etime").equals("")) {
             if (!sjo.getString("stateId").equals("") || !sjo.getString("districtId").equals("") || !sjo.getString("subjectid").equals("") || !sjo.getString("date").equals("") || !sjo.getString("stime").equals("")) {
-                spline = spline + "@@" + sjo.getString("etimeOrd") + "@@";
+                spline = spline + "@-" + sjo.getString("etimeOrd") + "@+";
             }
             spline = spline + "{\"key\":\"ETime\",";
             spline = spline + "\"value\":\"" + sjo.getString("etime") + "\",";
             spline = spline + "\"Method\":\"" + sjo.getString("etmethod") + "\"}";
+        }
+        if (spline.startsWith("{") && spline.endsWith("}")){
+            spline = "@-AND@+" +spline;
         }
         return spline;
     }

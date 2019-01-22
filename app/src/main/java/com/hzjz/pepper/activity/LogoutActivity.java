@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.hzjz.pepper.R;
 import com.hzjz.pepper.config.ApiConfig;
@@ -49,19 +50,21 @@ public class LogoutActivity extends Activity {
         ButterKnife.bind(this);
         loginUsername.setText(Hawk.get("username").toString());
         String imgBase64 = Hawk.get("imgurl");
+        RequestOptions options = new RequestOptions();
+        options.placeholder(R.mipmap.s31);
         try {
             if (!imgBase64.equals("")) {
                 imgBase64 = ApiConfig.ServerUrl +imgBase64;
                 Bitmap imgbmt = Base64ImageUtil.base64ToBitmap(imgBase64);
                 //GlideApp.with(this).load(imgbmt).placeholder(R.mipmap.s31).dontAnimate().into(profileImage);
-                RequestOptions options = new RequestOptions();
-                options.placeholder(R.mipmap.s31);
                 Glide.with(this).load(imgBase64).apply(options).into(profileImage);
             } else {
-                GlideApp.with(this).load("sdfsdf").placeholder(R.mipmap.s31).dontAnimate().into(profileImage);
+                //GlideApp.with(this).load("sdfsdf").placeholder(R.mipmap.s31).dontAnimate().into(profileImage);
+                Glide.with(this).load(R.mipmap.s31).apply(options).into(profileImage);
             }
         } catch (Exception e) {
-            GlideApp.with(this).load("sdfsdf").placeholder(R.mipmap.s31).dontAnimate().into(profileImage);
+            //GlideApp.with(this).load("sdfsdf").placeholder(R.mipmap.s31).dontAnimate().into(profileImage);
+            Glide.with(this).load(R.mipmap.s31).apply(options).into(profileImage);
         }
     }
     @OnClick({R.id.backbtn, R.id.logout_btn})

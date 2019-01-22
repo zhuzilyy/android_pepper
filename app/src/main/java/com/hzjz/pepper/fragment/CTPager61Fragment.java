@@ -128,7 +128,6 @@ public class CTPager61Fragment extends Fragment {
         super.onDestroyView();
         unbinder.unbind();
     }
-
     @OnClick({R.id.btn_prevstop, R.id.btn_nextstop})
     public void onViewClicked(View view) {
         switch (view.getId()) {

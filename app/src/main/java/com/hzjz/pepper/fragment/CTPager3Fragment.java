@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +20,13 @@ import com.hzjz.pepper.R;
 import com.hzjz.pepper.plugins.DateUtil;
 import com.hzjz.pepper.plugins.PopMsPicker;
 import com.hzjz.pepper.plugins.PopYmdPicker;
+import com.hzjz.pepper.plugins.TimeTransferUtil;
 import com.orhanobut.hawk.Hawk;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,7 +66,8 @@ public class CTPager3Fragment extends Fragment {
     @BindView(R.id.main)
     LinearLayout main;
     Unbinder unbinder;
-
+    private  long editTime,currentTime;
+    private PopMsPicker popMsPickerStartTime,popMsPickerEndTime;
     public static CTPager3Fragment newInstance(String param1, JSONObject param2) {
         CTPager3Fragment fragment = new CTPager3Fragment();
         mParam1 = param1;
@@ -73,7 +78,6 @@ public class CTPager3Fragment extends Fragment {
 //        fragment.setArguments(args);
         return fragment;
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +86,6 @@ public class CTPager3Fragment extends Fragment {
 //            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -92,9 +95,11 @@ public class CTPager3Fragment extends Fragment {
         if (mParam1.equals("edit")){
             initData();
         }
+        popYmdPicker = new PopYmdPicker(getActivity());
+        popMsPickerStartTime = new PopMsPicker(getActivity());
+        popMsPickerEndTime = new PopMsPicker(getActivity());
         return view;
     }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -105,7 +110,6 @@ public class CTPager3Fragment extends Fragment {
                     + " must implement OnFragmentInteractionListener");
         }
     }
-
     @Override
     public void onDetach() {
         super.onDetach();
@@ -143,49 +147,53 @@ public class CTPager3Fragment extends Fragment {
                 }
                 break;
             case R.id.sel_tdate:
-                popYmdPicker = new PopYmdPicker(getActivity());
                 popYmdPicker.setOnCheckBackListener(new PopYmdPicker.onCheckClickListener() {
                     @Override
                     public void onCheckCallback(String year, String month, String day) {
                         String datet = month + "/" + day + "/" + year;
                         trainingDate = year + "-" + month + "-" + day;
                         selTdateT.setText(datet);
+                        popYmdPicker.setSelectYear(year);
+                        popYmdPicker.setSelectMonth(month);
+                        popYmdPicker.setSelectDay(day);
                     }
                 });
                 popYmdPicker.showAtLocation(main, Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
                 break;
             case R.id.sel_stime:
-                popMsPicker = new PopMsPicker(getActivity());
-                popMsPicker.setOnCheckBackListener(new PopMsPicker.onCheckClickListener() {
+                popMsPickerStartTime.setOnCheckBackListener(new PopMsPicker.onCheckClickListener() {
                     @Override
                     public void onCheckCallback(String hour, String second) {
                         String datet = hour + ":" + second;
                         sh = Integer.parseInt(hour);
                         stime = datet;
                         selStimeT.setText(datet);
+                        popMsPickerStartTime.setSelectHour(hour);
+                        popMsPickerStartTime.setSelectMinute(second);
                     }
                 });
-                popMsPicker.showAtLocation(main, Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
+                popMsPickerStartTime.showAtLocation(main, Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
                 break;
             case R.id.sel_etime:
-                popMsPicker = new PopMsPicker(getActivity());
-                popMsPicker.setOnCheckBackListener(new PopMsPicker.onCheckClickListener() {
+                popMsPickerEndTime.setOnCheckBackListener(new PopMsPicker.onCheckClickListener() {
                     @Override
                     public void onCheckCallback(String hour, String second) {
                         String datet = hour + ":" + second;
                         eh = Integer.parseInt(hour);
                         etime = datet;
                         selEtimeT.setText(datet);
+                        popMsPickerEndTime.setSelectHour(hour);
+                        popMsPickerEndTime.setSelectMinute(second);
                     }
                 });
-                popMsPicker.showAtLocation(main, Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
+                popMsPickerEndTime.showAtLocation(main, Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
                 break;
         }
     }
     private void initData() {
         trainingDate = mParam2.getString("training_date");
         String[] timeArray = trainingDate.split("/");
-        trainingDate = timeArray[2] +"-"+timeArray[1]+"-"+timeArray[0];
+        trainingDate = timeArray[2] +"-"+timeArray[0]+"-"+timeArray[1];
         stime = mParam2.getString("training_time_start");
         stime = stime.substring(0,stime.length()-3).trim();
         etime = mParam2.getString("training_time_end");
@@ -193,7 +201,15 @@ public class CTPager3Fragment extends Fragment {
         selTdateT.setText(mParam2.getString("training_date"));
         selStimeT.setText(stime);
         selEtimeT.setText(etime);
-        if (mParam1.equals("edit")){
+        try {
+            String time = trainingDate+" "+stime+":00";
+            editTime = TimeTransferUtil.stringToLong(time, "yyyy-MM-dd HH:mm:ss");
+            currentTime = System.currentTimeMillis();
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (mParam1.equals("edit") && currentTime>editTime){
             selTdate.setClickable(false);
             selTdate.setFocusable(false);
             selTdate.setFocusableInTouchMode(false);
@@ -205,7 +221,6 @@ public class CTPager3Fragment extends Fragment {
             selEtime.setFocusableInTouchMode(false);
         }
     }
-
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(String result, JSONObject mjo);
     }

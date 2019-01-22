@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
@@ -29,6 +31,8 @@ import com.hzjz.pepper.http.HttpCallback;
 import com.hzjz.pepper.http.OkHttpUtils;
 import com.hzjz.pepper.http.utils.DialogUtil;
 import com.hzjz.pepper.plugins.PopYmdPicker;
+import com.hzjz.pepper.view.MyListView;
+import com.orhanobut.hawk.Hawk;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,7 +53,7 @@ public class AdSearchFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private int cate = 0;
     MaterialDialog alert;
-    ListView listView;
+    //ListView listView;
     SimpleSelectAdapter simpleSelectAdapter;
     PopYmdPicker popYmdPicker;
     View thisview;
@@ -80,7 +84,9 @@ public class AdSearchFragment extends Fragment {
     @butterknife.BindView(R.id.btn_search)
     Button btnSearch;
     butterknife.Unbinder unbinder;
-
+    private View view_alertListView;
+    private MyListView listView;
+    private TextView tv_noData;
     public static AdSearchFragment newInstance(String param1, Bundle param2) {
         AdSearchFragment fragment = new AdSearchFragment();
         Bundle args = new Bundle();
@@ -111,14 +117,17 @@ public class AdSearchFragment extends Fragment {
         }
 
         simpleSelectAdapter = new SimpleSelectAdapter(getActivity(), new JSONArray(), 0);
-        listView = new ListView(getActivity());
+      /*  listView = new ListView(getActivity());
         listView.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
         float scale = getResources().getDisplayMetrics().density;
         int dpAsPixels = (int) (8 * scale + 0.5f);
         listView.setPadding(0, dpAsPixels, 0, dpAsPixels);
-        listView.setDividerHeight(0);
+        listView.setDividerHeight(0);*/
+        view_alertListView = LayoutInflater.from(getActivity()).inflate(R.layout.activity_alert_listview,null);
+        listView = view_alertListView.findViewById(R.id.listview);
+        tv_noData = view_alertListView.findViewById(R.id.tv_noData);
         listView.setAdapter(simpleSelectAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -126,6 +135,15 @@ public class AdSearchFragment extends Fragment {
                 type = "1";
                 switch (cate) {
                     case 0:
+                        //点击切换state的时候 地区和学校数据要发生变化
+                        String newStateName = jsonArrays[0].getJSONObject(i).getString("name");
+                        if (!TextUtils.isEmpty(newStateName) && !TextUtils.isEmpty(statename)){
+                            if (!newStateName.equals(statename)){
+                                districtId = "";
+                                districtname ="";
+                                tDist.setText(districtname);
+                            }
+                        }
                         stateid = jsonArrays[0].getJSONObject(i).getString("id");
                         statename = jsonArrays[0].getJSONObject(i).getString("name");
                         tState.setText(jsonArrays[0].getJSONObject(i).getString("name"));
@@ -149,12 +167,13 @@ public class AdSearchFragment extends Fragment {
                 alert.dismiss();
             }
         });
-        alert = new MaterialDialog(getActivity()).setTitle(title).setContentView(listView).setCanceledOnTouchOutside(true);
+        alert = new MaterialDialog(getActivity()).setTitle(title).setContentView(view_alertListView).setCanceledOnTouchOutside(true);
         alert.setPositiveButton(getResources().getString(R.string.Close), new View.OnClickListener() {
             @Override public void onClick(View v) {
                 alert.dismiss();
             }
         });
+        popYmdPicker = new PopYmdPicker(getActivity());
         return view;
     }
 
@@ -199,17 +218,14 @@ public class AdSearchFragment extends Fragment {
                 }
                 break;
             case R.id.s_dist:
+                //先选择州
+                if (TextUtils.isEmpty(stateid)){
+                    Toast.makeText(getActivity(), R.string.selectStateFirst,Toast.LENGTH_LONG).show();
+                    return;
+                }
                 cate = 1;
                 title = getResources().getString(R.string.search_district);
                 getData();
-//                if (jsonArrays[cate] != null) {
-//                    simpleSelectAdapter.setlist(jsonArrays[cate]);
-//                    listView.setAdapter(simpleSelectAdapter);
-//                    alert.setTitle(title);
-//                    alert.show();
-//                } else {
-//                    getData();
-//                }
                 break;
             case R.id.s_subj:
                 cate = 2;
@@ -236,7 +252,6 @@ public class AdSearchFragment extends Fragment {
                 }
                 break;
             case R.id.s_date:
-                popYmdPicker = new PopYmdPicker(getActivity());
                 popYmdPicker.setOnCheckBackListener(new PopYmdPicker.onCheckClickListener() {
                     @Override
                     public void onCheckCallback(String year, String month, String day) {
@@ -244,6 +259,9 @@ public class AdSearchFragment extends Fragment {
 //                        Toast.makeText(getActivity(), year + month + day, Toast.LENGTH_SHORT).show();
                         String datet = month + "/" + day + "/" + year;
                         trainingDate = year + "-" + month + "-" + day;
+                        popYmdPicker.setSelectYear(year);
+                        popYmdPicker.setSelectMonth(month);
+                        popYmdPicker.setSelectDay(day);
                         tDate.setText(datet);
                     }
                 });
@@ -282,14 +300,15 @@ public class AdSearchFragment extends Fragment {
                 url = ApiConfig.getSearchDist();
                 break;
             case 2:
-                param = null;
+                param.put("user_id", Hawk.get("authid").toString());
                 url = ApiConfig.getSearchSubject();
                 break;
             case 3:
-                param = null;
+                param.put("user_id", Hawk.get("authid").toString());
                 url = ApiConfig.getSearchCourses();
                 break;
         }
+        DialogUtil.showDialogLoading(getActivity(),"loading");
         OkHttpUtils.postJsonAsyn(url, param, new HttpCallback() {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
@@ -298,7 +317,7 @@ public class AdSearchFragment extends Fragment {
                 Message msg = new Message();
                 if (resultDesc.getError_code() == 0) {
                     try {
-                       // jsonArrays[cate] = JSON.parseArray(resultDesc.getResult());
+                        jsonArrays[cate] = JSON.parseArray(resultDesc.getResult());
                         simpleSelectAdapter.setlist(jsonArrays[cate], cate);
                         listView.setAdapter(simpleSelectAdapter);
                         msg.what = 1;
@@ -330,6 +349,13 @@ public class AdSearchFragment extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
+                if (jsonArrays[cate].size()==0){
+                    listView.setVisibility(View.GONE);
+                    tv_noData.setVisibility(View.VISIBLE);
+                }else{
+                    listView.setVisibility(View.VISIBLE);
+                    tv_noData.setVisibility(View.GONE);
+                }
                 alert.setTitle(title);
                 alert.show();
             } else if (msg.what == 2) {

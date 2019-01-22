@@ -16,25 +16,25 @@
             android:background="#fff">
             <TextView
                 style="@style/weekIndicatorStyle"
-                android:text="一" />
+                android:text="Mon" />
             <TextView
                 style="@style/weekIndicatorStyle"
-                android:text="二"/>
+                android:text="Tue"/>
             <TextView
                 style="@style/weekIndicatorStyle"
-                android:text="三" />
+                android:text="Wed" />
             <TextView
                 style="@style/weekIndicatorStyle"
-                android:text="四" />
+                android:text="Thu" />
             <TextView
                 style="@style/weekIndicatorStyle"
-                android:text="五" />
+                android:text="Fri" />
             <TextView
                 style="@style/weekIndicatorStyle"
-                android:text="六" />
+                android:text="Sat" />
             <TextView
                 style="@style/weekIndicatorStyle"
-                android:text="日" />
+                android:text="Sun" />
         </LinearLayout>
 
         <android.support.design.widget.CoordinatorLayout

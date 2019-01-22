@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
@@ -28,13 +30,17 @@ import com.hzjz.pepper.bean.ResultDesc;
 import com.hzjz.pepper.config.ApiConfig;
 import com.hzjz.pepper.http.HttpCallback;
 import com.hzjz.pepper.http.OkHttpUtils;
+import com.hzjz.pepper.http.utils.DialogUtil;
 import com.hzjz.pepper.plugins.DateUtil;
 import com.hzjz.pepper.plugins.PopConfirmWindow;
+import com.hzjz.pepper.plugins.TimeTransferUtil;
 import com.orhanobut.hawk.Hawk;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -80,8 +86,7 @@ public class CalendarEventsFragment extends Fragment implements WeekView.EventCl
         View view = inflater.inflate(R.layout.fragment_calendar_events, container, false);
         unbinder = ButterKnife.bind(this, view);
         mContext = getActivity();
-        seldate = DateUtil.getCurrentDate("yyyy-MM");
-
+        seldate = DateUtil.getCurrentDate("yyyy-MM-dd HH:mm:ss");
         mWeekView.setOnEventClickListener(this);
         mWeekView.setMonthChangeListener(this);
         mWeekView.setEventLongPressListener(this);
@@ -120,7 +125,6 @@ public class CalendarEventsFragment extends Fragment implements WeekView.EventCl
 //        startTime.set(Calendar.YEAR, DateUtil.getCurrentYear());
 //        mWeekView.goToDate(startTime);
     }
-
     public void goSelday(int year, int month, int day) {
         String stime = String.valueOf(year) + "-" + String.valueOf(month);
         if (!stime.equals(seldate)) {
@@ -136,7 +140,6 @@ public class CalendarEventsFragment extends Fragment implements WeekView.EventCl
         events.clear();
         getData();
     }
-
     private void setupDateTimeInterpreter(final boolean shortDate) {
         mWeekView.setDateTimeInterpreter(new DateTimeInterpreter() {
             @Override
@@ -215,19 +218,28 @@ public class CalendarEventsFragment extends Fragment implements WeekView.EventCl
     }
 
     private void getData() {
+        String weekDay="";
         Map<String, String> param = new HashMap<>();
-        param.put("searchData", seldate);
+        try {
+            Date date = TimeTransferUtil.stringToDate(seldate, "yyyy-MM-dd HH:mm:ss");
+            weekDay = TimeTransferUtil.convertWeekByDate(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        param.put("week_date", weekDay);
         param.put("studentStatus", filtertype);
-        param.put("authId", Hawk.get("authid").toString());
-        OkHttpUtils.postJsonAsyn(ApiConfig.getTrainingListForMByMonth(), param, new HttpCallback() {
+        param.put("user_id", Hawk.get("authid").toString());
+        DialogUtil.showDialogLoading(getActivity(),"loading");
+        OkHttpUtils.postJsonAsyn(ApiConfig.getMainList(), param, new HttpCallback() {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
                 super.onSuccess(resultDesc);
+                DialogUtil.hideDialogLoading();
                 Message msg = new Message();
                 if (resultDesc.getError_code() == 0) {
                     try {
                         cachelist.clear();
-                        //cachelist = JSON.parseArray(resultDesc.getResult());
+                        cachelist = JSON.parseArray(resultDesc.getResult());
                         msg.what = 1;
                         handler.sendMessage(msg);
                     } catch (JSONException e) {
@@ -244,6 +256,7 @@ public class CalendarEventsFragment extends Fragment implements WeekView.EventCl
             @Override
             public void onFailure(int code, String message) {
                 super.onFailure(code, message);
+                DialogUtil.hideDialogLoading();
                 Message msg = new Message();
                 msg.what = -1;
                 handler.sendMessage(msg);

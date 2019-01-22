@@ -11,7 +11,6 @@ public class ApiConfig {
      * pmtest01@edu.com 超级用户
      * pmtest02@edu.com 普通用户
      * 12345abcdE~!
-     *
      * @return
      */
     public static String getLogin() {
@@ -24,7 +23,6 @@ public class ApiConfig {
     public static String delList() {
         return ServerUrl + "mobile/pd_delete";
     }
-
     /**
      * 根据TrainingID获取StudentList
      * @return
@@ -47,7 +45,6 @@ public class ApiConfig {
         return ServerUrl + "mobile/delete_student";
     }
     /**
-     * 删除注册的学生
      * @return
      */
     public static String attendancePepregStudent() {
@@ -146,7 +143,7 @@ public class ApiConfig {
      * @return
      */
     public static String getMonthSine() {
-        return ServerUrl + "myCalendar/getMonthSine";
+        return ServerUrl + "mobile/get_calendar";
     }
 
     /**

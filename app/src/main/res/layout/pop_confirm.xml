@@ -19,6 +19,8 @@
             android:gravity="center_vertical">
 
             <TextView
+                android:ellipsize="end"
+                android:singleLine="true"
                 android:id="@+id/popcfm_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

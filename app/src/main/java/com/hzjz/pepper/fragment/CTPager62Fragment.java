@@ -3,6 +3,7 @@ package com.hzjz.pepper.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -126,6 +127,26 @@ public class CTPager62Fragment extends Fragment {
                 }
             }
         });
+        if (!attSwitch.isChecked()){
+            trid.setFocusable(false);
+            trid.clearFocus();
+            trid.setFocusableInTouchMode(false);
+        }
+        attSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!isChecked){
+                    trid.setFocusable(false);
+                    trid.clearFocus();
+                    trid.setFocusableInTouchMode(false);
+                    trid.setText("");
+                }else{
+                    trid.setFocusable(true);
+                    trid.setFocusableInTouchMode(true);
+                    trid.requestFocus();
+                }
+            }
+        });
         return view;
     }
 
@@ -169,7 +190,7 @@ public class CTPager62Fragment extends Fragment {
             case R.id.btn_nextstop:
                 if (regisSwitch.isChecked() && maxrc.getText().toString().equals("")) {
                     Toast.makeText(getActivity(), getResources().getString(R.string.iptmrc), Toast.LENGTH_SHORT).show();
-                } else if (trid.getText().toString().equals("")) {
+                } else if (attSwitch.isChecked() && trid.getText().toString().equals("")) {
                     Toast.makeText(getActivity(), getResources().getString(R.string.ipttrid), Toast.LENGTH_SHORT).show();
                 } else {
                     mjo.put("credits", chour.getText().toString());

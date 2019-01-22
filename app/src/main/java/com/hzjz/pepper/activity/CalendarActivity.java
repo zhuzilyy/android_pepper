@@ -64,7 +64,8 @@ public class CalendarActivity extends FragmentActivity implements CalendarMonthF
     FrameLayout contentMain;
     @BindView(R.id.container)
     RelativeLayout container;
-
+    @BindView(R.id.tv_calendar)
+    TextView tv_calendar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,12 +127,13 @@ public class CalendarActivity extends FragmentActivity implements CalendarMonthF
                 checkCalendarPop = new CheckCalendarPop(this, calendartype);
                 checkCalendarPop.setOnCheckBackListener(new CheckCalendarPop.onCheckClickListener() {
                     @Override
-                    public void onCheckCallback(int result, String content) {
+                    public void onCheckCallback(int result, String content,String type) {
                         if (result == 1) {
                             calendartype = content;
                             Message msg = new Message();
                             msg.what = 1;
                             handler.sendMessage(msg);
+                            tv_calendar.setText(type);
                         }
                     }
                 });
@@ -139,7 +141,6 @@ public class CalendarActivity extends FragmentActivity implements CalendarMonthF
                 break;
         }
     }
-
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override

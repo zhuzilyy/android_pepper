@@ -95,7 +95,7 @@ public class CTPager2Fragment extends Fragment {
     @BindView(R.id.main)
     LinearLayout main;
     Unbinder unbinder;
-    private String  authid;
+    private String  authid,newStateName;
     private View view_alertListView;
     private MyListView alertListView;
     private TextView tv_noData;
@@ -171,6 +171,14 @@ public class CTPager2Fragment extends Fragment {
                         selPeppercourseT.setText(jsonArrays[3].getJSONObject(i).getString("display_name"));
                         break;
                     case 4:
+                        //点击切换state的时候 地区和学校数据要发生变化
+                        newStateName = jsonArrays[4].getJSONObject(i).getString("name");
+                        if (!TextUtils.isEmpty(newStateName) && !TextUtils.isEmpty(statename)){
+                            if (!newStateName.equals(statename)){
+                                districtId = "";
+                                selDistT.setText("");
+                            }
+                        }
                         stateId = jsonArrays[4].getJSONObject(i).getString("id");
                         statename = jsonArrays[4].getJSONObject(i).getString("name");
                         selStateT.setText(jsonArrays[4].getJSONObject(i).getString("name"));

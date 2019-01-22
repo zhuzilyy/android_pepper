@@ -67,6 +67,7 @@ public class MainListAdapter extends BaseAdapter {
     }
 
     public void setEdit(boolean isEdit) {
+        //首先判断是不是管理员
         this.isEdit = isEdit;
         this.isEditnoti = true;
         if (!isEdit) {
@@ -120,7 +121,19 @@ public class MainListAdapter extends BaseAdapter {
 //                        moveRight(viewHolder.funcpanel);
 //                    }
                 viewHolder.itemBtnDetail.setClickable(false);
-                viewHolder.chkitem.setVisibility(View.VISIBLE);
+                //判断是不是管理员
+                if(Hawk.get("isadmin").toString().equals("0")){
+                    //不是管理员但是有权限就行编辑
+                    if (list.getJSONObject(i).getString("all_delete").equals("1")){
+                        viewHolder.chkitem.setVisibility(View.VISIBLE);
+                    }else if(list.getJSONObject(i).getString("all_delete").equals("0")){
+                        //不是管理员没有权限就行编辑
+                        viewHolder.chkitem.setVisibility(View.INVISIBLE);
+                    }
+                }else{
+                    //是管理员
+                    viewHolder.chkitem.setVisibility(View.VISIBLE);
+                }
                 viewHolder.chkEditListener = new ChkEditListener(i);
                 viewHolder.chkitem.setOnCheckedChangeListener(viewHolder.chkEditListener);
 //                    if ((viewHolder.funcpanel.getLeft() + viewHolder.funcpanel.getWidth()) < (viewHolder.funparent.getWidth() + 100)) {
@@ -173,6 +186,7 @@ public class MainListAdapter extends BaseAdapter {
             viewHolder.bt.setVisibility(View.VISIBLE);
             if (this.list.getJSONObject(i).getString("allowAttendance").equals("True")
                     && !this.list.getJSONObject(i).getString("studentStatus").equals("Attended")) {
+                viewHolder.br.setVisibility(View.GONE);
                 viewHolder.saListener = new ShowAttendListener(i);
                 viewHolder.bt.setOnClickListener(viewHolder.saListener);
             } else {
@@ -209,6 +223,7 @@ public class MainListAdapter extends BaseAdapter {
             Intent intent = new Intent(mContext.getApplicationContext(), LessonDetailActivity.class);
             intent.putExtra("id", list.getJSONObject(mPosition).getString("id"));
             intent.putExtra("title", list.getJSONObject(mPosition).getString("name"));
+            intent.putExtra("permission", list.getJSONObject(mPosition).getString("all_edit"));
             mContext.startActivity(intent);
         }
     }
@@ -259,14 +274,13 @@ public class MainListAdapter extends BaseAdapter {
         public ShowAttendListener(int inPosition) {
             mPosition = inPosition;
         }
-
         @Override
         public void onClick(View v) {
             // TODO Auto-generated method stub
             if (list.getJSONObject(mPosition).getString("type").equals("pepper_course")) {
                 doFunc(mPosition, "Attended");
             }else {
-                pc = new PopCheckID(mContext, list.getJSONObject(mPosition).getString("attendancelId"));
+                pc = new PopCheckID(mContext, list.getJSONObject(mPosition).getString("attendancel_id"));
                 pc.setOnCheckBackListener(new PopCheckID.onCheckClickListener() {
                     @Override
                     public void onCheckCallback(int result, String content) {
@@ -291,7 +305,7 @@ public class MainListAdapter extends BaseAdapter {
                 }
                 Bundle bundle = msg.getData();
                 Toast.makeText(mContext, mContext.getResources().getString(R.string.CheckSuccess), Toast.LENGTH_SHORT).show();
-                list.getJSONObject(funposition).put("allowStudentAttendance", "false");
+                list.getJSONObject(funposition).put("studentStatus", "True");
                 notifyDataSetChanged();
             } else if (msg.what == 2) {
                 pr = new PopRegis(mContext, "");
@@ -329,12 +343,24 @@ public class MainListAdapter extends BaseAdapter {
     private void doFunc(final int position, final String stustate) {
         funposition = position;
         Map<String, String> param = new HashMap<>();
-        param.put("id", list.getJSONObject(position).getString("id"));
-        //param.put("studentId", Hawk.get("authid").toString());
-        param.put("user_id", Hawk.get("authid").toString());
-        param.put("join", stustate);
+        String url ="";
+        //验证chenckid的方法
+        if (stustate.equals("Attended")){
+            param.put("id", list.getJSONObject(position).getString("id"));
+            param.put("user_id", Hawk.get("authid").toString());
+            param.put("student_ids", Hawk.get("authid").toString());
+            param.put("yn", "true");
+            url = ApiConfig.attendancePepregStudent();
+        }else{
+            param.put("id", list.getJSONObject(position).getString("id"));
+            //param.put("studentId", Hawk.get("authid").toString());
+            param.put("user_id", Hawk.get("authid").toString());
+            param.put("join", stustate);
+            url = ApiConfig.updatePepregStudent();
+
+        }
         DialogUtil.showDialogLoading(mContext,"loading");
-        OkHttpUtils.postJsonAsyn(ApiConfig.updatePepregStudent(), param, new HttpCallback() {
+        OkHttpUtils.postJsonAsyn(url, param, new HttpCallback() {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
                 DialogUtil.hideDialogLoading();

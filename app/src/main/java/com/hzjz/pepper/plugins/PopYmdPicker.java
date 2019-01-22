@@ -3,6 +3,8 @@ package com.hzjz.pepper.plugins;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Looper;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,21 +37,47 @@ public class PopYmdPicker extends PopupWindow {
     private Context mContext;
     private String year, month, day;
     private int dayindex = 0;
-
+    private String selectYear,selectMonth,selectDay;
     public PopYmdPicker(Context context) {
         super(context);
         this.mContext = context;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         window = inflater.inflate(R.layout.pop_datepicker, null);
+    }
+    public void setOnCheckBackListener(onCheckClickListener callback) {
+        this.onCheckClickListener = callback;
+    }
+
+    public interface onCheckClickListener {
+        void onCheckCallback(String year, String month, String day);
+    }
+
+    private void setTitle() {
+        String title = month + "/" + day + "/" + year;
+        poptitle.setText(title);
+    }
+    public void setSelectData(){
         poptitle = (TextView) window.findViewById(R.id.pop_title);
-        year = String.valueOf(DateUtil.getCurrentYear());;
-        month = String.valueOf(DateUtil.getCurrentMonth());;
-        if (DateUtil.getCurrentMonth() < 10) {
-            month = "0" + month;
+        if (!TextUtils.isEmpty(getSelectYear())){
+            year = getSelectYear();
+        }else{
+            year = String.valueOf(DateUtil.getCurrentYear());
         }
-        day = String.valueOf(DateUtil.getCurrentDay());;
-        if (DateUtil.getCurrentDay() < 10) {
-            day = "0" + day;
+        if (!TextUtils.isEmpty(getSelectMonth())){
+            month = getSelectMonth();
+        }else{
+            month = String.valueOf(DateUtil.getCurrentMonth());
+            if (DateUtil.getCurrentMonth() < 10) {
+                month = "0" + month;
+            }
+        }
+        if (!TextUtils.isEmpty(getSelectDay())){
+            day = getSelectDay();
+        }else{
+            day = String.valueOf(DateUtil.getCurrentDay());
+            if (DateUtil.getCurrentDay() < 10) {
+                day = "0" + day;
+            }
         }
         setTitle();
         dayindex = DateUtil.getCurrentDay();
@@ -140,19 +168,6 @@ public class PopYmdPicker extends PopupWindow {
         });
     }
 
-    public void setOnCheckBackListener(onCheckClickListener callback) {
-        this.onCheckClickListener = callback;
-    }
-
-    public interface onCheckClickListener {
-        void onCheckCallback(String year, String month, String day);
-    }
-
-    private void setTitle() {
-        String title = month + "/" + day + "/" + year;
-        poptitle.setText(title);
-    }
-
     private List<String> getYear() {
         List<String> args = new ArrayList<>();
         int nowyear = DateUtil.getCurrentYear();
@@ -195,5 +210,29 @@ public class PopYmdPicker extends PopupWindow {
     @Override
     public void dismiss() {
         super.dismiss();
+    }
+
+    public String getSelectYear() {
+        return selectYear;
+    }
+
+    public void setSelectYear(String selectYear) {
+        this.selectYear = selectYear;
+    }
+
+    public String getSelectMonth() {
+        return selectMonth;
+    }
+
+    public void setSelectMonth(String selectMonth) {
+        this.selectMonth = selectMonth;
+    }
+
+    public String getSelectDay() {
+        return selectDay;
+    }
+
+    public void setSelectDay(String selectDay) {
+        this.selectDay = selectDay;
     }
 }

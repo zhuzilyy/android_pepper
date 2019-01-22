@@ -99,7 +99,6 @@
                 android:textAllCaps="false"
                 android:text="@string/main_register"
                 android:visibility="gone"/>
-
             <Button
                 android:id="@+id/btn_unregis"
                 android:layout_width="wrap_content"

@@ -51,7 +51,7 @@
                 android:textColorHint="@color/gray"/>
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginEnd="15dp"
@@ -62,6 +62,8 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/iv_pwd"
                 android:layout_width="25dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -69,8 +71,10 @@
                 android:src="@mipmap/s6" />
 
             <EditText
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/iv_pwd"
                 android:id="@+id/login_password"
-                android:layout_width="match_parent"
+                android:layout_width="260dp"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:background="@null"
@@ -79,7 +83,15 @@
                 android:textColor="@color/black"
                 android:hint="@string/login_passwordhint"
                 android:textColorHint="@color/gray" />
-        </LinearLayout>
+            <ImageView
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:id="@+id/iv_visible"
+                android:src="@mipmap/invisible_pwd"
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
+        </RelativeLayout>
 
         <Button
             android:id="@+id/login_btn"
