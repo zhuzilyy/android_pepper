@@ -174,6 +174,9 @@ public class ReSearchFragment extends Fragment implements CompoundButton.OnCheck
         View view = inflater.inflate(R.layout.fragment_re_search, container, false);
         unbinder = ButterKnife.bind(this, view);
         this.thisview = view;
+        popMsPickerStartTime = new PopMsPicker(getActivity());
+        popMsPickerEndTime = new PopMsPicker(getActivity());
+        popYmdPicker = new PopYmdPicker(getActivity());
         initDate();
         if (mParam1.equals("2")) {
             setInitData();
@@ -243,9 +246,6 @@ public class ReSearchFragment extends Fragment implements CompoundButton.OnCheck
                 alert.dismiss();
             }
         });
-        popMsPickerStartTime = new PopMsPicker(getActivity());
-        popMsPickerEndTime = new PopMsPicker(getActivity());
-        popYmdPicker = new PopYmdPicker(getActivity());
         return view;
     }
     private void setInitData() {
@@ -266,12 +266,32 @@ public class ReSearchFragment extends Fragment implements CompoundButton.OnCheck
         } else {
             switchSub.setChecked(false);
         }
+        //设置年月日的默认选项
         tvDate.setText(jostr.getString("date"));
+        String[] dates = jostr.getString("date").split("-");
+        if (dates.length == 3){
+            popYmdPicker.setCurrentYear(dates[0]);
+            popYmdPicker.setSelectMonth(dates[1]);
+            popYmdPicker.setSelectDay(dates[2]);
+            popYmdPicker.setSelectData();
+        }
+        tvDate.setText(jostr.getString("date"));
+
         tvDateord.setText(jostr.getString("datemethod"));
         if (jostr.getString("dateOrd").equals("OR")) {
             switchDate.setChecked(true);
         } else {
             switchDate.setChecked(false);
+        }
+        //设置默认的显示开始时间
+        String stime = jostr.getString("stime");
+        String[] startTime = stime.split(":");
+        if (startTime.length==2){
+            String hour =startTime[0];
+            String minute =startTime[1];
+            popMsPickerStartTime.setSelectHour(hour);
+            popMsPickerStartTime.setSelectMinute(minute);
+            popMsPickerStartTime.setSelectDate();
         }
         tvStime.setText(jostr.getString("stime"));
         tvStimeord.setText(jostr.getString("stmethod"));
@@ -279,6 +299,16 @@ public class ReSearchFragment extends Fragment implements CompoundButton.OnCheck
             switchStime.setChecked(true);
         } else {
             switchStime.setChecked(false);
+        }
+        //设置默认的显示结束时间
+        String etime = jostr.getString("etime");
+        String[] endTime = etime.split(":");
+        if (endTime.length==2){
+            String hour =endTime[0];
+            String minute =endTime[1];
+            popMsPickerEndTime.setSelectHour(hour);
+            popMsPickerEndTime.setSelectMinute(minute);
+            popMsPickerEndTime.setSelectDate();
         }
         tvEtime.setText(jostr.getString("etime"));
         tvEtimeord.setText(jostr.getString("etmethod"));
@@ -482,7 +512,6 @@ public class ReSearchFragment extends Fragment implements CompoundButton.OnCheck
                         tvDate.setText(datet);
                     }
                 });
-                popYmdPicker.setSelectData();
                 popYmdPicker.showAtLocation(thisview.findViewById(R.id.container), Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
                 break;
             case R.id.btn_datec:

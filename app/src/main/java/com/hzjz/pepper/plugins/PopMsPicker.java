@@ -31,6 +31,9 @@ public class PopMsPicker extends PopupWindow {
         this.mContext = context;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         window = inflater.inflate(R.layout.pop_timepicker, null);
+        setSelectDate();
+    }
+    public void setSelectDate() {
         poptitle = (TextView) window.findViewById(R.id.pop_title);
         hour = String.valueOf(DateUtil.getCurrentHour());
         seconds = String.valueOf(DateUtil.getCurrentMinutes());
@@ -49,18 +52,14 @@ public class PopMsPicker extends PopupWindow {
                 seconds = "0" + seconds;
             }
         }
-       /* if (DateUtil.getCurrentHour() < 10) {
-            hour = "0" + hour;
-        }
-        if (DateUtil.getCurrentMinutes() < 10) {
-            seconds = "0" + seconds;
-        }*/
         setTitle();
-        sindex = DateUtil.getCurrentMinutes();
+        //sindex = DateUtil.getCurrentMinutes();
+        sindex = Integer.parseInt(seconds);
         wvh = (WheelView) window.findViewById(R.id.hour);
         wvs = (WheelView) window.findViewById(R.id.seconds);
         wvh.setItems(getHour());
-        wvh.setSeletion(DateUtil.getCurrentHour() - 1);
+        //wvh.setSeletion(DateUtil.getCurrentHour() - 1);
+        wvh.setSeletion(Integer.parseInt(hour)-1);
         wvh.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(int selectedIndex, String item) {

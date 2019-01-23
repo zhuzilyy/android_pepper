@@ -112,6 +112,7 @@ public class AdSearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_ad_search, container, false);
         this.thisview = view;
         unbinder = butterknife.ButterKnife.bind(this, view);
+        popYmdPicker = new PopYmdPicker(getActivity());
         if (mParam1.equals("1")) {
             setInitData();
         }
@@ -173,7 +174,6 @@ public class AdSearchFragment extends Fragment {
                 alert.dismiss();
             }
         });
-        popYmdPicker = new PopYmdPicker(getActivity());
         return view;
     }
 
@@ -188,7 +188,14 @@ public class AdSearchFragment extends Fragment {
         pepperCourseid = mParam2.getString("pepperCourseid");
         pepperCoursename = mParam2.getString("pepperCoursename");
         trainingDate = mParam2.getString("trainingDate");
-
+        //设置时间的默认选项
+        String[] dates = trainingDate.split("-");
+        if (dates.length == 3){
+            popYmdPicker.setCurrentYear(dates[0]);
+            popYmdPicker.setSelectMonth(dates[1]);
+            popYmdPicker.setSelectDay(dates[2]);
+            popYmdPicker.setSelectData();
+        }
         tState.setText(statename);
         tDist.setText(districtname);
         tSubj.setText(subjectname);

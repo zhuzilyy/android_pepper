@@ -27,6 +27,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.JsonObject;
 import com.hzjz.pepper.R;
 import com.hzjz.pepper.adapter.SimpleSelectAdapter;
 import com.hzjz.pepper.bean.ResultDesc;
@@ -167,6 +168,9 @@ public class UserReSearchFragment extends Fragment implements CompoundButton.OnC
         View view = inflater.inflate(R.layout.fragment_user_re_search, container, false);
         unbinder = ButterKnife.bind(this, view);
         this.thisview = view;
+        popMsPickerStarTime = new PopMsPicker(getActivity());
+        popMsPickerEndTime = new PopMsPicker(getActivity());
+        popYmdPicker = new PopYmdPicker(getActivity());
         initDate();
         setmswtListener();
         for (int i = 0; i < orderlist.length; i++) {
@@ -219,9 +223,6 @@ public class UserReSearchFragment extends Fragment implements CompoundButton.OnC
                 alert.dismiss();
             }
         });
-        popMsPickerStarTime = new PopMsPicker(getActivity());
-        popMsPickerEndTime = new PopMsPicker(getActivity());
-        popYmdPicker = new PopYmdPicker(getActivity());
         if (mParam1.equals("2")) {
             setInitData();
         }
@@ -247,7 +248,7 @@ public class UserReSearchFragment extends Fragment implements CompoundButton.OnC
         }
         tvDate.setText(jostr.getString("date"));
         String[] dates = jostr.getString("date").split("-");
-        if (dates.length!=0){
+        if (dates.length == 3){
             popYmdPicker.setCurrentYear(dates[0]);
             popYmdPicker.setSelectMonth(dates[1]);
             popYmdPicker.setSelectDay(dates[2]);
@@ -259,12 +260,32 @@ public class UserReSearchFragment extends Fragment implements CompoundButton.OnC
         } else {
             switchDate.setChecked(false);
         }
-        tvStime.setText(jostr.getString("stime"));
+        //设置默认的显示开始时间
+        String stime = jostr.getString("stime");
+        String[] startTime = stime.split(":");
+        if (startTime.length==2){
+            String hour =startTime[0];
+            String minute =startTime[1];
+            popMsPickerStarTime.setSelectHour(hour);
+            popMsPickerStarTime.setSelectMinute(minute);
+            popMsPickerStarTime.setSelectDate();
+        }
+        tvStime.setText(stime);
         tvStimeord.setText(jostr.getString("stmethod"));
         if (jostr.getString("stimeOrd").equals("OR")) {
             switchStime.setChecked(true);
         } else {
             switchStime.setChecked(false);
+        }
+        //设置默认的显示结束时间
+        String etime = jostr.getString("etime");
+        String[] endTime = etime.split(":");
+        if (endTime.length==2){
+            String hour =endTime[0];
+            String minute =endTime[1];
+            popMsPickerEndTime.setSelectHour(hour);
+            popMsPickerEndTime.setSelectMinute(minute);
+            popMsPickerEndTime.setSelectDate();
         }
         tvEtime.setText(jostr.getString("etime"));
         tvEtimeord.setText(jostr.getString("etmethod"));

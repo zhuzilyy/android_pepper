@@ -54,7 +54,12 @@ public class PopYmdPicker extends PopupWindow {
     }
 
     private void setTitle() {
-        String title = month + "/" + day + "/" + year;
+        String title = "";
+        if (!TextUtils.isEmpty(currentYear)){
+            title = month + "/" + day + "/" + currentYear;
+        }else{
+            title = month + "/" + day + "/" + year;
+        }
         poptitle.setText(title);
     }
     public String setCurrentYear(String currentYear){
@@ -99,6 +104,7 @@ public class PopYmdPicker extends PopupWindow {
         wvy.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(int selectedIndex, String item) {
+                currentYear = "";
                 year = item;
                 setTitle();
                 wvm.setSelecting(false, false);
@@ -117,7 +123,7 @@ public class PopYmdPicker extends PopupWindow {
                 wvd.setSelecting(false, false);
                 wvd.setItems(getdays());
                 wvd.setDynamicSelection(dayindex);
-            }
+        }
         });
         wvd.setItems(getdays());
         wvd.setSeletion(dayindex - 1);

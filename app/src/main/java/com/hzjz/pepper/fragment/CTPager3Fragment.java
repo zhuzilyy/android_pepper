@@ -85,12 +85,12 @@ public class CTPager3Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_ctpager3, container, false);
         this.thisview = view;
         unbinder = ButterKnife.bind(this, view);
-        if (mParam1.equals("edit")){
-            initData();
-        }
         popYmdPicker = new PopYmdPicker(getActivity());
         popMsPickerStartTime = new PopMsPicker(getActivity());
         popMsPickerEndTime = new PopMsPicker(getActivity());
+        if (mParam1.equals("edit")){
+            initData();
+        }
         return view;
     }
     @Override
@@ -187,10 +187,35 @@ public class CTPager3Fragment extends Fragment {
         trainingDate = mParam2.getString("training_date");
         String[] timeArray = trainingDate.split("/");
         trainingDate = timeArray[2] +"-"+timeArray[0]+"-"+timeArray[1];
+        if (timeArray.length == 3){
+            popYmdPicker.setCurrentYear(timeArray[2]);
+            popYmdPicker.setSelectMonth(timeArray[0]);
+            popYmdPicker.setSelectDay(timeArray[1]);
+            popYmdPicker.setSelectData();
+        }
         stime = mParam2.getString("training_time_start");
         stime = stime.substring(0,stime.length()-3).trim();
+        String[] startTime = stime.split(":");
+        //设置开始时间的默认选项
+        if (startTime.length==2){
+            String hour =startTime[0];
+            String minute =startTime[1];
+            popMsPickerStartTime.setSelectHour(hour);
+            popMsPickerStartTime.setSelectMinute(minute);
+            popMsPickerStartTime.setSelectDate();
+        }
         etime = mParam2.getString("training_time_end");
         etime = etime.substring(0,etime.length()-3).trim();
+        //设置结束时间的默认选项
+        String[] endTime = etime.split(":");
+        if (endTime.length==2){
+            String hour =endTime[0];
+            String minute =endTime[1];
+            popMsPickerEndTime.setSelectHour(hour);
+            popMsPickerEndTime.setSelectMinute(minute);
+            popMsPickerEndTime.setSelectDate();
+        }
+
         selTdateT.setText(mParam2.getString("training_date"));
         selStimeT.setText(stime);
         selEtimeT.setText(etime);

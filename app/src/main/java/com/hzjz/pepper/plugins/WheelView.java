@@ -356,7 +356,6 @@ public class WheelView extends ScrollView {
         });
 
     }
-
     public void setDynamicSelection(int position) {
         final int p = position;
         selectedIndex = p;
@@ -364,6 +363,9 @@ public class WheelView extends ScrollView {
             @Override
             public void run() {
                 TextView itemView = (TextView) views.getChildAt(selectedIndex);
+                if (itemView == null){
+                    return;
+                }
                 if (isSelecting && !isInitial) {
                     itemView.setBackgroundResource(R.drawable.zdpick);
                 } else {
