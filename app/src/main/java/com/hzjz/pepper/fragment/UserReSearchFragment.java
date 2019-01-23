@@ -167,13 +167,7 @@ public class UserReSearchFragment extends Fragment implements CompoundButton.OnC
         View view = inflater.inflate(R.layout.fragment_user_re_search, container, false);
         unbinder = ButterKnife.bind(this, view);
         this.thisview = view;
-        popMsPickerStarTime = new PopMsPicker(getActivity());
-        popMsPickerEndTime = new PopMsPicker(getActivity());
-        popYmdPicker = new PopYmdPicker(getActivity());
         initDate();
-        if (mParam1.equals("2")) {
-            setInitData();
-        }
         setmswtListener();
         for (int i = 0; i < orderlist.length; i++) {
             JSONObject jo = new JSONObject();
@@ -225,6 +219,12 @@ public class UserReSearchFragment extends Fragment implements CompoundButton.OnC
                 alert.dismiss();
             }
         });
+        popMsPickerStarTime = new PopMsPicker(getActivity());
+        popMsPickerEndTime = new PopMsPicker(getActivity());
+        popYmdPicker = new PopYmdPicker(getActivity());
+        if (mParam1.equals("2")) {
+            setInitData();
+        }
         return view;
     }
 
@@ -246,6 +246,13 @@ public class UserReSearchFragment extends Fragment implements CompoundButton.OnC
             switchSub.setChecked(false);
         }
         tvDate.setText(jostr.getString("date"));
+        String[] dates = jostr.getString("date").split("-");
+        if (dates.length!=0){
+            popYmdPicker.setCurrentYear(dates[0]);
+            popYmdPicker.setSelectMonth(dates[1]);
+            popYmdPicker.setSelectDay(dates[2]);
+            popYmdPicker.setSelectData();
+        }
         tvDateord.setText(jostr.getString("datemethod"));
         if (jostr.getString("dateOrd").equals("OR")) {
             switchDate.setChecked(true);
@@ -456,7 +463,6 @@ public class UserReSearchFragment extends Fragment implements CompoundButton.OnC
                         tvDate.setText(datet);
                     }
                 });
-                popYmdPicker.setSelectData();
                 popYmdPicker.showAtLocation(thisview.findViewById(R.id.container), Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
                 break;
             case R.id.btn_datec:

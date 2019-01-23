@@ -37,12 +37,13 @@ public class PopYmdPicker extends PopupWindow {
     private Context mContext;
     private String year, month, day;
     private int dayindex = 0;
-    private String selectYear,selectMonth,selectDay;
+    private String selectYear,selectMonth,selectDay,currentYear;
     public PopYmdPicker(Context context) {
         super(context);
         this.mContext = context;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         window = inflater.inflate(R.layout.pop_datepicker, null);
+        setSelectData();
     }
     public void setOnCheckBackListener(onCheckClickListener callback) {
         this.onCheckClickListener = callback;
@@ -55,6 +56,10 @@ public class PopYmdPicker extends PopupWindow {
     private void setTitle() {
         String title = month + "/" + day + "/" + year;
         poptitle.setText(title);
+    }
+    public String setCurrentYear(String currentYear){
+        this.currentYear = currentYear;
+        return currentYear;
     }
     public void setSelectData(){
         poptitle = (TextView) window.findViewById(R.id.pop_title);
@@ -80,12 +85,17 @@ public class PopYmdPicker extends PopupWindow {
             }
         }
         setTitle();
-        dayindex = DateUtil.getCurrentDay();
+        //dayindex = DateUtil.getCurrentDay();
+        dayindex = Integer.parseInt(day);
         wvy = (WheelView) window.findViewById(R.id.year);
         wvm = (WheelView) window.findViewById(R.id.month);
         wvd = (WheelView) window.findViewById(R.id.day);
         wvy.setItems(getYear());
-        wvy.setSeletion(10);
+        if (!TextUtils.isEmpty(currentYear)){
+            wvy.setSeletion(10+DateUtil.getCurrentYear()-Integer.parseInt(currentYear));
+        }else{
+            wvy.setSeletion(10);
+        }
         wvy.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(int selectedIndex, String item) {
@@ -96,7 +106,8 @@ public class PopYmdPicker extends PopupWindow {
             }
         });
         wvm.setItems(getMonth());
-        wvm.setSeletion(DateUtil.getCurrentMonth() - 1);
+        //wvm.setSeletion(DateUtil.getCurrentMonth() - 1);
+        wvm.setSeletion(Integer.parseInt(month)-1);
         wvm.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(int selectedIndex, String item) {
@@ -110,6 +121,7 @@ public class PopYmdPicker extends PopupWindow {
         });
         wvd.setItems(getdays());
         wvd.setSeletion(dayindex - 1);
+        //wvm.setSeletion(Integer.parseInt(day)-1);
         wvd.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
             @Override
             public void onSelected(int selectedIndex, String item) {

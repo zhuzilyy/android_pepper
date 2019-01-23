@@ -1,10 +1,8 @@
 package com.hzjz.pepper.fragment;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,16 +15,12 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hzjz.pepper.R;
-import com.hzjz.pepper.plugins.DateUtil;
 import com.hzjz.pepper.plugins.PopMsPicker;
 import com.hzjz.pepper.plugins.PopYmdPicker;
 import com.hzjz.pepper.plugins.TimeTransferUtil;
 import com.orhanobut.hawk.Hawk;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,7 +40,6 @@ public class CTPager3Fragment extends Fragment {
     PopYmdPicker popYmdPicker;
     PopMsPicker popMsPicker;
     int sh = 0, eh = 0;
-
     @BindView(R.id.btn_prevstop)
     ImageButton btnPrevstop;
     @BindView(R.id.btn_nextstop)
