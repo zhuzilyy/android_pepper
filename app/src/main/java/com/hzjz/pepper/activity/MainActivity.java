@@ -1,15 +1,19 @@
 package com.hzjz.pepper.activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Gravity;
@@ -43,13 +47,18 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
 
 
 public class MainActivity extends Activity implements PopCheckID.onCheckClickListener {
@@ -103,6 +112,7 @@ public class MainActivity extends Activity implements PopCheckID.onCheckClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        requestPermissions();
         if (!Hawk.contains("authid")) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
@@ -141,6 +151,36 @@ public class MainActivity extends Activity implements PopCheckID.onCheckClickLis
         adapter.registerDataSetObserver(datesetObserver);
         listMain.setAdapter(adapter);
         refreshLayout.autoRefresh(500);
+    }
+    private void requestPermissions() {
+        RxPermissions rxPermission = new RxPermissions(MainActivity.this);
+        rxPermission
+                .requestEach(Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_CALENDAR,
+                        Manifest.permission.READ_CALL_LOG,
+                        Manifest.permission.READ_CONTACTS,
+                        Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.READ_SMS,
+                        Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.SEND_SMS)
+                .subscribe(new Consumer<Permission>() {
+                    @Override
+                    public void accept(Permission permission) throws Exception {
+                        if (permission.granted) {
+                            // 用户已经同意该权限
+                            Log.i("tag", permission.name + " is granted.");
+                        } else if (permission.shouldShowRequestPermissionRationale) {
+                            // 用户拒绝了该权限，没有选中『不再询问』（Never ask again）,那么下次再次启动时，还会提示请求权限的对话框
+                            Log.i("tag", permission.name + " is denied. More info should be provided.");
+                        } else {
+                            // 用户拒绝了该权限，并且选中『不再询问』
+                            Log.i("tag", permission.name + " is denied.");
+                        }
+                    }
+                });
     }
 
     private void getData() {
@@ -216,6 +256,9 @@ public class MainActivity extends Activity implements PopCheckID.onCheckClickLis
                         }else{
                             refreshLayout.setVisibility(View.VISIBLE);
                             tv_noData.setVisibility(View.GONE);
+                            if (cachelist.size()<10){
+                                ClassicsFooter.REFRESH_FOOTER_ALLLOADED = cachelist.size()+ " trainings are loaded";
+                            }
                         }
                     } else {
                         totalCount+=cachelist.size();

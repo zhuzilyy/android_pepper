@@ -222,7 +222,6 @@ public class CTPager2Fragment extends Fragment {
             }
         }
     }
-
     @Override
     public void onDetach() {
         super.onDetach();
