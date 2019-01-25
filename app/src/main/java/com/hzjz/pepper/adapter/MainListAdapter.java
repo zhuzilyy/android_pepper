@@ -4,9 +4,11 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,9 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
+import com.amap.api.maps.AMapUtils;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.NaviPara;
 import com.hzjz.pepper.R;
 import com.hzjz.pepper.activity.LessonDetailActivity;
 import com.hzjz.pepper.bean.ResultDesc;
@@ -28,6 +33,8 @@ import com.hzjz.pepper.config.ApiConfig;
 import com.hzjz.pepper.http.HttpCallback;
 import com.hzjz.pepper.http.OkHttpUtils;
 import com.hzjz.pepper.http.utils.DialogUtil;
+import com.hzjz.pepper.http.utils.MapUtil;
+import com.hzjz.pepper.http.utils.PackageUtil;
 import com.hzjz.pepper.plugins.DateUtil;
 import com.hzjz.pepper.plugins.PopCheckID;
 import com.hzjz.pepper.plugins.PopLocation;
@@ -238,6 +245,53 @@ public class MainListAdapter extends BaseAdapter {
             // TODO Auto-generated method stub
             pl = new PopLocation(mContext, list.getJSONObject(mPosition).getString("classroom"), list.getJSONObject(mPosition).getString("geoLocation"));
             pl.showAtLocation(((Activity) mContext).findViewById(R.id.container), Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
+            pl.setLocationListener(new PopLocation.LocationListener() {
+                @Override
+                public void click() {
+                    if (TextUtils.isEmpty(list.getJSONObject(mPosition).getString("geoLocation"))){
+                        return;
+                    }
+                    intoMapApp(mPosition,list.getJSONObject(mPosition).getString("geoLocation"));
+                    pl.dismiss();
+                }
+            });
+        }
+    }
+    //进入地图软件
+    private void intoMapApp(int position,String addressName) {
+        String geo_props = list.getJSONObject(position).getString("geo_props");
+        if (geo_props.length()<20){
+            return;
+        }
+        String substring = geo_props.substring(2, geo_props.length() - 1);
+        String[] split = substring.split(",");
+        String[] splitLat = split[0].split(":");
+        String[] splitLon = split[1].split(":");
+        String lat = splitLat[1];
+        String lon = splitLon[1];
+        String subLat = lat.substring(1,lat.length()-1);
+        String subLon = lon.substring(1,lon.length()-1);
+        LatLng latLng = new LatLng(Double.parseDouble(subLat),Double.parseDouble(subLon));
+        // 构造导航参数
+        NaviPara naviPara = new NaviPara();
+        // 设置终点位置
+        naviPara.setTargetPoint(latLng);
+        if (PackageUtil.isApplicationAvilible(mContext,"com.autonavi.minimap")){
+            try {
+                // 调起高德地图导航
+                AMapUtils.openAMapNavi(naviPara,mContext);
+            } catch (com.amap.api.maps.AMapException e) {
+                // 如果没安装会进入异常，调起下载页面
+                AMapUtils.getLatestAMapApp(mContext);
+            }
+            //启动百度地图
+        }else if(PackageUtil.isApplicationAvilible(mContext,"com.baidu.BaiduMap")){
+            MapUtil.invokeBaiDuMap(mContext,latLng,addressName);
+            //启动腾讯地图
+        }else if(PackageUtil.isApplicationAvilible(mContext,"com.tencent.map")){
+            MapUtil.invoketencentMap(mContext,latLng,addressName);
+        }else{
+            Toast.makeText(mContext, "请安装地图软件", Toast.LENGTH_SHORT).show();
         }
     }
     private class RegisListener implements View.OnClickListener {

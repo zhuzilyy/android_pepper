@@ -198,9 +198,15 @@ public class EventActivity extends FragmentActivity implements CTPager1Fragment.
         param.put("subject", cachejo.getString("subject"));
         param.put("subjectother", cachejo.getString("subjectother"));
         param.put("id", cachejo.getString("id"));
-        param.put("classroom", cachejo.getString("geoLocation"));
-        param.put("geo_location", cachejo.getString("geoDestination"));
-        param.put("geo_props", cachejo.getString("geoProps"));
+        if (!TextUtils.isEmpty(cachejo.getString("geoLocation"))){
+            param.put("classroom", cachejo.getString("geoLocation"));
+        }
+        if (!TextUtils.isEmpty(cachejo.getString("geoDestination"))){
+            param.put("geo_location", cachejo.getString("geoDestination"));
+        }
+        if (!TextUtils.isEmpty(cachejo.getString("geoProps"))){
+            param.put("geo_props", cachejo.getString("geoProps"));
+        }
         param.put("allow_registration", cachejo.getString("allowRegistration"));
         param.put("allow_waitlist", cachejo.getString("allowWaitlist"));
         param.put("allow_attendance", cachejo.getString("allowAttendance"));

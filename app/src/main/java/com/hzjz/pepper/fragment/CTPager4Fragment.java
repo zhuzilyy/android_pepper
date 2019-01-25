@@ -226,23 +226,24 @@ public class CTPager4Fragment extends SupportMapFragment implements
         addr.setText(mParam2.getString("geo_location"));
         addressLocation = mParam2.getString("geo_props");
         //{"lat":"41.9089787715602","lon":"123.40724376323043"}
-        String substring = addressLocation.substring(2, addressLocation.length() - 1);
-        String[] split = substring.split(",");
-        String[] splitLat = split[0].split(":");
-        String[] splitLon = split[1].split(":");
-        String lat = splitLat[1];
-        String lon = splitLon[1];
-        String subLat = lat.substring(1,lat.length()-1);
-        String subLon = lon.substring(1,lon.length()-1);
-        LatLng latLng = new LatLng(Double.parseDouble(subLat),Double.parseDouble(subLon));
-        MarkerOptions markOptiopns = new MarkerOptions();
-        markOptiopns.position(latLng);
-        //markOptiopns.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher));
-        if (mAMap==null){
-            mAMap = mMapView.getMap();
+        if (addressLocation.length()>20){
+            String substring = addressLocation.substring(2, addressLocation.length() - 1);
+            String[] split = substring.split(",");
+            String[] splitLat = split[0].split(":");
+            String[] splitLon = split[1].split(":");
+            String lat = splitLat[1];
+            String lon = splitLon[1];
+            String subLat = lat.substring(1,lat.length()-1);
+            String subLon = lon.substring(1,lon.length()-1);
+            LatLng latLng = new LatLng(Double.parseDouble(subLat),Double.parseDouble(subLon));
+            MarkerOptions markOptiopns = new MarkerOptions();
+            markOptiopns.position(latLng);
+            //markOptiopns.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher));
+            if (mAMap==null){
+                mAMap = mMapView.getMap();
+            }
+            mAMap.addMarker(markOptiopns);
         }
-        mAMap.addMarker(markOptiopns);
-
     }
 
     //地图定位功能

@@ -16,7 +16,7 @@ public class PopLocation extends PopupWindow {
 
     private TextView poptitle, popcontent;
     private View window;
-
+    private LocationListener locationListener;
     public PopLocation(Context context, String title, String content) {
         super(context);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -26,6 +26,14 @@ public class PopLocation extends PopupWindow {
         poptitle.setText(title);
         popcontent.setText(content);
         //设置SelectPicPopupWindow的View
+        popcontent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (locationListener!=null){
+                    locationListener.click();
+                }
+            }
+        });
         this.setContentView(window);
         //设置SelectPicPopupWindow弹出窗体的宽
         this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
@@ -57,5 +65,11 @@ public class PopLocation extends PopupWindow {
                 return true;
             }
         });
+    }
+    public  interface  LocationListener{
+        void click();
+    }
+    public void setLocationListener(LocationListener locationListener){
+        this.locationListener = locationListener;
     }
 }

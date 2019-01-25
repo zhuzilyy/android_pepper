@@ -161,7 +161,10 @@ public class LoginActivity extends Activity {
                 Hawk.put("authid", rs.getJSONObject("authUser").getString("id"));
                 Hawk.put("username", rs.getJSONObject("authUser").getString("username"));
                 Hawk.put("add_permission", rs.getJSONObject("authUser").getBoolean("add_permission"));
-                //Hawk.put("is_superuser", rs.getJSONObject("authUser").getString("is_superuser"));
+                Hawk.put("state_name", rs.getJSONObject("authUser").getString("state_name"));
+                Hawk.put("district_name", rs.getJSONObject("authUser").getString("district_name"));
+                Hawk.put("district_id", rs.getJSONObject("authUser").getString("district_id"));
+                Hawk.put("state_id", rs.getJSONObject("authUser").getString("state_id"));
                 Hawk.put("imgurl", rs.getString("headImg"));
                 if (chkremember.isChecked()) {
                     Hawk.put("userName", loginUsername.getText().toString());

@@ -5,8 +5,8 @@ public class ApiConfig {
 //    private static String ServerUrl = "http://192.168.51.101:8099/";
 //    private static String ServerUrl = "http://192.168.51.189:8099/";
 //    private static String ServerUrl = "http://jy00712345.55555.io:8099/";
-      public static String ServerUrl = "https://www0.pepperpd.com/";
-      //public static String ServerUrl = "http://192.168.0.112:8000/";
+      //public static String ServerUrl = "https://www0.pepperpd.com/";
+      public static String ServerUrl = "http://192.168.0.112:8000/";
     /**
      * pmtest01@edu.com 超级用户
      * pmtest02@edu.com 普通用户

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -22,12 +23,17 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
+import com.amap.api.maps.AMapUtils;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.NaviPara;
 import com.hzjz.pepper.R;
 import com.hzjz.pepper.bean.ResultDesc;
 import com.hzjz.pepper.config.ApiConfig;
 import com.hzjz.pepper.http.HttpCallback;
 import com.hzjz.pepper.http.OkHttpUtils;
 import com.hzjz.pepper.http.utils.DialogUtil;
+import com.hzjz.pepper.http.utils.MapUtil;
+import com.hzjz.pepper.http.utils.PackageUtil;
 import com.hzjz.pepper.plugins.DateUtil;
 import com.hzjz.pepper.plugins.PopCheckID;
 import com.hzjz.pepper.plugins.PopLocation;
@@ -277,6 +283,51 @@ public class LessonDetailActivity extends Activity {
 //                btnAtt.setVisibility(View.GONE);
 //            }
 //        }
+        pl = new PopLocation(this, jo.getString("classroom"), jo.getString("geo_location"));
+        pl.setLocationListener(new PopLocation.LocationListener() {
+            @Override
+            public void click() {
+                String geo_props = jo.getString("geo_props");
+                if (!TextUtils.isEmpty(geo_props) && geo_props.length()>20){
+                    intoMapApp(jo.getString("geo_location"));
+                }
+                pl.dismiss();
+            }
+        });
+    }
+    //进入地图软件
+    private void intoMapApp(String addressName) {
+        String geo_props = jo.getString("geo_props");
+        String substring = geo_props.substring(2, geo_props.length() - 1);
+        String[] split = substring.split(",");
+        String[] splitLat = split[0].split(":");
+        String[] splitLon = split[1].split(":");
+        String lat = splitLat[1];
+        String lon = splitLon[1];
+        String subLat = lat.substring(1,lat.length()-1);
+        String subLon = lon.substring(1,lon.length()-1);
+        LatLng latLng = new LatLng(Double.parseDouble(subLat),Double.parseDouble(subLon));
+        // 构造导航参数
+        NaviPara naviPara = new NaviPara();
+        // 设置终点位置
+        naviPara.setTargetPoint(latLng);
+        if (PackageUtil.isApplicationAvilible(this,"com.autonavi.minimap")){
+            try {
+                // 调起高德地图导航
+                AMapUtils.openAMapNavi(naviPara,this);
+            } catch (com.amap.api.maps.AMapException e) {
+                // 如果没安装会进入异常，调起下载页面
+                AMapUtils.getLatestAMapApp(this);
+            }
+            //启动百度地图
+        }else if(PackageUtil.isApplicationAvilible(this,"com.baidu.BaiduMap")){
+            MapUtil.invokeBaiDuMap(this,latLng,addressName);
+            //启动腾讯地图
+        }else if(PackageUtil.isApplicationAvilible(this,"com.tencent.map")){
+            MapUtil.invoketencentMap(this,latLng,addressName);
+        }else{
+            Toast.makeText(this, "请安装地图软件", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @OnClick({R.id.btn_back, R.id.btn_edit, R.id.btn_location, R.id.btn_student, R.id.btn_regis, R.id.btn_unregis, R.id.btn_att})
@@ -295,7 +346,6 @@ public class LessonDetailActivity extends Activity {
                 startActivity(intent);
                 break;
             case R.id.btn_location:
-                pl = new PopLocation(this, jo.getString("classroom"), jo.getString("geoLocation"));
                 pl.showAtLocation(container, Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
                 break;
             case R.id.btn_student:

@@ -99,6 +99,7 @@ public class CTPager2Fragment extends Fragment {
     private View view_alertListView;
     private MyListView alertListView;
     private TextView tv_noData;
+    private String isadmin;
     public static CTPager2Fragment newInstance(String param1, JSONObject param2) {
         CTPager2Fragment fragment = new CTPager2Fragment();
         mParam1 = param1;
@@ -126,6 +127,7 @@ public class CTPager2Fragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         traincate = Hawk.get("evtype");
         authid = Hawk.get("authid");
+        isadmin = Hawk.get("isadmin");
         if (traincate.equals("pd_training")) {
             txtpeppercourse.setVisibility(View.GONE);
             selpeppercourse.setVisibility(View.GONE);
@@ -133,18 +135,23 @@ public class CTPager2Fragment extends Fragment {
         if (mParam1.equals("edit")) {
             initData();
         }
+        //有权限选择洲和学区
+        if (!isadmin.equals("1")){
+            String state_name = Hawk.get("state_name").toString();
+            String district_name = Hawk.get("district_name").toString();
+            selState.setClickable(false);
+            selDist.setClickable(false);
+            selStateT.setText(state_name);
+            selDistT.setText(district_name);
+            statename = state_name;
+            districtname = district_name;
+            districtId = Hawk.get("district_id").toString();
+            stateId = Hawk.get("state_id").toString();
+        }
         simpleSelectAdapter = new SimpleSelectAdapter(getActivity(), new JSONArray(), 0);
         view_alertListView = LayoutInflater.from(getActivity()).inflate(R.layout.activity_alert_listview,null);
         alertListView = view_alertListView.findViewById(R.id.listview);
         tv_noData = view_alertListView.findViewById(R.id.tv_noData);
-       /* listView = new ListView(getActivity());
-        listView.setLayoutParams(new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
-        float scale = getResources().getDisplayMetrics().density;
-        int dpAsPixels = (int) (8 * scale + 0.5f);
-        listView.setPadding(0, dpAsPixels, 0, dpAsPixels);
-        listView.setDividerHeight(0);*/
         alertListView.setAdapter(simpleSelectAdapter);
         alertListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
