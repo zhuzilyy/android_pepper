@@ -67,7 +67,7 @@ public class MainActivity extends Activity implements PopCheckID.onCheckClickLis
     private boolean isEdit = false;
     private String authid, isadmin = "0", stateid = "", statename = "", districtId = "", districtname = "", subjectid = "", subjectname = "", pepperCourseid = "", pepperCoursename = "", training_date = "", type = "0";
     private String advancedSearchString = "";
-    private String ordername = "training_date", ordercate = "desc";
+    private String ordername = "", ordercate = "desc";
     private JSONObject jareg = new JSONObject();
     private JSONObject mjo = new JSONObject();
     private int page = 1, loadstate = 0;
@@ -200,7 +200,6 @@ public class MainActivity extends Activity implements PopCheckID.onCheckClickLis
             @Override
             public void onSuccess(ResultDesc resultDesc) {
                 super.onSuccess(resultDesc);
-                Log.i("tag",resultDesc.toString());
                 Message msg = new Message();
                 if (resultDesc.getError_code() == 0) {
                     try {
@@ -261,7 +260,9 @@ public class MainActivity extends Activity implements PopCheckID.onCheckClickLis
                             }
                         }
                     } else {
-                        totalCount+=cachelist.size();
+                        totalCount = 0;
+                        totalCount = (page-1)*10+cachelist.size();
+                        //totalCount+=cachelist.size();
                         if (cachelist.size() < 1) {
                             refreshLayout.finishLoadMoreWithNoMoreData();
                         } else {

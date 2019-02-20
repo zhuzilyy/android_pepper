@@ -144,15 +144,15 @@ public class CalendarEventsFragment extends Fragment implements WeekView.EventCl
         mWeekView.setDateTimeInterpreter(new DateTimeInterpreter() {
             @Override
             public String interpretDay(Calendar date) {
-                SimpleDateFormat format = new SimpleDateFormat("dd", Locale.getDefault());
+                SimpleDateFormat format = new SimpleDateFormat("dd", Locale.ENGLISH);
                 return format.format(date.getTime());
             }
 
             @Override
             public String interpretDate(Calendar date) {
-                SimpleDateFormat weekdayNameFormat = new SimpleDateFormat("EEE", Locale.getDefault());
+                SimpleDateFormat weekdayNameFormat = new SimpleDateFormat("EEE", Locale.ENGLISH);
                 String weekday = weekdayNameFormat.format(date.getTime());
-                SimpleDateFormat format = new SimpleDateFormat(" MM", Locale.getDefault());
+                SimpleDateFormat format = new SimpleDateFormat(" MM", Locale.ENGLISH);
 
                 // All android api level do not have a standard way of getting the first letter of
                 // the week day name. Hence we get the first char programmatically.

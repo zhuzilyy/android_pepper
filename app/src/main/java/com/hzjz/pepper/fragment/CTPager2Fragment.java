@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,7 +96,7 @@ public class CTPager2Fragment extends Fragment {
     @BindView(R.id.main)
     LinearLayout main;
     Unbinder unbinder;
-    private String  authid,newStateName;
+    private String  authid,newStateName,newDistrictName;
     private View view_alertListView;
     private MyListView alertListView;
     private TextView tv_noData;
@@ -128,7 +129,7 @@ public class CTPager2Fragment extends Fragment {
         traincate = Hawk.get("evtype");
         authid = Hawk.get("authid");
         isadmin = Hawk.get("isadmin");
-        if (traincate.equals("pd_training")) {
+        if (traincate.equals("pd_training")) { 
             txtpeppercourse.setVisibility(View.GONE);
             selpeppercourse.setVisibility(View.GONE);
         }
@@ -163,6 +164,17 @@ public class CTPager2Fragment extends Fragment {
                         selSchoolT.setText(jsonArrays[0].getJSONObject(i).getString("name"));
                         break;
                     case 1:
+                        //点击切换state的时候 地区和学校数据要发生变化
+                        newDistrictName = jsonArrays[1].getJSONObject(i).getString("name");
+                        Log.i("tag",newDistrictName+"=======newDistrictName========");
+                        Log.i("tag",districtname+"======districtname=========");
+                        if (!TextUtils.isEmpty(newDistrictName) && !TextUtils.isEmpty(districtname)){
+                            if (!newDistrictName.equals(districtname)){
+                                schoolid = "";
+                                selSchoolT.setText("");
+                            }
+                        }
+
                         districtId = jsonArrays[1].getJSONObject(i).getString("id");
                         districtname = jsonArrays[1].getJSONObject(i).getString("name");
                         selDistT.setText(jsonArrays[1].getJSONObject(i).getString("name"));
@@ -184,6 +196,8 @@ public class CTPager2Fragment extends Fragment {
                             if (!newStateName.equals(statename)){
                                 districtId = "";
                                 selDistT.setText("");
+                                schoolid = "";
+                                selSchoolT.setText("");
                             }
                         }
                         stateId = jsonArrays[4].getJSONObject(i).getString("id");
@@ -313,7 +327,8 @@ public class CTPager2Fragment extends Fragment {
         subjectid = mParam2.getString("subject");
         pepperCoursename = mParam2.getString("course");
         schoolid = mParam2.getString("school_id");
-        statename = mParam2.getString("name");
+        statename = mParam2.getString("state");
+        districtname = mParam2.getString("district");
         pepperCourseid = mParam2.getString("pepper_course");
 
         selStateT.setText(mParam2.getString("state"));
@@ -334,6 +349,8 @@ public class CTPager2Fragment extends Fragment {
                 url = ApiConfig.getSearchState();
                 break;
             case 0:
+                Log.i("tag",districtId+"====districtId=======");
+                param.put("user_id", authid);
                 param.put("districtId", districtId);
                 url = ApiConfig.getSchoolList();
                 break;

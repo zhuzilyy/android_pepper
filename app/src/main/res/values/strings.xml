@@ -81,6 +81,8 @@
     <string name="Close">Close</string>
     <string name="Check">Check</string>
     <string name="Attended">Attended</string>
+    <string name="AddToWaitList">Add waitList</string>
+    <string name="RemoveWaitList">Remove waitList</string>
     <string name="Cancel">Cancel</string>
     <string name="State">State</string>
     <string name="District">District</string>
@@ -128,6 +130,7 @@
     <string name="iamregistered">I am registered</string>
     <string name="icanregister">I can register</string>
     <string name="trainingnotyetoptn">Training not yet open</string>
+    <string name="onWaitList">On WaitList</string>
     <string name="nomoresport">No More Sports</string>
 
     <string name="createpd">Create Your Training or PD Event</string>

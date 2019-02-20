@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +42,7 @@ import com.hzjz.pepper.plugins.PopLocation;
 import com.hzjz.pepper.plugins.PopRegis;
 import com.orhanobut.hawk.Hawk;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -171,17 +173,30 @@ public class MainListAdapter extends BaseAdapter {
         //before training date, show register, else show attend
         if (DateUtil.compare_date(list.getJSONObject(i).getString("trainingDate") + " " + list.getJSONObject(i).getString("trainingTimeStart"))) {
             if (list.getJSONObject(i).getString("allowRegistration").equals("True")) {
-                if (this.list.getJSONObject(i).getString("studentStatus").equals("")) {
+                String max_registration = list.getJSONObject(i).getString("max_registration");
+                String register_num = list.getJSONObject(i).getString("register_num");
+                int intMaxRegistration = 0,intRegisterNum=0;
+                if (!TextUtils.isEmpty(max_registration) &&!TextUtils.isEmpty(register_num) ){
+                    intMaxRegistration =Integer.parseInt(max_registration);
+                    intRegisterNum = Integer.parseInt(register_num);
+                }
+                if (this.list.getJSONObject(i).getString("studentStatus").equals("") && intMaxRegistration>intRegisterNum) {
                     viewHolder.br.setVisibility(View.VISIBLE);
+                    viewHolder.btn_addWaitList.setVisibility(View.GONE);
+                    viewHolder.btn_removeWaitList.setVisibility(View.GONE);
                     viewHolder.bu.setVisibility(View.GONE);
                     viewHolder.srListener = new RegisListener(i);
                     viewHolder.br.setOnClickListener(viewHolder.srListener);
+                    //显示加入到waitlist
                 } else if (this.list.getJSONObject(i).getString("studentStatus").equals("Registered")) {
                     viewHolder.br.setVisibility(View.GONE);
                     viewHolder.bu.setVisibility(View.VISIBLE);
+                    viewHolder.btn_addWaitList.setVisibility(View.GONE);
+                    viewHolder.btn_removeWaitList.setVisibility(View.GONE);
                     viewHolder.delRegisListener = new delRegisListener(i);
                     viewHolder.bu.setOnClickListener(viewHolder.delRegisListener);
                 }
+
             } else {
                 viewHolder.br.setVisibility(View.GONE);
                 viewHolder.bu.setVisibility(View.GONE);
@@ -200,8 +215,51 @@ public class MainListAdapter extends BaseAdapter {
                 viewHolder.bt.setVisibility(View.GONE);
             }
         }
-    }
 
+        //判断显示attendance的显示和隐藏
+            //进行过注册
+            if (list.getJSONObject(i).getString("studentStatus").equals("Registered") &&
+                    //可以参加
+                    list.getJSONObject(i).getString("allowAttendance").equals("True") &&
+                    //时间范围在开始和结束时间之间
+                    !DateUtil.compare_date(list.getJSONObject(i).getString("trainingDate") + " " + list.getJSONObject(i).getString("trainingTimeStart")) &&
+                    DateUtil.compare_date(list.getJSONObject(i).getString("trainingDate") + " " + list.getJSONObject(i).getString("trainingTimeEnd"))
+                    ){
+                viewHolder.saListener = new ShowAttendListener(i);
+                viewHolder.bt.setOnClickListener(viewHolder.saListener);
+                viewHolder.bt.setVisibility(View.VISIBLE);
+            }else{
+                viewHolder.bt.setVisibility(View.GONE);
+            }
+            //判断addWaitlist的显示和隐藏
+            if (DateUtil.compare_date(list.getJSONObject(i).getString("trainingDate") + " " + list.getJSONObject(i).getString("trainingTimeStart"))
+                    && list.getJSONObject(i).getString("allow_waitlist").equals("True")) {
+                String allowRegistration = list.getJSONObject(i).getString("allowRegistration");
+                String max_registration = list.getJSONObject(i).getString("max_registration");
+                String register_num = list.getJSONObject(i).getString("register_num");
+                String studentStatus =list.getJSONObject(i).getString("studentStatus");
+                int intMaxRegistration = 0,intRegisterNum=0;
+                if (!TextUtils.isEmpty(max_registration) &&!TextUtils.isEmpty(register_num) ){
+                    intMaxRegistration =Integer.parseInt(max_registration);
+                    intRegisterNum = Integer.parseInt(register_num);
+                }
+                if (studentStatus.equals("Waitlist")){
+                    viewHolder.br.setVisibility(View.GONE);
+                    viewHolder.bu.setVisibility(View.GONE);
+                    viewHolder.btn_addWaitList.setVisibility(View.GONE);
+                    viewHolder.btn_removeWaitList.setVisibility(View.VISIBLE);
+                    viewHolder.removeWaitListListener = new RemoveWaitListListener(i);
+                    viewHolder.btn_removeWaitList.setOnClickListener(viewHolder.removeWaitListListener);
+                }else if (studentStatus.equals("") && allowRegistration.equals("True") && !(intMaxRegistration>intRegisterNum)){
+                    viewHolder.btn_addWaitList.setVisibility(View.VISIBLE);
+                    viewHolder.btn_removeWaitList.setVisibility(View.GONE);
+                    viewHolder.br.setVisibility(View.GONE);
+                    viewHolder.bu.setVisibility(View.GONE);
+                    viewHolder.addWaitListListener = new AddWaitListListener(i);
+                    viewHolder.btn_addWaitList.setOnClickListener(viewHolder.addWaitListListener);
+                }
+            }
+        }
     private void moveRight(View view) {
         int left = view.getLeft() + 100;
         int top = view.getTop();
@@ -232,6 +290,28 @@ public class MainListAdapter extends BaseAdapter {
             intent.putExtra("title", list.getJSONObject(mPosition).getString("name"));
             intent.putExtra("permission", list.getJSONObject(mPosition).getString("all_edit"));
             mContext.startActivity(intent);
+        }
+    }
+    //添加到等待列表
+    private class AddWaitListListener implements View.OnClickListener {
+        int mPosition;
+        public AddWaitListListener(int inPosition) {
+            mPosition = inPosition;
+        }
+        @Override
+        public void onClick(View v) {
+            doFunc(mPosition, "addWaitList");
+        }
+    }
+    //移除等待列表
+    private class RemoveWaitListListener implements View.OnClickListener {
+        int mPosition;
+        public RemoveWaitListListener(int inPosition) {
+            mPosition = inPosition;
+        }
+        @Override
+        public void onClick(View v) {
+            doFunc(mPosition, "removeWaitList");
         }
     }
 
@@ -372,6 +452,12 @@ public class MainListAdapter extends BaseAdapter {
                 notifyDataSetChanged();
             } else if (msg.what == -1) {
                 Toast.makeText(mContext, mContext.getResources().getString(R.string.cnfailed), Toast.LENGTH_SHORT).show();
+            }else if(msg.what == 4){
+                String reason = (String)msg.obj;
+                Toast.makeText(mContext,reason,Toast.LENGTH_SHORT).show();
+            }else if(msg.what == 5){
+                pr = new PopRegis(mContext, "");
+                pr.showAtLocation(((Activity) mContext).findViewById(R.id.container), Gravity.CENTER | Gravity.CENTER_HORIZONTAL, 0, 0);
             }
         }
     };
@@ -381,7 +467,6 @@ public class MainListAdapter extends BaseAdapter {
         public ChkEditListener(int inPosition) {
             mPosition = inPosition;
         }
-
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
             if (b) {
@@ -405,14 +490,26 @@ public class MainListAdapter extends BaseAdapter {
             param.put("student_ids", Hawk.get("authid").toString());
             param.put("yn", "true");
             url = ApiConfig.attendancePepregStudent();
+        }else if(stustate.equals("addWaitList")){
+            param.put("id", list.getJSONObject(position).getString("id"));
+            //param.put("studentId", Hawk.get("authid").toString());
+            param.put("user_id", Hawk.get("authid").toString());
+            param.put("join","true");
+            url = ApiConfig.addWaitList();
+        }else if(stustate.equals("removeWaitList")){
+            param.put("id", list.getJSONObject(position).getString("id"));
+            //param.put("studentId", Hawk.get("authid").toString());
+            param.put("user_id", Hawk.get("authid").toString());
+            param.put("join","false");
+            url = ApiConfig.addWaitList();
         }else{
             param.put("id", list.getJSONObject(position).getString("id"));
             //param.put("studentId", Hawk.get("authid").toString());
             param.put("user_id", Hawk.get("authid").toString());
             param.put("join", stustate);
             url = ApiConfig.updatePepregStudent();
-
         }
+
         DialogUtil.showDialogLoading(mContext,"loading");
         OkHttpUtils.postJsonAsyn(url, param, new HttpCallback() {
             @Override
@@ -430,6 +527,13 @@ public class MainListAdapter extends BaseAdapter {
                             msgca.what = 1;
                         } else if (stustate.equals("DEL")) {
                             msgca.what = 3;
+                        }else if(stustate.equals("addWaitList")){
+                            msgca.what = 5;
+                            list.getJSONObject(position).put("studentStatus","Waitlist");
+                            notifyDataSetChanged();
+                        }else if(stustate.equals("removeWaitList")){
+                            list.getJSONObject(position).put("studentStatus","");
+                            notifyDataSetChanged();
                         }
                         handler.sendMessage(msgca);
                     } catch (JSONException e) {
@@ -437,15 +541,19 @@ public class MainListAdapter extends BaseAdapter {
                         msgca.what = -1;
                         handler.sendMessage(msgca);
                     }
-                } else {
+                } else if (resultDesc.getError_code() == 2){
+                    msgca.what = 4;
+                    msgca.obj = resultDesc.getReason();
+                    handler.sendMessage(msgca);
+                }else{
                     msgca.what = -1;
                     handler.sendMessage(msgca);
                 }
             }
             @Override
             public void onFailure(int code, String message) {
-                DialogUtil.hideDialogLoading();
                 super.onFailure(code, message);
+                DialogUtil.hideDialogLoading();
                 Message msg = new Message();
                 msg.what = -1;
                 handler.sendMessage(msg);
@@ -473,6 +581,10 @@ public class MainListAdapter extends BaseAdapter {
         Button bu;
         @BindView(R.id.btn_att)
         Button bt;
+        @BindView(R.id.btn_addWaitList)
+        Button btn_addWaitList;
+        @BindView(R.id.btn_removeWaitList)
+        Button btn_removeWaitList;
         @BindView(R.id.item_btn_detail)
         LinearLayout itemBtnDetail;
         @BindView(R.id.chk_item)
@@ -483,6 +595,9 @@ public class MainListAdapter extends BaseAdapter {
         delRegisListener delRegisListener;
         ShowAttendListener saListener;
         ChkEditListener chkEditListener;
+        AddWaitListListener addWaitListListener;
+        RemoveWaitListListener removeWaitListListener;
+
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

@@ -35,6 +35,7 @@ import com.hzjz.pepper.fragment.CTPager61Fragment;
 import com.hzjz.pepper.fragment.CTPager62Fragment;
 import com.hzjz.pepper.http.HttpCallback;
 import com.hzjz.pepper.http.OkHttpUtils;
+import com.hzjz.pepper.http.utils.DialogUtil;
 import com.hzjz.pepper.plugins.DateUtil;
 import com.hzjz.pepper.plugins.ViewPagerSlide;
 import com.orhanobut.hawk.Hawk;
@@ -224,10 +225,12 @@ public class EventActivity extends FragmentActivity implements CTPager1Fragment.
             param.put("id", cachejo.getString("id"));
         }
         //paramdata.put("pepregTraining", param.toString());
+        DialogUtil.showDialogLoading(this,"loading");
         OkHttpUtils.postJsonAsyn(ApiConfig.saveTrainingInfoById(), param, new HttpCallback() {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
                 super.onSuccess(resultDesc);
+                DialogUtil.hideDialogLoading();
                 Message msg = new Message();
                 if (resultDesc.getError_code() == 0) {
                     try {
@@ -246,6 +249,7 @@ public class EventActivity extends FragmentActivity implements CTPager1Fragment.
 
             @Override
             public void onFailure(int code, String message) {
+                DialogUtil.hideDialogLoading();
                 super.onFailure(code, message);
                 Message msg = new Message();
                 msg.what = 2;

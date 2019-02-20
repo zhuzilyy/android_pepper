@@ -194,24 +194,38 @@ public class CTPager3Fragment extends Fragment {
             popYmdPicker.setSelectData();
         }
         stime = mParam2.getString("training_time_start");
+        String startTimeType = stime.substring(stime.length()-2,stime.length()).trim();
         stime = stime.substring(0,stime.length()-3).trim();
         String[] startTime = stime.split(":");
         //设置开始时间的默认选项
         if (startTime.length==2){
             String hour =startTime[0];
             String minute =startTime[1];
-            popMsPickerStartTime.setSelectHour(hour);
+            if (startTimeType.equals("PM")){
+                int intHour = Integer.parseInt(hour)+12;
+                popMsPickerStartTime.setSelectHour(intHour+"");
+                stime = intHour +":"+minute;
+            }else{
+                popMsPickerStartTime.setSelectHour(hour);
+            }
             popMsPickerStartTime.setSelectMinute(minute);
             popMsPickerStartTime.setSelectDate();
         }
         etime = mParam2.getString("training_time_end");
+        String endTimeType = etime.substring(etime.length()-2,etime.length()).trim();
         etime = etime.substring(0,etime.length()-3).trim();
         //设置结束时间的默认选项
         String[] endTime = etime.split(":");
         if (endTime.length==2){
             String hour =endTime[0];
             String minute =endTime[1];
-            popMsPickerEndTime.setSelectHour(hour);
+            if (endTimeType.equals("PM")){
+                int intHour = Integer.parseInt(hour)+12;
+                popMsPickerEndTime.setSelectHour(intHour+"");
+                etime = intHour +":"+minute;
+            }else{
+                popMsPickerEndTime.setSelectHour(hour);
+            }
             popMsPickerEndTime.setSelectMinute(minute);
             popMsPickerEndTime.setSelectDate();
         }

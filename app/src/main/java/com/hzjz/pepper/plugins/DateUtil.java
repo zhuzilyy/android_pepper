@@ -1,5 +1,7 @@
 package com.hzjz.pepper.plugins;
 
+import android.util.Log;
+
 import java.text.DateFormat;
 import java.text.Format;
 import java.text.ParseException;
@@ -150,8 +152,7 @@ public class DateUtil {
      * @return
      */
     public static boolean compare_date(String DATE1) {
-
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             Date dt1 = df.parse(DATE1);
             Date dt2 = new Date();

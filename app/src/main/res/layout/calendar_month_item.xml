@@ -5,14 +5,13 @@
     android:layout_height="76dp"
     android:background="@color/white"
     android:id="@+id/cv_item">
-
     <RelativeLayout
         android:id="@+id/head_color"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_width="10dp"
         android:layout_height="76dp"
-        android:background="@color/event_color_01">
+       >
 
     </RelativeLayout>
 

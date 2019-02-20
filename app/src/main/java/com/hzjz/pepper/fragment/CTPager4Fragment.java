@@ -249,10 +249,10 @@ public class CTPager4Fragment extends SupportMapFragment implements
     //地图定位功能
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
-        Log.i("tag", aMapLocation.getCity() + aMapLocation.getAddress());
-        Log.e("AmapError", "location Error, ErrCode:"
+        //Log.i("tag", aMapLocation.getCity() + aMapLocation.getAddress());
+       /* Log.e("AmapError", "location Error, ErrCode:"
                 + aMapLocation.getErrorCode() + ", errInfo:"
-                + aMapLocation.getErrorInfo());
+                + aMapLocation.getErrorInfo());*/
         if (isFristLocation){
             isFristLocation = false;
             LatLng curLatlng = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());

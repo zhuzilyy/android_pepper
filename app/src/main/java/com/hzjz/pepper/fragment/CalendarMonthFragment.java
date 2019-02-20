@@ -72,7 +72,6 @@ public class CalendarMonthFragment extends Fragment {
     Handler mHandler = new Handler();
     int cafirst = 0;
     Timer timer = new Timer();
-
     @BindView(R.id.calendar_view)
     com.ldf.calendar.view.MonthPager monthPager;
     @BindView(R.id.list)
@@ -80,7 +79,6 @@ public class CalendarMonthFragment extends Fragment {
     @BindView(R.id.content)
     CoordinatorLayout content;
     Unbinder unbinder;
-
     public CalendarMonthFragment() {
         // Required empty public constructor
     }
@@ -306,10 +304,12 @@ public class CalendarMonthFragment extends Fragment {
         param.put("day_date", seldate);
         param.put("studentStatus", filtertype);
         param.put("user_id", Hawk.get("authid").toString());
+        DialogUtil.showDialogLoading(getActivity(),"loading");
         OkHttpUtils.postJsonAsyn(ApiConfig.getMainList(), param, new HttpCallback() {
             @Override
             public void onSuccess(ResultDesc resultDesc) {
                 super.onSuccess(resultDesc);
+                DialogUtil.hideDialogLoading();
                 Message msg = new Message();
                 if (resultDesc.getError_code() == 0) {
                     try {
@@ -331,6 +331,7 @@ public class CalendarMonthFragment extends Fragment {
             @Override
             public void onFailure(int code, String message) {
                 super.onFailure(code, message);
+                DialogUtil.hideDialogLoading();
                 Message msg = new Message();
                 msg.what = -1;
                 handler.sendMessage(msg);

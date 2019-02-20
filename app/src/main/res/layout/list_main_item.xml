@@ -121,6 +121,27 @@
                 android:textAllCaps="false"
                 android:text="@string/Attended"
                 android:visibility="gone"/>
+            <Button
+                android:id="@+id/btn_addWaitList"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@drawable/cbtn_green"
+                android:stateListAnimator="@null"
+                android:layout_marginStart="15dp"
+                android:textAllCaps="false"
+                android:text="@string/AddToWaitList"
+                android:visibility="gone"/>
+            <Button
+                android:textColor="@color/colorAccent"
+                android:id="@+id/btn_removeWaitList"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@drawable/cbtn_greenborderp"
+                android:stateListAnimator="@null"
+                android:layout_marginStart="15dp"
+                android:textAllCaps="false"
+                android:text="@string/RemoveWaitList"
+                android:visibility="gone"/>
         </LinearLayout>
 
 
